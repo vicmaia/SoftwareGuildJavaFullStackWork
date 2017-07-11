@@ -3,14 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.helloguild;
+package com.mycompany.statementsandexpressions;
 
 /**
  *
  * @author n0252282
  */
-public class HelloGuild {
+public class FixMe {
     public static void main(String[] args) {
-        System.out.println("Hello, guildd!!");
+    int x;
+    x = 4;
+    int y = x++;
+
+    int z = x * y;
+        System.out.println(z);  
     }
+
 }
