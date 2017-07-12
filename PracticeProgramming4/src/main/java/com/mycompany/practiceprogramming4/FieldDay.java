@@ -16,7 +16,6 @@ public class FieldDay {
         
         Scanner inputReader = new Scanner(System.in);
         String lastName = "";
-        String teamName = "";
         
         System.out.print("What's your Last Name? ");
         lastName = inputReader.nextLine();
@@ -29,5 +28,4 @@ public class FieldDay {
         else if (lastName.compareTo("Vimes") < 0) System.out.println("Aha! You're on the team Night Guards");
         else if (lastName.compareTo("Vimes") >= 0) System.out.println("Aha! You're on the team Black Holes");
     }
-
 }
