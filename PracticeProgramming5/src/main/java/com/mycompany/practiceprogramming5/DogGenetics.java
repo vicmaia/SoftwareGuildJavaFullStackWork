@@ -39,8 +39,8 @@ public class DogGenetics {
         System.out.println(dogName + " is:");
         System.out.println("");
         
-        System.out.println(percent1 + "%" + " St. Bernard ");
-        System.out.println(percent2 + "%" + " Chihuahua ");
+        System.out.println(percent1 + "%" + " St. Bernard");
+        System.out.println(percent2 + "%" + " Chihuahua");
         System.out.println(percent3 + "%" + " Dramatic RedNosed Asian Pug");
         System.out.println(percent4 + "%" + " Common Cur");
         System.out.println(percent5 + "%" + " King Doberman");
