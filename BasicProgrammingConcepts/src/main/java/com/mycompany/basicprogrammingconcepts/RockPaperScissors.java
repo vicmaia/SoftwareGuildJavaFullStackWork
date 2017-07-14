@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.practiceprogramming8;
+package com.mycompany.basicprogrammingconcepts;
 
 /**
  *
  * @author n0252282
  */
-public class ReturnToSender {
+public class RockPaperScissors {
+    public static void main(String[] args) {
+        
+    }
     
 }
