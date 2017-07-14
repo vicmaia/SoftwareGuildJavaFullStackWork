@@ -6,7 +6,6 @@
 package com.mycompany.basicprogrammingconcepts;
 
 /**
- *
  * @author n0252282
  */
 public class RockPaperScissors {
