@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * @author n0252282
  */
-public class RockPaperScissorsStep1 {
+public class RockPaperScissorsStep2 {
 
     public static void main(String[] args) {
 
@@ -20,45 +20,56 @@ public class RockPaperScissorsStep1 {
         Random computerPlays = new Random();
         int userChoice = 0;
         int computerChoice = 0;
+        int numRounds = 0;
         String outCome = "";
 
-        //Prompt user, store their choice
-        System.out.println("Rock (1), Paper (2), or Scissors (3)?");
-        userChoice = userInput.nextInt();
+        //Prompt user, "How many rounds?"
+        do {
+            System.out.print("How many rounds would you like to play (1-10)?  ");
+            numRounds = userInput.nextInt();
+        } while (numRounds < 1 || numRounds > 10);
 
-        //Computer makes a random choice
-        computerChoice = computerPlays.nextInt(3) + 1;
+        //Move game to a for loop
+        for (int i = 0; i < numRounds; i++) {
+            //Prompt user, store their choice
+            System.out.print("Rock (1), Paper (2), or Scissors (3)?  ");
+            userChoice = userInput.nextInt();
 
-        //Logic to determine winner
-        if (userChoice == 1) {
-            if (computerChoice == 1) {
-                outCome = "Tie";
-            } else if (computerChoice == 2) {
-                outCome = "Computer Win";
-            } else if (computerChoice == 3) {
-                outCome = "User Win";
+            //Computer makes a random choice
+            computerChoice = computerPlays.nextInt(3) + 1;
+
+            //Logic to determine winner
+            if (userChoice == 1) {
+                if (computerChoice == 1) {
+                    outCome = "Tie";
+                } else if (computerChoice == 2) {
+                    outCome = "Computer Win";
+                } else if (computerChoice == 3) {
+                    outCome = "User Win";
+                }
+            } else if (userChoice == 2) {
+                if (computerChoice == 1) {
+                    outCome = "User Win";
+                } else if (computerChoice == 2) {
+                    outCome = "Tie";
+                } else if (computerChoice == 3) {
+                    outCome = "Computer Win";
+                }
+            } else if (userChoice == 3) {
+                if (computerChoice == 1) {
+                    outCome = "Computer Win";
+                } else if (computerChoice == 2) {
+                    outCome = "User Win";
+                } else if (computerChoice == 3) {
+                    outCome = "Tie";
+                }
             }
-        } else if (userChoice == 2) {
-            if (computerChoice == 1) {
-                outCome = "User Win";
-            } else if (computerChoice == 2) {
-                outCome = "Tie";
-            } else if (computerChoice == 3) {
-                outCome = "Computer Win";
-            }
-        } else if (userChoice == 3) {
-            if (computerChoice == 1) {
-                outCome = "Computer Win";
-            } else if (computerChoice == 2) {
-                outCome = "User Win";
-            } else if (computerChoice == 3) {
-                outCome = "Tie";
-            }
+            //Print outcome
+            System.out.println("Round:" + (i + 1));
+            System.out.println("User chose: " + choiceName(userChoice));
+            System.out.println("Computer chose: " + choiceName(computerChoice));
+            System.out.println("Result of the round: " + outCome);
         }
-        //Print outcome
-        System.out.println("User chose: " + choiceName(userChoice));
-        System.out.println("Computer chose: " + choiceName(computerChoice));
-        System.out.println("Result of the round: " + outCome);
     }
 
     //Method to convert int to String names (rock, paper, scissors)
