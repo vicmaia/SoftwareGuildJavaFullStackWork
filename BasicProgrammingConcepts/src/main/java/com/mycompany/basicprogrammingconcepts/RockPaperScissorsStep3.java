@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * @author n0252282
  */
-public class RockPaperScissorsStep2 {
+public class RockPaperScissorsStep3 {
 
     public static void main(String[] args) {
 
@@ -21,6 +21,9 @@ public class RockPaperScissorsStep2 {
         int userChoice = 0;
         int computerChoice = 0;
         int numRounds = 0;
+        int numTies = 0;
+        int numWins = 0;
+        int compWins = 0;
         String outCome = "";
 
         //Prompt user, "How many rounds?"
@@ -42,33 +45,57 @@ public class RockPaperScissorsStep2 {
             if (userChoice == 1) {
                 if (computerChoice == 1) {
                     outCome = "Tie";
+                    numTies++;
                 } else if (computerChoice == 2) {
                     outCome = "Computer Win";
+                    compWins++;
                 } else if (computerChoice == 3) {
                     outCome = "User Win";
+                    numWins++;
                 }
             } else if (userChoice == 2) {
                 if (computerChoice == 1) {
                     outCome = "User Win";
+                    numWins++;
                 } else if (computerChoice == 2) {
                     outCome = "Tie";
+                    numTies++;
                 } else if (computerChoice == 3) {
                     outCome = "Computer Win";
+                    compWins++;
                 }
             } else if (userChoice == 3) {
                 if (computerChoice == 1) {
                     outCome = "Computer Win";
+                    compWins++;
                 } else if (computerChoice == 2) {
                     outCome = "User Win";
+                    numWins++;
                 } else if (computerChoice == 3) {
                     outCome = "Tie";
+                    numTies++;
                 }
             }
-            //Print outcome
+            //Print outcome of round
             System.out.println("Round:" + (i + 1));
             System.out.println("User chose: " + choiceName(userChoice));
             System.out.println("Computer chose: " + choiceName(computerChoice));
             System.out.println("Result of the round: " + outCome);
+        }
+
+        //Print final results
+        System.out.println("Final results:");
+        System.out.println("User Wins: " + numWins);
+        System.out.println("Computer Wins: " + compWins);
+        System.out.println("Ties: " + numTies);
+
+        //Declare the winner!
+        if (numWins > compWins) {
+            System.out.println("You win!!!");
+        } else if (compWins > numWins) {
+            System.out.println("The computer won!!!");
+        } else {
+            System.out.println("We have a tie!!!");
         }
     }
 
