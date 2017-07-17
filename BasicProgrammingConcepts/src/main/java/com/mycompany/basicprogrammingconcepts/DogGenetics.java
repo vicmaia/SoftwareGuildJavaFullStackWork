@@ -29,7 +29,7 @@ public class DogGenetics {
             percent3 = diceRoller.nextInt(100 - percent1 - percent2) + 1;
             percent4 = diceRoller.nextInt(100 - percent1 - percent2 - percent3) + 1;
             percent5 = 100 - percent1 - percent2 - percent3 - percent4;
-        } while (percent1 == 0 && percent2 == 0 && percent3 == 0 && percent4 == 0 && percent5 == 0);
+        } while (percent1 == 0 || percent2 == 0 || percent3 == 0 || percent4 == 0 || percent5 == 0);
 
         System.out.print("What is your dog's name? ");
         dogName = userInput.nextLine();
