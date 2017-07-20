@@ -18,15 +18,15 @@ import java.util.Scanner;
 public class SimpleFileIO {
 
     public static void main(String[] args) throws Exception {
-        PrintWriter out = new PrintWriter(new FileWriter("OutFile.txt"));
-        out.println("this is a line in my file...");
-        out.println("a second line in my file...");
-        out.println("a third line in my file...");
+        PrintWriter out = new PrintWriter(new FileWriter("our-names.txt"));
+        out.println("Ken");
+        out.println("Kyle");
+        //out.println("a third line in my file...");
         out.flush();
         out.close();
 
         Scanner sc = new Scanner(
-                new BufferedReader(new FileReader("OutFile.txt")));
+                new BufferedReader(new FileReader("our-names.txt")));
 // go through the file line by line
         while (sc.hasNextLine()) {
             String currentLine = sc.nextLine();
