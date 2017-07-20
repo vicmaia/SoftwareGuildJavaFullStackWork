@@ -10,13 +10,17 @@ package com.mycompany.shapesandperimeters;
  * @author n0252282
  */
 public class Square extends Shape {
+
     private double sideLength;
-    
-    public Square () {
+
+    public Square() {
         this(10);
     }
-    public Square (double sideLength) {
+
+    public Square(double sideLength) {
         this.sideLength = sideLength;
+        //    super.color = "Blue";
+        //    super.setColor("Blue");
     }
 
     public double getSideLength() {
@@ -27,22 +31,14 @@ public class Square extends Shape {
         this.sideLength = sideLength;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-    
-    
     @Override
-    public double area(){
+    public double area() {
         //sideLength^2
         return sideLength * sideLength;
     }
+
     @Override
-    public double perimeter(){
+    public double perimeter() {
         //sideLength*4
         return sideLength * 4;
     }
@@ -51,6 +47,5 @@ public class Square extends Shape {
     public String toString() {
         return "Square{" + "sideLength=" + sideLength + '}';
     }
-    
-    
+
 }

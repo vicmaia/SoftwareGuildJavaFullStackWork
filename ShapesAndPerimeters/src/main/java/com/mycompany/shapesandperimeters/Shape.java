@@ -13,6 +13,14 @@ package com.mycompany.shapesandperimeters;
 public abstract class Shape {
 
     protected String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
     protected abstract double area();
     protected abstract double perimeter();
 }

@@ -39,14 +39,6 @@ public class Rectangle extends Shape {
         this.width = width;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     @Override
     public double area() {
         //width * length
@@ -63,6 +55,5 @@ public class Rectangle extends Shape {
     public String toString() {
         return "Rectangle{" + "length=" + length + ", width=" + width + '}';
     }
-    
-    
+
 }

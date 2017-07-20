@@ -49,14 +49,6 @@ public class Triangle extends Shape {
         this.sideC = sideC;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     @Override
     public double area() {
         // SquareRoot(s * (s - a) * (s - b) * (s - c)) 
@@ -75,6 +67,5 @@ public class Triangle extends Shape {
     public String toString() {
         return "Triangle{" + "sideA=" + sideA + ", sideB=" + sideB + ", sideC=" + sideC + '}';
     }
-    
-    
+
 }
