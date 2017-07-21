@@ -60,6 +60,10 @@ public class DVDLibraryView {
                 "DVD successfully created.  Please hit enter to continue");
     }
 
+    public void displayEditDVDBanner() {
+        io.print("=== Edit DVD ===");
+    }
+
     public void displayDVDList(List<DVD> dvdList) {
         for (DVD currentDVD : dvdList) {
             io.print(currentDVD.getTitle() + ": "
@@ -95,9 +99,27 @@ public class DVDLibraryView {
                     + currentDVD.getComment());
             io.print("");
         } else {
-            io.print("No such student.");
+            io.print("No such DVD.");
         }
         io.readString("Please hit enter to continue.");
+    }
+
+    public int displayEditMenuDVD(DVD currentDVD) {
+        if (currentDVD != null) {
+            io.print("1.Title: " + currentDVD.getTitle() + "\n"
+                    + "2.Release Date: " + currentDVD.getReleaseDate() + "\n"
+                    + "3.MPAA Rating: " + currentDVD.getRating() + "\n"
+                    + "4.Director: " + currentDVD.getDirector() + "\n"
+                    + "5.Studio: " + currentDVD.getStudio() + "\n"
+                    + "6.Notes: " + currentDVD.getComment() + "\n");
+        } else {
+            io.print("No such DVD.");
+        }
+        return getEditFieldChoice();
+    }
+
+    public int getEditFieldChoice() {
+        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 6);
     }
 
     public void displayRemoveDVDBanner() {

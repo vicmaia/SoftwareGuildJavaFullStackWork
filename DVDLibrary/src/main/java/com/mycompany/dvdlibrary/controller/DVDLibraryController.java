@@ -85,8 +85,51 @@ public class DVDLibraryController {
         view.displayRemoveSuccessBanner();
     }
 
-    private void editDVD() {
-        
+    private void editDVD() throws DVDLibraryException {
+        view.displayEditDVDBanner();
+        //Get Record
+        String DVDtitle = view.getDVDTitleChoice();
+        //Return DVD object
+        DVD dvd = dao.getDVD(DVDtitle);
+
+        //edit logic
+        boolean keepGoing = true;
+        int editFieldChoice = 0;
+        try {
+            while (keepGoing) {
+                //Display edit menu;
+                //store menu selection
+                editFieldChoice = view.displayEditMenuDVD(dvd);
+
+                switch (editFieldChoice) {
+                    case 1:
+                        addDVD();
+                        break;
+                    case 2:
+                        removeDVD();
+                        break;
+                    case 3:
+                        editDVD();
+                        break;
+                    case 4:
+                        listDVDs();
+                        break;
+                    case 5:
+                        viewDVD();
+                        break;
+                    case 6:
+                        keepGoing = false;
+                        break;
+                    default:
+                        unknownCommand();
+                }
+
+            }
+            exitMessage();
+        } catch (DVDLibraryException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
+
     }
 
     private void listDVDs() throws DVDLibraryException {
