@@ -44,7 +44,7 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
     }
 
     @Override
-    public Student getStudent(String studentId) throws ClassRosterDaoException {
+    public Student getStudent(String studentId)throws ClassRosterDaoException {
         loadRoster();
         return students.get(studentId);
     }
