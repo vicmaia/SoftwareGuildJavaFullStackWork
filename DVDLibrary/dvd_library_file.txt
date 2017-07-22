@@ -1,2 +1,1 @@
-secondtest::test::test::test::test::test test
-tester::tester::newrating::Tom Hanks::test::test
+test::tester::tester::test::test::test

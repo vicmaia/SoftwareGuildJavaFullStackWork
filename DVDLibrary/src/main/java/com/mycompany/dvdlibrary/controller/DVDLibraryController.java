@@ -131,7 +131,6 @@ public class DVDLibraryController {
                     default:
                         unknownCommand();
                 }
-
             }
             view.displayReturningToMainMenu();
         } catch (DVDLibraryException e) {

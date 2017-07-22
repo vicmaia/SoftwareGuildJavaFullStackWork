@@ -90,10 +90,10 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
             currentLine = scanner.nextLine();
             // break up the line into tokens
             currentTokens = currentLine.split(DELIMITER);
-            // Create a new Student object and put it into the map of students
-            // NOTE FOR APPRENTICES: We are going to use the student id
+            // Create a new DVD object and put it into the map of students
+            // NOTE FOR APPRENTICES: We are going to use the DVD title
             // which is currentTokens[0] as the map key for our student object.
-            // We also have to pass the student id into the Student constructor
+            // We also have to pass the DVD title into the DVD constructor
             DVD currentDVD = new DVD(currentTokens[0]);
             // Set the remaining vlaues on currentStudent manually
             currentDVD.setReleaseDate(currentTokens[1]);
@@ -109,12 +109,6 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         scanner.close();
     }
 
-    /**
-     * Writes all students in the roster out to a ROSTER_FILE. See loadRoster
-     * for file format.
-     *
-     * @throws ClassRosterDaoException if an error occurs writing to the file
-     */
     private void writeDVD() throws DVDLibraryException {
         // NOTE FOR APPRENTICES: We are not handling the IOException - but
         // we are translating it to an application specific exception and 
