@@ -73,6 +73,7 @@ public class DVDLibraryController {
 
     private void addDVD() throws DVDLibraryException {
         view.displayAddDVDBanner();
+        dao.getAllDVDs();
         DVD newDVD = view.getNewDVDInfo();
         dao.addDVD(newDVD.getTitle(), newDVD);
         view.displayAddSuccessBanner();

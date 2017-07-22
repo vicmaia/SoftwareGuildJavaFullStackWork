@@ -102,7 +102,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
             currentDVD.setStudio(currentTokens[4]);
             currentDVD.setComment(currentTokens[5]);
 
-            // Put currentStudent into the map using studentID as the key
+            // Put currentDVD into the map using title as the key
             dvds.put(currentDVD.getTitle(), currentDVD);
         }
         // close scanner
@@ -118,7 +118,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         PrintWriter out;
 
         try {
-            out = new PrintWriter(new FileWriter(DVD_LIBRARY_FILE));
+            out = new PrintWriter(new FileWriter((DVD_LIBRARY_FILE), false);
         } catch (IOException e) {
             throw new DVDLibraryException(
                     "Could not save DVD data.", e);
