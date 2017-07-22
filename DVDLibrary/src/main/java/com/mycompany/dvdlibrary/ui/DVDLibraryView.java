@@ -111,7 +111,8 @@ public class DVDLibraryView {
                     + "3.MPAA Rating: " + currentDVD.getRating() + "\n"
                     + "4.Director: " + currentDVD.getDirector() + "\n"
                     + "5.Studio: " + currentDVD.getStudio() + "\n"
-                    + "6.Notes: " + currentDVD.getComment() + "\n");
+                    + "6.Notes: " + currentDVD.getComment() + "\n"
+                    + "7.Exit editor and return to main menu.\n");
         } else {
             io.print("No such DVD.");
         }
@@ -119,7 +120,30 @@ public class DVDLibraryView {
     }
 
     public int getEditFieldChoice() {
-        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 6);
+        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 7);
+    }
+
+    public String editDVD(int menuChoice) {
+        switch (menuChoice) {
+            case 1:
+                return io.readString("Please enter a new title: ");
+            case 2:
+                return io.readString("Please enter a new release date: ");
+            case 3:
+                return io.readString("Please enter a new rating: ");
+            case 4:
+                return io.readString("Please enter a new director: ");
+            case 5:
+                return io.readString("Please enter a new studio: ");
+            case 6:
+                return io.readString("Please enter new notes: ");
+            default:
+                throw new AssertionError();
+        }
+    }
+
+    public void displayReturningToMainMenu() {
+        io.print("Returning to main menu.");
     }
 
     public void displayRemoveDVDBanner() {
@@ -143,4 +167,5 @@ public class DVDLibraryView {
         io.print("=== ERROR ===");
         io.print(errorMsg);
     }
+
 }

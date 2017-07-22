@@ -19,11 +19,27 @@ public class DVD {
     private String studio;
     private String comment;
 
+    public DVD() {
+    }
+
+    public DVD(String title, String releaseDate, String rating, String director, String studio, String comment) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.rating = rating;
+        this.director = director;
+        this.studio = studio;
+        this.comment = comment;
+    }
+    
     public DVD(String title) {
         this.title = title;
     }
 
-    //no setter for title -- read only
+    //added for the edit feature so that we can edit titles
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public String getTitle() {
         return title;
     }

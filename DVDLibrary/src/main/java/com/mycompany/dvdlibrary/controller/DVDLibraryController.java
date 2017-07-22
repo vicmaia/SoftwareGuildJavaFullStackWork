@@ -91,7 +91,7 @@ public class DVDLibraryController {
         String DVDtitle = view.getDVDTitleChoice();
         //Return DVD object
         DVD dvd = dao.getDVD(DVDtitle);
-
+        DVD dvdEdit = new DVD(dvd.getTitle(), dvd.getReleaseDate(), dvd.getRating(), dvd.getDirector(), dvd.getStudio(), dvd.getComment());
         //edit logic
         boolean keepGoing = true;
         int editFieldChoice = 0;
@@ -99,25 +99,34 @@ public class DVDLibraryController {
             while (keepGoing) {
                 //Display edit menu;
                 //store menu selection
-                editFieldChoice = view.displayEditMenuDVD(dvd);
+                editFieldChoice = view.displayEditMenuDVD(dvdEdit);
 
                 switch (editFieldChoice) {
                     case 1:
-                        addDVD();
+                        dvdEdit.setTitle(view.editDVD(editFieldChoice));
+                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 2:
-                        removeDVD();
+                        dvdEdit.setReleaseDate(view.editDVD(editFieldChoice));
+                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 3:
-                        editDVD();
+                        dvdEdit.setRating(view.editDVD(editFieldChoice));
+                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 4:
-                        listDVDs();
+                        dvdEdit.setDirector(view.editDVD(editFieldChoice));
+                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 5:
-                        viewDVD();
+                        dvdEdit.setStudio(view.editDVD(editFieldChoice));
+                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 6:
+                        dvdEdit.setComment(view.editDVD(editFieldChoice));
+                        replaceDVD(dvd, dvdEdit);
+                        break;
+                    case 7:
                         keepGoing = false;
                         break;
                     default:
@@ -125,7 +134,7 @@ public class DVDLibraryController {
                 }
 
             }
-            exitMessage();
+            view.displayReturningToMainMenu();
         } catch (DVDLibraryException e) {
             view.displayErrorMessage(e.getMessage());
         }
@@ -143,6 +152,13 @@ public class DVDLibraryController {
         String DVDtitle = view.getDVDTitleChoice();
         DVD dvd = dao.getDVD(DVDtitle);
         view.displayDVD(dvd);
+    }
+
+    private void replaceDVD(DVD oldDVD, DVD newDVD) throws DVDLibraryException {
+        //remove old record
+        dao.removeDVD(oldDVD.getTitle());
+        //add new record
+        dao.addDVD(newDVD.getTitle(), newDVD);
     }
 
     private void unknownCommand() {
