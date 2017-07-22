@@ -65,13 +65,11 @@ public class DVDLibraryView {
     }
 
     public void displayDVDList(List<DVD> dvdList) {
+        int counter = 0;
         for (DVD currentDVD : dvdList) {
-            io.print(currentDVD.getTitle() + ": "
-                    + currentDVD.getReleaseDate() + " "
-                    + currentDVD.getRating() + " "
-                    + currentDVD.getDirector() + " "
-                    + currentDVD.getStudio() + " "
-                    + currentDVD.getComment());
+            counter++;
+            io.print("DVD #" + counter);
+            displayFormattedDetails(currentDVD);
         }
         io.readString("Please hit enter to continue.");
     }
@@ -91,13 +89,7 @@ public class DVDLibraryView {
 
     public void displayDVD(DVD currentDVD) {
         if (currentDVD != null) {
-            io.print(currentDVD.getTitle() + ": "
-                    + currentDVD.getReleaseDate() + " "
-                    + currentDVD.getRating() + " "
-                    + currentDVD.getDirector() + " "
-                    + currentDVD.getStudio() + " "
-                    + currentDVD.getComment());
-            io.print("");
+            displayFormattedDetails(currentDVD);
         } else {
             io.print("No such DVD.");
         }
@@ -106,13 +98,9 @@ public class DVDLibraryView {
 
     public int displayEditMenuDVD(DVD currentDVD) {
         if (currentDVD != null) {
-            io.print("1.Title: " + currentDVD.getTitle() + "\n"
-                    + "2.Release Date: " + currentDVD.getReleaseDate() + "\n"
-                    + "3.MPAA Rating: " + currentDVD.getRating() + "\n"
-                    + "4.Director: " + currentDVD.getDirector() + "\n"
-                    + "5.Studio: " + currentDVD.getStudio() + "\n"
-                    + "6.Notes: " + currentDVD.getComment() + "\n"
-                    + "7.Exit editor and return to main menu.\n");
+            displayFormattedDetails(currentDVD);
+            io.print("7.Save changes\n"
+                    + "8.Exit editor and return to main menu (unsaved changes will be lost).\n");
         } else {
             io.print("No such DVD.");
         }
@@ -120,7 +108,7 @@ public class DVDLibraryView {
     }
 
     public int getEditFieldChoice() {
-        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 7);
+        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 8);
     }
 
     public String editDVD(int menuChoice) {
@@ -168,4 +156,16 @@ public class DVDLibraryView {
         io.print(errorMsg);
     }
 
+    public void displayChangesSaved() {
+        io.print("=== Changes saved ===");
+    }
+
+    public void displayFormattedDetails(DVD currentDVD) {
+        io.print("1.Title: " + currentDVD.getTitle() + "\n"
+                + "2.Release Date: " + currentDVD.getReleaseDate() + "\n"
+                + "3.MPAA Rating: " + currentDVD.getRating() + "\n"
+                + "4.Director: " + currentDVD.getDirector() + "\n"
+                + "5.Studio: " + currentDVD.getStudio() + "\n"
+                + "6.Notes: " + currentDVD.getComment());
+    }
 }

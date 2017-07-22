@@ -104,29 +104,28 @@ public class DVDLibraryController {
                 switch (editFieldChoice) {
                     case 1:
                         dvdEdit.setTitle(view.editDVD(editFieldChoice));
-                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 2:
                         dvdEdit.setReleaseDate(view.editDVD(editFieldChoice));
-                        replaceDVD(dvd, dvdEdit);
+
                         break;
                     case 3:
                         dvdEdit.setRating(view.editDVD(editFieldChoice));
-                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 4:
                         dvdEdit.setDirector(view.editDVD(editFieldChoice));
-                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 5:
                         dvdEdit.setStudio(view.editDVD(editFieldChoice));
-                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 6:
                         dvdEdit.setComment(view.editDVD(editFieldChoice));
-                        replaceDVD(dvd, dvdEdit);
                         break;
                     case 7:
+                        replaceDVD(dvd, dvdEdit);
+                        view.displayChangesSaved();
+                        break;
+                    case 8:
                         keepGoing = false;
                         break;
                     default:
