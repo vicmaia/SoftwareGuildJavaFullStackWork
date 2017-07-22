@@ -118,7 +118,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         PrintWriter out;
 
         try {
-            out = new PrintWriter(new FileWriter((DVD_LIBRARY_FILE), false);
+            out = new PrintWriter(new FileWriter((DVD_LIBRARY_FILE), false));
         } catch (IOException e) {
             throw new DVDLibraryException(
                     "Could not save DVD data.", e);
