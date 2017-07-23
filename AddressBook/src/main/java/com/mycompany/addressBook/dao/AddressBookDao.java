@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface AddressBookDao {
 
-    Address addDVD(String DVD, Address dvd) throws AddressBookException;
+    Address addAddress(String Address, Address address) throws AddressBookException;
 
-    List<Address> getAllDVDs() throws AddressBookException;
+    List<Address> getAllAddresses() throws AddressBookException;
 
-    Address getDVD(String dvdTitle) throws AddressBookException;
+    Address getAddress(String addressTitle) throws AddressBookException;
 
-    Address removeDVD(String dvdTitle) throws AddressBookException;
+    Address removeAddress(String addressTitle) throws AddressBookException;
 }

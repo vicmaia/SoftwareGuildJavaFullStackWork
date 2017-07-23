@@ -12,76 +12,75 @@ package com.mycompany.addressBook.dto;
  */
 public class Address {
 
-    private String title;
-    private String releaseDate;
-    private String rating;
-    private String director;
-    private String studio;
-    private String comment;
+    private String lastName;
+    private String firstName;
+    private String streetAddress;
+    private String city;
+    private String state;
+    private String zip;
 
     public Address() {
     }
 
-    public Address(String title, String releaseDate, String rating, String director, String studio, String comment) {
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.rating = rating;
-        this.director = director;
-        this.studio = studio;
-        this.comment = comment;
-    }
-    
-    public Address(String title) {
-        this.title = title;
+    public Address(String lastName, String firstName, String streetAddress, String city, String state, String zip) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
     }
 
-    //added for the edit feature so that we can edit titles
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    
-    public String getTitle() {
-        return title;
+    public Address(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getRating() {
-        return rating;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getDirector() {
-        return director;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setDirector(String director) {
-        this.director = director;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
-    public String getStudio() {
-        return studio;
+    public String getCity() {
+        return city;
     }
 
-    public void setStudio(String studio) {
-        this.studio = studio;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getComment() {
-        return comment;
+    public String getState() {
+        return state;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
 }

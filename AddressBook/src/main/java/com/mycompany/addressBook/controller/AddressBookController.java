@@ -39,19 +39,19 @@ public class AddressBookController {
 
                 switch (menuSelection) {
                     case 1:
-                        addDVD();
+                        addAddress();
                         break;
                     case 2:
-                        removeDVD();
+                        removeAddress();
                         break;
                     case 3:
-                        editDVD();
+                        viewAddress(); //find address
                         break;
                     case 4:
-                        listDVDs();
+                        System.out.println(listAddressCount());
                         break;
                     case 5:
-                        viewDVD();
+                        listAddresses();//list all addresses
                         break;
                     case 6:
                         keepGoing = false;
@@ -71,94 +71,97 @@ public class AddressBookController {
         return view.printMenuAndGetSelection();
     }
 
-    private void addDVD() throws AddressBookException {
-        view.displayAddDVDBanner();
-        Address newDVD = view.getNewDVDInfo();
-        dao.addDVD(newDVD.getTitle(), newDVD);
+    private int listAddressCount() throws AddressBookException {
+        return dao.getAllAddresses().size();
+    }
+
+    private void addAddress() throws AddressBookException {
+        view.displayAddAddressBanner();
+        dao.getAllAddresses();
+        Address newAddress = view.getNewAddressInfo();
+        dao.addAddress(newAddress.getLastName(), newAddress);
         view.displayAddSuccessBanner();
     }
 
-    private void removeDVD() throws AddressBookException {
-        view.displayRemoveDVDBanner();
-        String DVDtitle = view.getDVDTitleChoice();
-        dao.removeDVD(DVDtitle);
+    private void removeAddress() throws AddressBookException {
+        view.displayRemoveAddressBanner();
+        String Addresstitle = view.getAddressChoice();
+        dao.removeAddress(Addresstitle);
         view.displayRemoveSuccessBanner();
     }
 
-    private void editDVD() throws AddressBookException {
-        view.displayEditDVDBanner();
-        //Get Record
-        String DVDtitle = view.getDVDTitleChoice();
-        //Return Address object
-        Address dvd = dao.getDVD(DVDtitle);
-        Address dvdEdit = new Address(dvd.getTitle(), dvd.getReleaseDate(), dvd.getRating(), dvd.getDirector(), dvd.getStudio(), dvd.getComment());
-        //edit logic
-        boolean keepGoing = true;
-        int editFieldChoice = 0;
-        try {
-            while (keepGoing) {
-                //Display edit menu;
-                //store menu selection
-                editFieldChoice = view.displayEditMenuDVD(dvdEdit);
-
-                switch (editFieldChoice) {
-                    case 1:
-                        dvdEdit.setTitle(view.editDVD(editFieldChoice));
-                        break;
-                    case 2:
-                        dvdEdit.setReleaseDate(view.editDVD(editFieldChoice));
-
-                        break;
-                    case 3:
-                        dvdEdit.setRating(view.editDVD(editFieldChoice));
-                        break;
-                    case 4:
-                        dvdEdit.setDirector(view.editDVD(editFieldChoice));
-                        break;
-                    case 5:
-                        dvdEdit.setStudio(view.editDVD(editFieldChoice));
-                        break;
-                    case 6:
-                        dvdEdit.setComment(view.editDVD(editFieldChoice));
-                        break;
-                    case 7:
-                        replaceDVD(dvd, dvdEdit);
-                        view.displayChangesSaved();
-                        break;
-                    case 8:
-                        keepGoing = false;
-                        break;
-                    default:
-                        unknownCommand();
-                }
-            }
-            view.displayReturningToMainMenu();
-        } catch (AddressBookException e) {
-            view.displayErrorMessage(e.getMessage());
-        }
-
-    }
-
-    private void listDVDs() throws AddressBookException {
+//    private void editAddress() throws AddressBookException {
+//        view.displayEditAddressBanner();
+//        //Get Record
+//        String Addresstitle = view.getAddressTitleChoice();
+//        //Return Address object
+//        Address address = dao.getAddress(Addresstitle);
+//        Address addressEdit = new Address(address.getLastName(), address.getReleaseDate(), address.getRating(), address.getDirector(), address.getStudio(), address.getComment());
+//        //edit logic
+//        boolean keepGoing = true;
+//        int editFieldChoice = 0;
+//        try {
+//            while (keepGoing) {
+//                //Display edit menu;
+//                //store menu selection
+//                editFieldChoice = view.displayEditMenuAddress(addressEdit);
+//
+//                switch (editFieldChoice) {
+//                    case 1:
+//                        addressEdit.setTitle(view.editAddress(editFieldChoice));
+//                        break;
+//                    case 2:
+//                        addressEdit.setReleaseDate(view.editAddress(editFieldChoice));
+//
+//                        break;
+//                    case 3:
+//                        addressEdit.setRating(view.editAddress(editFieldChoice));
+//                        break;
+//                    case 4:
+//                        addressEdit.setDirector(view.editAddress(editFieldChoice));
+//                        break;
+//                    case 5:
+//                        addressEdit.setStudio(view.editAddress(editFieldChoice));
+//                        break;
+//                    case 6:
+//                        addressEdit.setComment(view.editAddress(editFieldChoice));
+//                        break;
+//                    case 7:
+//                        replaceAddress(address, addressEdit);
+//                        view.displayChangesSaved();
+//                        break;
+//                    case 8:
+//                        keepGoing = false;
+//                        break;
+//                    default:
+//                        unknownCommand();
+//                }
+//            }
+//            view.displayReturningToMainMenu();
+//        } catch (AddressBookException e) {
+//            view.displayErrorMessage(e.getMessage());
+//        }
+//
+//    }
+    private void listAddresses() throws AddressBookException {
         view.displayDisplayAllBanner();
-        List<Address> dvdList = dao.getAllDVDs();
-        view.displayDVDList(dvdList);
+        List<Address> addressList = dao.getAllAddresses();
+        view.displayAddressList(addressList);
     }
 
-    private void viewDVD() throws AddressBookException {
-        view.displayDVDBanner();
-        String DVDtitle = view.getDVDTitleChoice();
-        Address dvd = dao.getDVD(DVDtitle);
-        view.displayDVD(dvd);
+    private void viewAddress() throws AddressBookException {
+        view.displayAddressBanner();
+        String Addresstitle = view.getAddressChoice();
+        Address address = dao.getAddress(Addresstitle);
+        view.displayAddress(address);
     }
 
-    private void replaceDVD(Address oldDVD, Address newDVD) throws AddressBookException {
-        //remove old record
-        dao.removeDVD(oldDVD.getTitle());
-        //add new record
-        dao.addDVD(newDVD.getTitle(), newDVD);
-    }
-
+//    private void replaceAddress(Address oldAddress, Address newAddress) throws AddressBookException {
+//        //remove old record
+//        dao.removeAddress(oldAddress.getLastName());
+//        //add new record
+//        dao.addAddress(newAddress.getLastName(), newAddress);
+//    }
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
     }

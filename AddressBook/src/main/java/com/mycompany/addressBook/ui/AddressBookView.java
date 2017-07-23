@@ -23,123 +23,119 @@ public class AddressBookView {
 
     public int printMenuAndGetSelection() {
         io.print("Main Menu");
-        io.print("1. Add DVD");
-        io.print("2. Remove DVD");
-        io.print("3. Edit DVD");
-        io.print("4. List DVDs");
-        io.print("5. Display DVD by Title");
+        io.print("1. Add Address");
+        io.print("2. Delete Address");
+        io.print("3. Find Address");
+        io.print("4. List Addres Count");
+        io.print("5. List All Addresses");
         io.print("6. Exit");
 
         return io.readInt("Please select from the above choices: ", 1, 6);
     }
 
-    public Address getNewDVDInfo() {
-        String dvdTitle = io.readString("Please enter the DVD title");
-        String releaseDate = io.readString("Please enter the release date");
-        String rating = io.readString("Please enter the rating");
-        String director = io.readString("Please enter the director");
-        String studio = io.readString("Please enter the studio");
-        String comment = io.readString("Please enter your rating or notes");
+    public Address getNewAddressInfo() {
+        String lastName = io.readString("Please enter Last name");
+        String firstName = io.readString("Please enter First name");
+        String streetAddress = io.readString("Please enter street address");
+        String city = io.readString("Please enter city");
+        String state = io.readString("Please enter state");
+        String zip = io.readString("Please enter zip");
 
-        Address currentDVD = new Address(dvdTitle);
-        currentDVD.setReleaseDate(releaseDate);
-        currentDVD.setRating(rating);
-        currentDVD.setDirector(director);
-        currentDVD.setStudio(studio);
-        currentDVD.setComment(comment);
+        Address currentAddress = new Address(lastName);
+        currentAddress.setFirstName(firstName);
+        currentAddress.setStreetAddress(streetAddress);
+        currentAddress.setCity(city);
+        currentAddress.setState(state);
+        currentAddress.setZip(zip);
 
-        return currentDVD;
+        return currentAddress;
     }
 
-    public void displayAddDVDBanner() {
-        io.print("=== Add DVD ===");
+    public void displayAddAddressBanner() {
+        io.print("=== Add Address ===");
     }
 
     public void displayAddSuccessBanner() {
         io.readString(
-                "DVD successfully created.  Please hit enter to continue");
+                "Address successfully created.  Please hit enter to continue");
     }
 
-    public void displayEditDVDBanner() {
-        io.print("=== Edit DVD ===");
-    }
-
-    public void displayDVDList(List<Address> dvdList) {
+//    public void displayEditAddressBanner() {
+//        io.print("=== Edit Address ===");
+//    }
+    public void displayAddressList(List<Address> addressList) {
         int counter = 0;
-        for (Address currentDVD : dvdList) {
+        for (Address currentAddress : addressList) {
             counter++;
-            io.print("DVD #" + counter);
-            displayFormattedDetails(currentDVD);
+            io.print("Address #" + counter);
+            displayFormattedDetails(currentAddress);
         }
         io.readString("Please hit enter to continue.");
     }
 
     public void displayDisplayAllBanner() {
-        io.print("=== Display All DVDs ===");
+        io.print("=== Display All Addresses ===");
     }
 
-    public void displayDVDBanner() {
-        io.print("=== Display DVD ===");
+    public void displayAddressBanner() {
+        io.print("=== Display Address ===");
     }
 
-    public String getDVDTitleChoice() {
-        return io.readString("Please enter the DVD Title.");
+    public String getAddressChoice() {
+        return io.readString("Please enter the Last Name.");
     }
 //
 
-    public void displayDVD(Address currentDVD) {
-        if (currentDVD != null) {
-            displayFormattedDetails(currentDVD);
+    public void displayAddress(Address currentAddress) {
+        if (currentAddress != null) {
+            displayFormattedDetails(currentAddress);
         } else {
-            io.print("No such DVD.");
+            io.print("No such Address.");
         }
         io.readString("Please hit enter to continue.");
     }
 
-    public int displayEditMenuDVD(Address currentDVD) {
-        if (currentDVD != null) {
-            displayFormattedDetails(currentDVD);
-            io.print("7.Save changes\n"
-                    + "8.Exit editor and return to main menu (unsaved changes will be lost).\n");
-        } else {
-            io.print("No such DVD.");
-        }
-        return getEditFieldChoice();
-    }
-
-    public int getEditFieldChoice() {
-        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 8);
-    }
-
-    public String editDVD(int menuChoice) {
-        switch (menuChoice) {
-            case 1:
-                return io.readString("Please enter a new title: ");
-            case 2:
-                return io.readString("Please enter a new release date: ");
-            case 3:
-                return io.readString("Please enter a new rating: ");
-            case 4:
-                return io.readString("Please enter a new director: ");
-            case 5:
-                return io.readString("Please enter a new studio: ");
-            case 6:
-                return io.readString("Please enter new notes: ");
-            default:
-                throw new AssertionError();
-        }
-    }
-
+//    public int displayEditMenuAddress(Address currentAddress) {
+//        if (currentAddress != null) {
+//            displayFormattedDetails(currentAddress);
+//            io.print("7.Save changes\n"
+//                    + "8.Exit editor and return to main menu (unsaved changes will be lost).\n");
+//        } else {
+//            io.print("No such Address.");
+//        }
+//        return getEditFieldChoice();
+//    }
+//    public int getEditFieldChoice() {
+//        return io.readInt("Please enter the number of the field you would like to edit: ", 1, 8);
+//    }
+//    public String editAddress(int menuChoice) {
+//        switch (menuChoice) {
+//            case 1:
+//                return io.readString("Please enter a new title: ");
+//            case 2:
+//                return io.readString("Please enter a new release date: ");
+//            case 3:
+//                return io.readString("Please enter a new rating: ");
+//            case 4:
+//                return io.readString("Please enter a new director: ");
+//            case 5:
+//                return io.readString("Please enter a new studio: ");
+//            case 6:
+//                return io.readString("Please enter new notes: ");
+//            default:
+//                throw new AssertionError();
+//        }
+//    }
     public void displayReturningToMainMenu() {
         io.print("Returning to main menu.");
     }
 
-    public void displayRemoveDVDBanner() {
-        io.print("=== Remove DVD ===");
+    public void displayRemoveAddressBanner() {
+        io.print("=== Remove Address ===");
     }
 
     public void displayRemoveSuccessBanner() {
-        io.readString("DVD successfully removed. Please hit enter to continue.");
+        io.readString("Address successfully removed. Please hit enter to continue.");
     }
 //
 
@@ -160,12 +156,12 @@ public class AddressBookView {
         io.print("=== Changes saved ===");
     }
 
-    public void displayFormattedDetails(Address currentDVD) {
-        io.print("1.Title: " + currentDVD.getTitle() + "\n"
-                + "2.Release Date: " + currentDVD.getReleaseDate() + "\n"
-                + "3.MPAA Rating: " + currentDVD.getRating() + "\n"
-                + "4.Director: " + currentDVD.getDirector() + "\n"
-                + "5.Studio: " + currentDVD.getStudio() + "\n"
-                + "6.Notes: " + currentDVD.getComment());
+    public void displayFormattedDetails(Address currentAddress) {
+        io.print("1.Last Name: " + currentAddress.getLastName() + "\n"
+                + "2.First Name: " + currentAddress.getFirstName() + "\n"
+                + "3.Street Address: " + currentAddress.getStreetAddress() + "\n"
+                + "4.City: " + currentAddress.getCity() + "\n"
+                + "5.State: " + currentAddress.getState() + "\n"
+                + "6.Zip: " + currentAddress.getZip());
     }
 }

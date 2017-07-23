@@ -25,46 +25,46 @@ import java.util.Scanner;
  */
 public class AddressBookDaoFileImpl implements AddressBookDao {
 
-    public static final String DVD_LIBRARY_FILE = "dvd_library_file.txt";
+    public static final String ADDRESS_LIBRARY_FILE = "address_library_file.txt";
     public static final String DELIMITER = "::";
 
-    private Map<String, Address> dvds = new HashMap<>();
+    private Map<String, Address> addresses = new HashMap<>();
 
     @Override
-    public Address addDVD(String title, Address dvd) throws AddressBookException {
-        Address newDVD = dvds.put(title, dvd);
-        writeDVD();
-        return newDVD;
+    public Address addAddress(String lastName, Address address) throws AddressBookException {
+        Address newAddress = addresses.put(lastName, address);
+        writeAddress();
+        return newAddress;
     }
 
     @Override
-    public List<Address> getAllDVDs() throws AddressBookException {
-        loadDVDs();
-        return new ArrayList<Address>(dvds.values());
+    public List<Address> getAllAddresses() throws AddressBookException {
+        loadAddresss();
+        return new ArrayList<Address>(addresses.values());
     }
 
     @Override
-    public Address getDVD(String title) throws AddressBookException {
-        loadDVDs();
-        return dvds.get(title);
+    public Address getAddress(String lastName) throws AddressBookException {
+        loadAddresss();
+        return addresses.get(lastName);
     }
 
     @Override
-    public Address removeDVD(String title) throws AddressBookException {
-        Address removedDVD = dvds.remove(title);
-        writeDVD();
-        return removedDVD;
+    public Address removeAddress(String lastName) throws AddressBookException {
+        Address removedAddress = addresses.remove(lastName);
+        writeAddress();
+        return removedAddress;
     }
 
-    private void loadDVDs() throws AddressBookException {
+    private void loadAddresss() throws AddressBookException {
         Scanner scanner;
 
         try {
             // Create Scanner for reading the file
-            scanner = new Scanner(new BufferedReader(new FileReader(DVD_LIBRARY_FILE)));
+            scanner = new Scanner(new BufferedReader(new FileReader(ADDRESS_LIBRARY_FILE)));
         } catch (FileNotFoundException e) {
             throw new AddressBookException(
-                    "-_- Could not load DVD Library data into memory.", e);
+                    "-_- Could not load Address Library data into memory.", e);
         }
         // currentLine holds the most recent line read from the file
         String currentLine;
@@ -82,8 +82,8 @@ public class AddressBookDaoFileImpl implements AddressBookDao {
         // -----------------------------------
         //  [0]  [1]  [2]         [3]
         String[] currentTokens;
-        // Go through ROSTER_FILE line by line, decoding each line into a 
-        // Student object.
+        // Go through ROSTER_FILE line by line, decoding each line into an 
+        // address object.
         // Process while we have more lines in the file
         while (scanner.hasNextLine()) {
             // get the next line in the file
@@ -91,25 +91,25 @@ public class AddressBookDaoFileImpl implements AddressBookDao {
             // break up the line into tokens
             currentTokens = currentLine.split(DELIMITER);
             // Create a new Address object and put it into the map of students
-            // NOTE FOR APPRENTICES: We are going to use the Address title
+            // NOTE FOR APPRENTICES: We are going to use the Address lastName
             // which is currentTokens[0] as the map key for our student object.
-            // We also have to pass the Address title into the Address constructor
-            Address currentDVD = new Address(currentTokens[0]);
+            // We also have to pass the Address lastName into the Address constructor
+            Address currentAddress = new Address(currentTokens[0]);
             // Set the remaining vlaues on currentStudent manually
-            currentDVD.setReleaseDate(currentTokens[1]);
-            currentDVD.setRating(currentTokens[2]);
-            currentDVD.setDirector(currentTokens[3]);
-            currentDVD.setStudio(currentTokens[4]);
-            currentDVD.setComment(currentTokens[5]);
+            currentAddress.setFirstName(currentTokens[1]);
+            currentAddress.setStreetAddress(currentTokens[2]);
+            currentAddress.setCity(currentTokens[3]);
+            currentAddress.setState(currentTokens[4]);
+            currentAddress.setZip(currentTokens[5]);
 
             // Put currentStudent into the map using studentID as the key
-            dvds.put(currentDVD.getTitle(), currentDVD);
+            addresses.put(currentAddress.getLastName(), currentAddress);
         }
         // close scanner
         scanner.close();
     }
 
-    private void writeDVD() throws AddressBookException {
+    private void writeAddress() throws AddressBookException {
         // NOTE FOR APPRENTICES: We are not handling the IOException - but
         // we are translating it to an application specific exception and 
         // then simple throwing it (i.e. 'reporting' it) to the code that
@@ -118,21 +118,21 @@ public class AddressBookDaoFileImpl implements AddressBookDao {
         PrintWriter out;
 
         try {
-            out = new PrintWriter(new FileWriter(DVD_LIBRARY_FILE));
+            out = new PrintWriter(new FileWriter(ADDRESS_LIBRARY_FILE));
         } catch (IOException e) {
             throw new AddressBookException(
-                    "Could not save DVD data.", e);
+                    "Could not save Address data.", e);
         }
 
-        List<Address> DVDList = this.getAllDVDs();
-        for (Address currentDVD : DVDList) {
+        List<Address> AddressList = this.getAllAddresses();
+        for (Address currentAddress : AddressList) {
             // write the Student object to the file
-            out.println(currentDVD.getTitle() + DELIMITER
-                    + currentDVD.getReleaseDate() + DELIMITER
-                    + currentDVD.getRating() + DELIMITER
-                    + currentDVD.getDirector() + DELIMITER
-                    + currentDVD.getStudio() + DELIMITER
-                    + currentDVD.getComment());
+            out.println(currentAddress.getLastName() + DELIMITER
+                    + currentAddress.getFirstName() + DELIMITER
+                    + currentAddress.getStreetAddress() + DELIMITER
+                    + currentAddress.getCity() + DELIMITER
+                    + currentAddress.getState() + DELIMITER
+                    + currentAddress.getZip());
             // force PrintWriter to write line to the file
             out.flush();
         }
