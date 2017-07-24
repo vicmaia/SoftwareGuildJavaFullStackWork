@@ -112,6 +112,7 @@ public class DVDLibraryView {
     }
 
     public String editDVD(int menuChoice) {
+        
         switch (menuChoice) {
             case 1:
                 return io.readString("Please enter a new title: ");
@@ -126,7 +127,7 @@ public class DVDLibraryView {
             case 6:
                 return io.readString("Please enter new notes: ");
             default:
-                throw new AssertionError();
+                throw new AssertionError(); //better to use unknown command
         }
     }
 
