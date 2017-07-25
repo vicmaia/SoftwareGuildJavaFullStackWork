@@ -26,7 +26,7 @@ public class AddressBookView {
         io.print("1. Add Address");
         io.print("2. Delete Address");
         io.print("3. Find Address");
-        io.print("4. List Addres Count");
+        io.print("4. List Address Count");
         io.print("5. List All Addresses");
         io.print("6. Exit");
 

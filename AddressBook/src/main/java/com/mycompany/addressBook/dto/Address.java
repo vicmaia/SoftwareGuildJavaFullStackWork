@@ -6,6 +6,8 @@
 //Date Transfer Object
 package com.mycompany.addressBook.dto;
 
+import java.util.Objects;
+
 /**
  *
  * @author n0252282
@@ -81,6 +83,51 @@ public class Address {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.lastName);
+        hash = 97 * hash + Objects.hashCode(this.firstName);
+        hash = 97 * hash + Objects.hashCode(this.streetAddress);
+        hash = 97 * hash + Objects.hashCode(this.city);
+        hash = 97 * hash + Objects.hashCode(this.state);
+        hash = 97 * hash + Objects.hashCode(this.zip);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Address other = (Address) obj;
+        if (!Objects.equals(this.lastName, other.lastName)) {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.streetAddress, other.streetAddress)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        if (!Objects.equals(this.state, other.state)) {
+            return false;
+        }
+        if (!Objects.equals(this.zip, other.zip)) {
+            return false;
+        }
+        return true;
     }
 
 }
