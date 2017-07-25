@@ -6,6 +6,8 @@
 //Date Transfer Object
 package com.mycompany.dvdlibrary.dto;
 
+import java.util.Objects;
+
 /**
  *
  * @author n0252282
@@ -30,7 +32,7 @@ public class DVD {
         this.studio = studio;
         this.comment = comment;
     }
-    
+
     public DVD(String title) {
         this.title = title;
     }
@@ -39,7 +41,7 @@ public class DVD {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -82,6 +84,51 @@ public class DVD {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.title);
+        hash = 29 * hash + Objects.hashCode(this.releaseDate);
+        hash = 29 * hash + Objects.hashCode(this.rating);
+        hash = 29 * hash + Objects.hashCode(this.director);
+        hash = 29 * hash + Objects.hashCode(this.studio);
+        hash = 29 * hash + Objects.hashCode(this.comment);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DVD other = (DVD) obj;
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.releaseDate, other.releaseDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.rating, other.rating)) {
+            return false;
+        }
+        if (!Objects.equals(this.director, other.director)) {
+            return false;
+        }
+        if (!Objects.equals(this.studio, other.studio)) {
+            return false;
+        }
+        if (!Objects.equals(this.comment, other.comment)) {
+            return false;
+        }
+        return true;
     }
 
 }
