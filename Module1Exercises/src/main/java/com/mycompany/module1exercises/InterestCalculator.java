@@ -5,6 +5,7 @@
  */
 package com.mycompany.module1exercises;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,7 @@ public class InterestCalculator {
 
     public static void main(String[] args) {
         //Need to define variables
-        double anIntRate = 0;
+        BigDecimal anIntRate = new BigDecimal;
         int numYears = 0;
         double initialPrincipal = 0;
         
