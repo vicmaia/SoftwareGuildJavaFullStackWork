@@ -79,12 +79,12 @@ public class DVDLibraryController {
     }
 
     private void filterStudio() throws DVDLibraryException {
-        List<DVD> dvdList = dao.getMoviesFilterStudio("Disney");
+        List<DVD> dvdList = dao.getMoviesFilterStudio(view.getDVDMultiChoice("Studio "));
         view.displayDVDList(dvdList);
     }
 
     private void filterDirectorSortMPAA() throws DVDLibraryException {
-        Map<String, List<DVD>> dvds = dao.getMoviesFilterDirectorSortMPAA("Johnny");
+        Map<String, List<DVD>> dvds = dao.getMoviesFilterDirectorSortMPAA(view.getDVDMultiChoice("Director "));
 
         Set<String> ratings = dvds.keySet();
 
@@ -98,12 +98,12 @@ public class DVDLibraryController {
     }
 
     private void filterMPAA() throws DVDLibraryException {
-        List<DVD> dvdList = dao.getMoviesFilterMPAA("R");
+        List<DVD> dvdList = dao.getMoviesFilterMPAA(view.getDVDMultiChoice("MPAA Rating "));
         view.displayDVDList(dvdList);
     }
 
     private void filterDirector() throws DVDLibraryException {
-        List<DVD> dvdList = dao.getMoviesFilterDirecetor("Johnny");
+        List<DVD> dvdList = dao.getMoviesFilterDirecetor(view.getDVDMultiChoice("Director "));
         view.displayDVDList(dvdList);
     }
 

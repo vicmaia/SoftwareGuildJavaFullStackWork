@@ -90,7 +90,9 @@ public class DVDLibraryView {
         return io.readString("Please enter the DVD Title.");
     }
 //
-
+    public String getDVDMultiChoice(String field) {
+        return io.readString("Please enter the DVD " + field + "to filter on:");
+    }
     public void displayDVD(DVD currentDVD) {
         if (currentDVD != null) {
             displayFormattedDetails(currentDVD);
