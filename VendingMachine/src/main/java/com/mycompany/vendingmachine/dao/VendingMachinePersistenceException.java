@@ -3,21 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachine.service;
+package com.mycompany.vendingmachine.dao;
 
 /**
  *
  * @author n0252282
  */
-public class VendingMachineDataValidationException extends Exception {
+public class VendingMachinePersistenceException extends Exception {
 
-    public VendingMachineDataValidationException(String message) {
+    public VendingMachinePersistenceException(String message) {
         super(message);
     }
 
-    public VendingMachineDataValidationException(String message,
-            Throwable cause) {
+    public VendingMachinePersistenceException(String message, Throwable cause) {
         super(message, cause);
     }
-
 }

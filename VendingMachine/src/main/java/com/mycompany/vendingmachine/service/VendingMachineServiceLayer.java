@@ -5,7 +5,7 @@
  */
 package com.mycompany.vendingmachine.service;
 
-import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
+import com.mycompany.vendingmachine.dao.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,24 +16,27 @@ import java.util.List;
  */
 public interface VendingMachineServiceLayer {
 
-    //for future use
-//    void createItem (Item student) throws
-//            VendingMachineDuplicateIdException,
-//            VendingMachineDataValidationException,
-//            VendingMachinePersistenceException;
-    List<Item> getAllItems() throws
-            VendingMachinePersistenceException;
+    List<Item> getAllItems() throws VendingMachinePersistenceException;
+    
+    List<Item> getAllItemsFiltered() throws VendingMachinePersistenceException;
 
-    Item getItem(String itemID) throws
-            VendingMachinePersistenceException;
+    Item getItem(String itemID) throws VendingMachinePersistenceException;
 
-    public Change purchaseItem(String itemID) throws
-            VendingMachinePersistenceException, VendingMachineDataValidationException;
+    Change purchaseItem(String itemID) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException;
 
-    Item makeSaleReduceInventory(String itemID) throws
-            VendingMachinePersistenceException;
+    Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException, NoItemInventoryException;
 
     public void setCurrentMoney(BigDecimal moneyEntry);
 
     public BigDecimal getCurrentMoney();
+
+    public Change giveChange(int remainingCash) throws VendingMachinePersistenceException;
+    
+    public Change cancelGiveChange() throws VendingMachinePersistenceException;
+
+    //for future use
+    //    void createItem (Item student) throws
+    //            VendingMachineDuplicateIdException,
+    //            InsufficientFundsException,
+    //            VendingMachinePersistenceException;
 }

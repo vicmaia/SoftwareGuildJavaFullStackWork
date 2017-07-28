@@ -22,8 +22,9 @@ public class VendingMachineView {
         this.io = io;
     }
 
-    public int printMenuAndGetSelection() {
+    public int printMenuAndGetSelection(BigDecimal currentMoney) {
         io.print("Welcome to Vend-a-lot 2000:");
+        io.print("Money inserted: " + currentMoney);
         io.print("1. Add money");//+currentBalance
         io.print("2. Purchase an item");
         io.print("3. Get Change");

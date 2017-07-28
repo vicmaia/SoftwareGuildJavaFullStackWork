@@ -5,8 +5,8 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.dto.Item;
+import com.mycompany.vendingmachine.service.NoItemInventoryException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -37,18 +38,28 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
     }
 
     @Override
+    public List<Item> getAllItemsFiltered() throws VendingMachinePersistenceException {
+        loadInventory();
+        return items
+                .values()
+                .stream()
+                .filter(i -> i.getItemQuantity() > 0)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Item getItem(String itemID) throws VendingMachinePersistenceException {
         loadInventory();
         return items.get(itemID);
     }
 
     @Override
-    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException {
+    public Item makeSaleReduceInventory(String itemID) throws NoItemInventoryException, VendingMachinePersistenceException {
         Item removedItem = items.get(itemID);
         if (removedItem.getItemQuantity() > 0) {
             removedItem.setItemQuantity(removedItem.getItemQuantity() - 1);
         } else {
-            throw new VendingMachinePersistenceException("Not possible to reduce inventory below 0");
+            throw new NoItemInventoryException("Not possible to reduce inventory below 0");
         }
         writeInventory();
         return removedItem;
@@ -75,11 +86,11 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
 
             Item currentItem = new Item(currentTokens[0]);
             currentItem.setItemName(currentTokens[1]);
-            
+
             //need to ParseInt to keep quantity as INT
-            int quantityAsInteger = Integer.parseInt((currentTokens[2]));
+            Integer quantityAsInteger = Integer.parseInt((currentTokens[2]));
             currentItem.setItemQuantity(quantityAsInteger);
-            
+
             //String to store as BigDecimal in Item
             currentItem.setItemPrice(currentTokens[3]);
 

@@ -5,8 +5,8 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.dto.Item;
+import com.mycompany.vendingmachine.service.NoItemInventoryException;
 import java.util.List;
 
 /**
@@ -17,8 +17,11 @@ public interface VendingMachineDao {
 
     //Item addItem(String studentId, Item student) throws VendingMachinePersistenceException;
     List<Item> getAllItems() throws VendingMachinePersistenceException;
+    
+    List<Item> getAllItemsFiltered() throws VendingMachinePersistenceException;
 
     Item getItem(String itemID) throws VendingMachinePersistenceException;
 
-    Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException;
+    Item makeSaleReduceInventory(String itemID) throws NoItemInventoryException, VendingMachinePersistenceException;
+
 }

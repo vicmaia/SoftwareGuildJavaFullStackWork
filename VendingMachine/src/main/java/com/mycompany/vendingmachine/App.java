@@ -25,12 +25,12 @@ public class App {
         // Instantiate the DAO
         VendingMachineDao myDao = new VendingMachineDaoFileImpl();
 
-        // Instantiate the Service Layer and wire the DAO and Audit DAO into it
+        // Instantiate the Service Layer and wire the DAO
         VendingMachineServiceLayer myService = new VendingMachineServiceLayerImpl(myDao);
 
         // Instantiate the Controller and wire the Service Layer into it
         VendingMachineController controller;
-        controller = new VendingMachineController(myView, myService); //change myDao to myService since that is what the controller communicates with now
+        controller = new VendingMachineController(myView, myService);
 
         // Kick off the Controller
         controller.run();

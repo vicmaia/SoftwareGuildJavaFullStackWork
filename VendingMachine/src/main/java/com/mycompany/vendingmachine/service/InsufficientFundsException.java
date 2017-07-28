@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachine.dto;
+package com.mycompany.vendingmachine.service;
 
 /**
  *
  * @author n0252282
  */
-public class VendingMachinePersistenceException extends Exception {
+public class InsufficientFundsException extends Exception {
 
-    public VendingMachinePersistenceException(String message) {
+    public InsufficientFundsException(String message) {
         super(message);
     }
 
-    public VendingMachinePersistenceException(String message, Throwable cause) {
+    public InsufficientFundsException(String message,
+            Throwable cause) {
         super(message, cause);
     }
+
 }

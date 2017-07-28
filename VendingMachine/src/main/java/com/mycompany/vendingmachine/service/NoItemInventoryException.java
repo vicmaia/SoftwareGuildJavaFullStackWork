@@ -9,13 +9,13 @@ package com.mycompany.vendingmachine.service;
  *
  * @author n0252282
  */
-public class VendingMachineDuplicateIdException extends Exception {
+public class NoItemInventoryException extends Exception {
 
-    public VendingMachineDuplicateIdException(String message) {
+    public NoItemInventoryException(String message) {
         super(message);
     }
 
-    public VendingMachineDuplicateIdException(String message,
+    public NoItemInventoryException(String message,
             Throwable cause) {
         super(message, cause);
     }

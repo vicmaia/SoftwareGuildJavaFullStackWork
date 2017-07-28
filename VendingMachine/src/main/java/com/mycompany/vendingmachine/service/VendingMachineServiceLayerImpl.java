@@ -5,7 +5,7 @@
  */
 package com.mycompany.vendingmachine.service;
 
-import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
+import com.mycompany.vendingmachine.dao.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.dto.Item;
 import java.util.List;
 import com.mycompany.vendingmachine.dao.VendingMachineDao;
@@ -31,8 +31,14 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     public List<Item> getAllItems() throws VendingMachinePersistenceException {
         return dao.getAllItems();
     }
-    //Pass through method
 
+//Pass through method
+    @Override
+    public List<Item> getAllItemsFiltered() throws VendingMachinePersistenceException {
+        return dao.getAllItemsFiltered();
+    }
+
+    //Pass through method
     @Override
     public Item getItem(String itemID) throws VendingMachinePersistenceException {
         return dao.getItem(itemID);
@@ -40,42 +46,59 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     //Pass through method
 
     @Override
-    public Change purchaseItem(String itemID) throws VendingMachinePersistenceException, VendingMachineDataValidationException {
+    public Change purchaseItem(String itemID) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
         Item itemToPurchase = dao.getItem(itemID);
         BigDecimal oneHundred = new BigDecimal("100");
+
         if (validateItem(itemID)) {
-            if (currentMoney.compareTo(itemToPurchase.getItemPrice()) > 0) {
-                makeSaleReduceInventory(itemID);
+            if (currentMoney.compareTo(itemToPurchase.getItemPrice()) >= 0) {
+                //we have the item in stock and we have enough money 
                 //Remaining money to integer
-                int remainingCash =  currentMoney.subtract(itemToPurchase.getItemPrice()).multiply(oneHundred).intValueExact();
-                //Let's make and return change
-                return new Change(remainingCash);
+                int remainingCash = currentMoney.subtract(itemToPurchase.getItemPrice()).multiply(oneHundred).intValueExact();
+                //reduce inventory by 1
+                makeSaleReduceInventory(itemID);
+                //get change
+                return giveChange(remainingCash);
             } else {
-                throw new VendingMachineDataValidationException(
+                throw new InsufficientFundsException(
                         "Not enough money!");
             }
         } else {
-            throw new VendingMachineDataValidationException(
+            throw new NoItemInventoryException(
                     "Quantity = 0, cannot purchase");
         }
     }
 
     @Override
-    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException {
+    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException, NoItemInventoryException {
         Item removedItem = dao.makeSaleReduceInventory(itemID);
         return removedItem;
     }
 
-    private Boolean validateItem(String itemID) throws VendingMachineDataValidationException, VendingMachinePersistenceException {
+    private Boolean validateItem(String itemID) throws VendingMachinePersistenceException {
         Item item = dao.getItem(itemID);
 
         if (item.getItemQuantity() <= 0) {
-
-            throw new VendingMachineDataValidationException(
+            throw new VendingMachinePersistenceException(
                     "Quantity = 0, cannot purchase");
         } else {
             return true;
         }
+    }
+
+    @Override
+    public Change giveChange(int remainingCash) throws VendingMachinePersistenceException {
+        //Update cash inserted
+        this.currentMoney = new BigDecimal("0");
+        //Let's make and return change
+        return new Change(remainingCash);
+    }
+
+    @Override
+    public Change cancelGiveChange() throws VendingMachinePersistenceException {
+        BigDecimal oneHundred = new BigDecimal("100");
+        int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
+        return giveChange(remainingCash);
     }
 
     @Override

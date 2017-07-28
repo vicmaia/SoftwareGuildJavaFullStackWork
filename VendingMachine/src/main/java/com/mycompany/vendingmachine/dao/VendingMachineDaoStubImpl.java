@@ -5,10 +5,10 @@
  */
 package com.mycompany.vendingmachine.dao;
 
-import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.dto.Item;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -31,6 +31,11 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     @Override
     public List<Item> getAllItems() throws VendingMachinePersistenceException {
         return itemList;
+    }
+    
+    @Override
+    public List<Item> getAllItemsFiltered() throws VendingMachinePersistenceException {
+       return itemList;
     }
 
     @Override

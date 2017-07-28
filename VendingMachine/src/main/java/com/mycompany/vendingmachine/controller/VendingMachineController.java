@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.vendingmachine.controller;
 
-import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
+import com.mycompany.vendingmachine.dao.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.service.Change;
-import com.mycompany.vendingmachine.service.VendingMachineDataValidationException;
+import com.mycompany.vendingmachine.service.InsufficientFundsException;
+import com.mycompany.vendingmachine.service.NoItemInventoryException;
 import com.mycompany.vendingmachine.ui.VendingMachineView;
 import com.mycompany.vendingmachine.service.VendingMachineServiceLayer;
 
@@ -43,7 +39,7 @@ public class VendingMachineController {
                         purchase();
                         break;
                     case 3:
-                        //getChange();
+                        giveChange();
                         break;
                     case 4:
                         keepGoing = false;
@@ -54,7 +50,7 @@ public class VendingMachineController {
 
             }
             exitMessage();
-        } catch (Exception e) {
+        } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
@@ -62,11 +58,11 @@ public class VendingMachineController {
     private int getMenuSelection() {
 
         try {
-            view.displayAllItems(service.getAllItems());
+            view.displayAllItems(service.getAllItemsFiltered());
         } catch (VendingMachinePersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
-        return view.printMenuAndGetSelection();
+        return view.printMenuAndGetSelection(service.getCurrentMoney());
     }
 
     private void addMoney() {
@@ -74,35 +70,26 @@ public class VendingMachineController {
         view.displayCurrentMoney(service.getCurrentMoney());
     }
 
-    private void purchase() throws VendingMachineDataValidationException, VendingMachinePersistenceException {
-        Change change = service.purchaseItem(view.getItemChoice());
-        view.displayChange(change);
-        view.displayPurchaseSuccess();
-    }
-//
-//    private void addMoney() throws VendingMachinePersistenceException {
-//        view.displayDisplayAllBanner();
-//        //List<Student> studentList = dao.getAllStudents();
-//        List<Item> studentList = service.getAllStudents();
-//        view.displayStudentList(studentList);
-//    }
-//
+    private void purchase() throws VendingMachinePersistenceException, InsufficientFundsException, NoItemInventoryException {
+        Boolean success = false;
+        do {
+            try {
+                Change change = service.purchaseItem(view.getItemChoice());
+                view.displayChange(change);
+                view.displayPurchaseSuccess();
+                success = true;
+            } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException e) {
+                view.displayErrorMessage(e.getMessage());
+                continue;
+            }
 
-    private void getChange() throws VendingMachinePersistenceException {
+        } while (false);
 
     }
-//
-//    private void removeStudent() throws VendingMachinePersistenceException {
-////        view.displayRemoveStudentBanner();
-////        String studentId = view.getStudentIdChoice();
-////        dao.removeStudent(studentId);
-////        view.displayRemoveSuccessBanner();
-//
-//        view.displayRemoveStudentBanner();
-//        String studentId = view.getStudentIdChoice();
-//        service.removeStudent(studentId); //this is the change with the service layer
-//        view.displayRemoveSuccessBanner();
-//    }
+
+    private void giveChange() throws VendingMachinePersistenceException {
+        view.displayChange(service.cancelGiveChange());
+    }
 
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
