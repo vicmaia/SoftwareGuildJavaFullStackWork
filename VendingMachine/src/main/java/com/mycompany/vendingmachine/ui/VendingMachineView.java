@@ -32,13 +32,12 @@ public class VendingMachineView {
         return io.readInt("Please select from the above choices: ", 1, 4);
     }
 
-    public BigDecimal getMoneyEntry(){
+    public BigDecimal getMoneyEntry() {
         return io.readBigDecimal("Please insert your money: ");
     }
-    
+
     public void displayPurchaseSuccess() {
-        io.readString(
-                "Purchase successful!  Please hit enter to continue");//add item name
+        io.readString("Purchase successful!  Please hit enter to continue");//add item name
     }
 
     public void displayAllItems(List<Item> itemList) {
@@ -51,8 +50,8 @@ public class VendingMachineView {
         io.print("");
     }
 
-    public int getItemChoice() {
-        return io.readInt("Please enter the Item ID.");
+    public String getItemChoice() {
+        return io.readString("Please enter the Item ID.");
     }
 
     public void displayExitBanner() {

@@ -6,6 +6,8 @@
 package com.mycompany.vendingmachine.controller;
 
 import com.mycompany.vendingmachine.dto.VendingMachinePersistenceException;
+import com.mycompany.vendingmachine.service.Change;
+import com.mycompany.vendingmachine.service.VendingMachineDataValidationException;
 import com.mycompany.vendingmachine.ui.VendingMachineView;
 import com.mycompany.vendingmachine.service.VendingMachineServiceLayer;
 
@@ -38,7 +40,7 @@ public class VendingMachineController {
                         addMoney();
                         break;
                     case 2:
-                        //purchase();
+                        purchase();
                         break;
                     case 3:
                         //getChange();
@@ -66,31 +68,17 @@ public class VendingMachineController {
         }
         return view.printMenuAndGetSelection();
     }
-    
+
     private void addMoney() {
         service.setCurrentMoney(view.getMoneyEntry());
         view.displayCurrentMoney(service.getCurrentMoney());
     }
 
-//    private void purchase() throws VendingMachinePersistenceException {
-////        view.displayCreateStudentBanner();
-////        Item newStudent = view.getNewStudentInfo();
-////        dao.addStudent(newStudent.getStudentId(), newStudent);
-////        view.displayCreateSuccessBanner();
-//        view.displayCreateStudentBanner();
-//        boolean hasErrors = false;
-//        do {
-//            Item currentStudent = view.getNewStudentInfo();
-//            try {
-//                service.createStudent(currentStudent);
-//                view.displayCreateSuccessBanner();
-//                hasErrors = false;
-//            } catch (VendingMachineDuplicateIdException | VendingMachineDataValidationExceptione) {
-//                hasErrors = true;
-//                view.displayErrorMessage(e.getMessage());
-//            }
-//        } while (hasErrors);
-//    }
+    private void purchase() throws VendingMachineDataValidationException, VendingMachinePersistenceException {
+        Change change = service.purchaseItem(view.getItemChoice());
+        view.displayChange(change);
+        view.displayPurchaseSuccess();
+    }
 //
 //    private void addMoney() throws VendingMachinePersistenceException {
 //        view.displayDisplayAllBanner();
@@ -99,6 +87,7 @@ public class VendingMachineController {
 //        view.displayStudentList(studentList);
 //    }
 //
+
     private void getChange() throws VendingMachinePersistenceException {
 
     }
@@ -114,6 +103,7 @@ public class VendingMachineController {
 //        service.removeStudent(studentId); //this is the change with the service layer
 //        view.displayRemoveSuccessBanner();
 //    }
+
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
     }

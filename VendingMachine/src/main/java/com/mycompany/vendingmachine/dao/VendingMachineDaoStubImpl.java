@@ -43,7 +43,7 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     }
 
     @Override
-    public Item removeItem(String itemID) throws VendingMachinePersistenceException {
+    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException {
         if (itemID.equals(onlyItem.getItemID())) {
             return onlyItem;
         } else {

@@ -16,7 +16,7 @@ public class Change {
     private int numDimes = 0;
     private int numQuarters = 0;
 
-    public Change(int numPennies) {
+    public Change (int numPennies) {
 
         if (numPennies >= 25) {
             this.numQuarters = numPennies / 25;

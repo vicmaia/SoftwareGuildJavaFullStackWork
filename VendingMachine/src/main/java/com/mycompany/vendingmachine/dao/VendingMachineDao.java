@@ -20,5 +20,5 @@ public interface VendingMachineDao {
 
     Item getItem(String itemID) throws VendingMachinePersistenceException;
 
-    Item removeItem(String itemID) throws VendingMachinePersistenceException;
+    Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException;
 }

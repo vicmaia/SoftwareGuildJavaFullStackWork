@@ -40,22 +40,41 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     //Pass through method
 
     @Override
-    public Item removeItem(String itemID) throws VendingMachinePersistenceException {
-        //return dao.removeStudent(studentId);
-        Item removedItem = dao.removeItem(itemID);
+    public Change purchaseItem(String itemID) throws VendingMachinePersistenceException, VendingMachineDataValidationException {
+        Item itemToPurchase = dao.getItem(itemID);
+        BigDecimal oneHundred = new BigDecimal("100");
+        if (validateItem(itemID)) {
+            if (currentMoney.compareTo(itemToPurchase.getItemPrice()) > 0) {
+                makeSaleReduceInventory(itemID);
+                //Remaining money to integer
+                int remainingCash =  currentMoney.subtract(itemToPurchase.getItemPrice()).multiply(oneHundred).intValueExact();
+                //Let's make and return change
+                return new Change(remainingCash);
+            } else {
+                throw new VendingMachineDataValidationException(
+                        "Not enough money!");
+            }
+        } else {
+            throw new VendingMachineDataValidationException(
+                    "Quantity = 0, cannot purchase");
+        }
+    }
+
+    @Override
+    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException {
+        Item removedItem = dao.makeSaleReduceInventory(itemID);
         return removedItem;
     }
 
-    private void validateItemData(Item item) throws
-            VendingMachineDataValidationException {
+    private Boolean validateItem(String itemID) throws VendingMachineDataValidationException, VendingMachinePersistenceException {
+        Item item = dao.getItem(itemID);
 
-        if (item.getItemID() == null
-                || item.getItemName().trim().length() == 0
-                || item.getItemPrice() == null
-                || item.getItemQuantity() < 0) {
+        if (item.getItemQuantity() <= 0) {
 
             throw new VendingMachineDataValidationException(
-                    "ERROR: All fields [Item Name, Item Price, and Item Quantity] are required.");
+                    "Quantity = 0, cannot purchase");
+        } else {
+            return true;
         }
     }
 

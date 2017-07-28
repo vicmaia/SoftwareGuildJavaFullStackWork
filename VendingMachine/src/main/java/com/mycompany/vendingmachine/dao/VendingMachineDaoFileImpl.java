@@ -43,9 +43,13 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
     }
 
     @Override
-    public Item removeItem(String studentId)
-            throws VendingMachinePersistenceException {
-        Item removedItem = items.remove(studentId);
+    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException {
+        Item removedItem = items.get(itemID);
+        if (removedItem.getItemQuantity() > 0) {
+            removedItem.setItemQuantity(removedItem.getItemQuantity() - 1);
+        } else {
+            throw new VendingMachinePersistenceException("Not possible to reduce inventory below 0");
+        }
         writeInventory();
         return removedItem;
     }
@@ -71,11 +75,13 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
 
             Item currentItem = new Item(currentTokens[0]);
             currentItem.setItemName(currentTokens[1]);
-            currentItem.setItemPrice(currentTokens[2]);
-
+            
             //need to ParseInt to keep quantity as INT
-            int quantityAsInteger = Integer.parseInt((currentTokens[3]));
+            int quantityAsInteger = Integer.parseInt((currentTokens[2]));
             currentItem.setItemQuantity(quantityAsInteger);
+            
+            //String to store as BigDecimal in Item
+            currentItem.setItemPrice(currentTokens[3]);
 
             //put item into map
             items.put(currentItem.getItemID(), currentItem);

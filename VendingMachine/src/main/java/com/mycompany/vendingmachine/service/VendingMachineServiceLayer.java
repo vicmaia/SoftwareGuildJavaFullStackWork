@@ -16,8 +16,6 @@ import java.util.List;
  */
 public interface VendingMachineServiceLayer {
 
-    
-
     //for future use
 //    void createItem (Item student) throws
 //            VendingMachineDuplicateIdException,
@@ -29,7 +27,10 @@ public interface VendingMachineServiceLayer {
     Item getItem(String itemID) throws
             VendingMachinePersistenceException;
 
-    Item removeItem(String itemID) throws
+    public Change purchaseItem(String itemID) throws
+            VendingMachinePersistenceException, VendingMachineDataValidationException;
+
+    Item makeSaleReduceInventory(String itemID) throws
             VendingMachinePersistenceException;
 
     public void setCurrentMoney(BigDecimal moneyEntry);

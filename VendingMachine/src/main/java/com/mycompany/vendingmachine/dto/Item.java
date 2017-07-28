@@ -16,8 +16,8 @@ public class Item {
 
     private String itemID;
     private String itemName;
+    private Integer itemQuantity;
     private BigDecimal itemPrice;
-    private int itemQuantity;
 
     public Item(String itemID) {
         this.itemID = itemID;
@@ -39,6 +39,14 @@ public class Item {
         this.itemName = itemName;
     }
 
+    public Integer getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(Integer itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
     public BigDecimal getItemPrice() {
         return itemPrice;
     }
@@ -46,13 +54,4 @@ public class Item {
     public void setItemPrice(String itemPrice) {
         this.itemPrice = new BigDecimal(itemPrice);
     }
-
-    public int getItemQuantity() {
-        return itemQuantity;
-    }
-
-    public void setItemQuantity(int itemQuantity) {
-        this.itemQuantity = itemQuantity;
-    }
-
 }
