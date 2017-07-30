@@ -66,6 +66,7 @@ public class VendingMachineView {
     public void displayErrorMessage(String errorMsg) {
         io.print("=== ERROR ===");
         io.print(errorMsg);
+        io.readString("Press any key to continue.");
     }
 
     public void displayChange(Change change) {
@@ -74,6 +75,7 @@ public class VendingMachineView {
         io.print(change.getNumDimes() + " Dimes");
         io.print(change.getNumNickles() + " Nickels");
         io.print(change.getNumPennies() + " Pennies");
+        io.readString("Press any key to continue.");
     }
 
     public void displayCurrentMoney(BigDecimal currentMoney) {

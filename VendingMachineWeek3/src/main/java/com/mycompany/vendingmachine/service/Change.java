@@ -50,5 +50,43 @@ public class Change {
     public int getNumQuarters() {
         return numQuarters;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.numPennies;
+        hash = 89 * hash + this.numNickles;
+        hash = 89 * hash + this.numDimes;
+        hash = 89 * hash + this.numQuarters;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Change other = (Change) obj;
+        if (this.numPennies != other.numPennies) {
+            return false;
+        }
+        if (this.numNickles != other.numNickles) {
+            return false;
+        }
+        if (this.numDimes != other.numDimes) {
+            return false;
+        }
+        if (this.numQuarters != other.numQuarters) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }

@@ -217,14 +217,27 @@ public class VendingMachineServiceLayerTest {
     }
 
     /**
-     * Test of setCurrentMoney method, of class VendingMachineServiceLayer.
-     */
-    /**
      * Test of giveChange method, of class VendingMachineServiceLayer.
      */
     @Test
     public void testGiveChange() throws Exception {
-        
+        Item item1 = new Item("1");
+        item1.setItemName("Taco");
+        item1.setItemPrice("1.00");
+        item1.setItemQuantity(3);
+
+        dao.addItem(item1.getItemID(), item1);
+
+        //user adds 3.19 dollars
+        service.setCurrentMoney(new BigDecimal("3.19"));
+
+        //user makes purchase of taco and gets change
+        Change userChange = service.purchaseItem("1");
+
+        //make a new Change object, store return
+        Change perfectChange = new Change(219);
+
+        assertEquals(perfectChange, userChange);
     }
 
     /**
@@ -232,7 +245,16 @@ public class VendingMachineServiceLayerTest {
      */
     @Test
     public void testCancelGiveChange() throws Exception {
-        
+        //user adds money to machine
+        service.setCurrentMoney(new BigDecimal("3.19"));
+
+        //user decides they don't need tacos, request change 
+        Change userChange = service.cancelGiveChange();
+
+        //make a new Change object, store return
+        Change perfectChange = new Change(319);
+
+        assertEquals(perfectChange, userChange);
     }
 
 }

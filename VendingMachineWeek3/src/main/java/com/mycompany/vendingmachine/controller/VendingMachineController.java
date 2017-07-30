@@ -50,7 +50,7 @@ public class VendingMachineController {
 
             }
             exitMessage();
-        } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException e) {
+        } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException | NumberFormatException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
@@ -65,7 +65,7 @@ public class VendingMachineController {
         return view.printMenuAndGetSelection(service.getCurrentMoney());
     }
 
-    private void addMoney() {
+    private void addMoney() throws NumberFormatException {
         service.setCurrentMoney(view.getMoneyEntry());
         view.displayCurrentMoney(service.getCurrentMoney());
     }

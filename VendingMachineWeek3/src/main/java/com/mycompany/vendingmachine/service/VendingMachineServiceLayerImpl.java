@@ -102,13 +102,12 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     }
 
     @Override
-    public BigDecimal getCurrentMoney() {
+    public BigDecimal getCurrentMoney() throws NumberFormatException {
         return currentMoney;
     }
 
     @Override
-    public void setCurrentMoney(BigDecimal currentMoney) {
+    public void setCurrentMoney(BigDecimal currentMoney) throws NumberFormatException {
         this.currentMoney = this.currentMoney.add(currentMoney, MathContext.UNLIMITED);
     }
-
 }
