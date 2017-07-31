@@ -38,7 +38,7 @@ public class VendingMachineView {
     }
 
     public void displayPurchaseSuccess() {
-        io.readString("Purchase successful!  Please hit enter to continue");//add item name
+        io.print("Purchase successful!");
     }
 
     public void displayAllItems(List<Item> itemList) {
@@ -70,11 +70,15 @@ public class VendingMachineView {
     }
 
     public void displayChange(Change change) {
-        io.print("Here is your change:");
-        io.print(change.getNumQuarters() + " Quarters");
-        io.print(change.getNumDimes() + " Dimes");
-        io.print(change.getNumNickles() + " Nickels");
-        io.print(change.getNumPennies() + " Pennies");
+        if (change.getNumDimes() + change.getNumQuarters() + change.getNumNickles() + change.getNumPennies() != 0) {
+            io.print("Here is your change:");
+            io.print(change.getNumQuarters() + " Quarters");
+            io.print(change.getNumDimes() + " Dimes");
+            io.print(change.getNumNickles() + " Nickels");
+            io.print(change.getNumPennies() + " Pennies");
+        } else {
+            io.print("No change to return!");
+        }
         io.readString("Press any key to continue.");
     }
 

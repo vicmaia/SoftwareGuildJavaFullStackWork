@@ -79,17 +79,17 @@ public class VendingMachineController {
     private void purchase() throws VendingMachinePersistenceException, InsufficientFundsException, NoItemInventoryException {
         try {
             Change change = service.purchaseItem(view.getItemChoice());
-            view.displayChange(change);
             view.displayPurchaseSuccess();
+            view.displayChange(change);
         } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
 
-    private void giveChange() throws VendingMachinePersistenceException {
+    private void giveChange() throws VendingMachinePersistenceException, InsufficientFundsException {
         try {
             view.displayChange(service.cancelGiveChange());
-        } catch (VendingMachinePersistenceException e) {
+        } catch (VendingMachinePersistenceException | InsufficientFundsException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }

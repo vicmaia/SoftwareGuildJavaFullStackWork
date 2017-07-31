@@ -95,10 +95,15 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     }
 
     @Override
-    public Change cancelGiveChange() throws VendingMachinePersistenceException {
-        BigDecimal oneHundred = new BigDecimal("100");
-        int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
-        return giveChange(remainingCash);
+    public Change cancelGiveChange() throws VendingMachinePersistenceException, InsufficientFundsException {
+        if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
+            BigDecimal oneHundred = new BigDecimal("100");
+            int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
+            return giveChange(remainingCash);
+        } else {
+            throw new InsufficientFundsException("No money to return change on.");
+        }
+
     }
 
     @Override

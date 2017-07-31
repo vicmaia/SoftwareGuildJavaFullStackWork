@@ -32,7 +32,7 @@ public interface VendingMachineServiceLayer {
 
     public Change giveChange(int remainingCash) throws VendingMachinePersistenceException;
     
-    public Change cancelGiveChange() throws VendingMachinePersistenceException;
+    public Change cancelGiveChange() throws VendingMachinePersistenceException, InsufficientFundsException;
 
     //for future use
     //    void createItem (Item student) throws
