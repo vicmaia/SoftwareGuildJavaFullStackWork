@@ -53,17 +53,25 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     @Override
-    public int readInt(String prompt) {
-        return Integer.parseInt(readString(prompt));
+    public int readInt(String prompt) throws NumberFormatException {
+        try {
+            return Integer.parseInt(readString(prompt));
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Please enter a valid integer");
+        }
     }
 
     @Override
-    public int readInt(String prompt, int min, int max) {
+    public int readInt(String prompt, int min, int max) throws NumberFormatException {
         int returnedInt;
-        do {
-            returnedInt = Integer.parseInt(readString(prompt));
-        } while (returnedInt < min || returnedInt > max);
-        return returnedInt;
+        try {
+            do {
+                returnedInt = Integer.parseInt(readString(prompt));
+            } while (returnedInt < min || returnedInt > max);
+            return returnedInt;
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Please enter a valid integer");
+        }
     }
 
     @Override
@@ -90,7 +98,11 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        return new BigDecimal(readString(prompt));
+        try {
+            return new BigDecimal(readString(prompt));
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Please enter a valid amount of money.");
+        }
     }
 
 }

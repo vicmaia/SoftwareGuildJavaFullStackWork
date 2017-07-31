@@ -59,35 +59,39 @@ public class VendingMachineController {
 
         try {
             view.displayAllItems(service.getAllItemsFiltered());
-        } catch (VendingMachinePersistenceException e) {
+            //passing in current money so that it can be displayed with the menu
+            return view.printMenuAndGetSelection(service.getCurrentMoney());
+        } catch (NumberFormatException | VendingMachinePersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
-        return view.printMenuAndGetSelection(service.getCurrentMoney());
+        return 0;
     }
 
     private void addMoney() throws NumberFormatException {
-        service.setCurrentMoney(view.getMoneyEntry());
-        view.displayCurrentMoney(service.getCurrentMoney());
+        try {
+            service.setCurrentMoney(view.getMoneyEntry());
+            view.displayCurrentMoney(service.getCurrentMoney());
+        } catch (NumberFormatException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
     }
 
     private void purchase() throws VendingMachinePersistenceException, InsufficientFundsException, NoItemInventoryException {
-        Boolean success = false;
-        do {
-            try {
-                Change change = service.purchaseItem(view.getItemChoice());
-                view.displayChange(change);
-                view.displayPurchaseSuccess();
-                success = true;
-            } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException e) {
-                view.displayErrorMessage(e.getMessage());
-            }
-
-        } while (false);
-
+        try {
+            Change change = service.purchaseItem(view.getItemChoice());
+            view.displayChange(change);
+            view.displayPurchaseSuccess();
+        } catch (VendingMachinePersistenceException | InsufficientFundsException | NoItemInventoryException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
     }
 
     private void giveChange() throws VendingMachinePersistenceException {
-        view.displayChange(service.cancelGiveChange());
+        try {
+            view.displayChange(service.cancelGiveChange());
+        } catch (VendingMachinePersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
     }
 
     private void unknownCommand() {

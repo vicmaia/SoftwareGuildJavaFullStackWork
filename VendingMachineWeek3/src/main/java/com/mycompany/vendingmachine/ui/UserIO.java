@@ -23,15 +23,15 @@ public interface UserIO {
 
     float readFloat(String prompt, float min, float max);
 
-    int readInt(String prompt);
+    int readInt(String prompt) throws NumberFormatException;
 
-    int readInt(String prompt, int min, int max);
+    int readInt(String prompt, int min, int max) throws NumberFormatException;
 
     long readLong(String prompt);
 
     long readLong(String prompt, long min, long max);
-    
-    BigDecimal readBigDecimal(String prompt);
+
+    BigDecimal readBigDecimal(String prompt) throws NumberFormatException;
 
     String readString(String prompt);
 }

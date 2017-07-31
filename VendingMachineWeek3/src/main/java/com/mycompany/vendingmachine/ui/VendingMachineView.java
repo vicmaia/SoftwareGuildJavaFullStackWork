@@ -22,7 +22,7 @@ public class VendingMachineView {
         this.io = io;
     }
 
-    public int printMenuAndGetSelection(BigDecimal currentMoney) {
+    public int printMenuAndGetSelection(BigDecimal currentMoney) throws NumberFormatException {
         io.print("Welcome to Vend-a-lot 2000:");
         io.print("Money inserted: " + currentMoney);
         io.print("1. Add money");//+currentBalance
