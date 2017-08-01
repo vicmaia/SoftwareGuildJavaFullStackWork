@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class VendingMachineDaoTest {
 
-    private VendingMachineDao dao = new VendingMachineDaoStubFileImpl();
+    private VendingMachineDao dao = new VendingMachineDaoFileImpl();
 
     public VendingMachineDaoTest() {
     }

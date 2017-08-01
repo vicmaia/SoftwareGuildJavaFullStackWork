@@ -5,8 +5,6 @@
  */
 package com.mycompany.vendingmachine.ui;
 
-import static java.lang.Float.max;
-import static java.lang.Float.min;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -53,25 +51,38 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     @Override
-    public int readInt(String prompt) throws NumberFormatException {
-        try {
-            return Integer.parseInt(readString(prompt));
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Please enter a valid integer");
-        }
+    public int readInt(String prompt) {
+
+        boolean success = false;
+        while (!success) {
+            success = true;
+            try {
+                return Integer.parseInt(readString(prompt));
+            } catch (NumberFormatException e) {
+                print("Please enter a valid integer"); //sout "You entered in an invalid selection"
+                success = false;
+            }
+        };
+        return 1;
     }
 
     @Override
-    public int readInt(String prompt, int min, int max) throws NumberFormatException {
-        int returnedInt;
-        try {
-            do {
-                returnedInt = Integer.parseInt(readString(prompt));
-            } while (returnedInt < min || returnedInt > max);
-            return returnedInt;
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Please enter a valid integer");
+    public int readInt(String prompt, int min, int max) {
+        int returnedInt = 0;
+        boolean success = false;
+        while (!success) {
+            success = true;
+            try {
+                do {
+                    returnedInt = Integer.parseInt(readString(prompt));
+                } while (returnedInt < min || returnedInt > max);
+                return returnedInt;
+            } catch (NumberFormatException e) {
+                print("Please enter a valid integer"); //sout "You entered in an invalid selection"
+                success = false;
+            }
         }
+        return 0;
     }
 
     @Override

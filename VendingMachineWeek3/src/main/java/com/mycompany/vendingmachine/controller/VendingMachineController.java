@@ -61,7 +61,7 @@ public class VendingMachineController {
             view.displayAllItems(service.getAllItemsFiltered());
             //passing in current money so that it can be displayed with the menu
             return view.printMenuAndGetSelection(service.getCurrentMoney());
-        } catch (NumberFormatException | VendingMachinePersistenceException e) {
+        } catch (VendingMachinePersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
         return 0;
