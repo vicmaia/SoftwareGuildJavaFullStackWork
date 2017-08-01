@@ -59,17 +59,18 @@ public class UserIOConsoleImpl implements UserIO {
             try {
                 return Integer.parseInt(readString(prompt));
             } catch (NumberFormatException e) {
-                print("Please enter a valid integer"); //sout "You entered in an invalid selection"
+                print("You entered in an invalid selection"); //sout "You entered in an invalid selection"
                 success = false;
             }
-        };
-        return 1;
+        }
+        return 0;
     }
 
     @Override
     public int readInt(String prompt, int min, int max) {
         int returnedInt = 0;
         boolean success = false;
+
         while (!success) {
             success = true;
             try {
@@ -78,7 +79,7 @@ public class UserIOConsoleImpl implements UserIO {
                 } while (returnedInt < min || returnedInt > max);
                 return returnedInt;
             } catch (NumberFormatException e) {
-                print("Please enter a valid integer"); //sout "You entered in an invalid selection"
+                print("You entered in an invalid selection"); //sout "You entered in an invalid selection"
                 success = false;
             }
         }
@@ -109,11 +110,16 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        try {
-            return new BigDecimal(readString(prompt));
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Please enter a valid amount of money.");
+        boolean success = false;
+        while (!success) {
+            success = true;
+            try {
+                return new BigDecimal(readString(prompt));
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid amount of money.");
+                success = false;
+            }
         }
+        return new BigDecimal("0");
     }
-
 }

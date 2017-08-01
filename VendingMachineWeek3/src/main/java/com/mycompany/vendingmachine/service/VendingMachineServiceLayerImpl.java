@@ -83,43 +83,44 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
                         "Quantity = 0, cannot purchase");
             } else {
                 return true;
-            }} else throw new NoItemInventoryException(
-                        "You must choose an item from the inventory.");
-        }
-
-        @Override
-        public Change giveChange
-        (int remainingCash) throws VendingMachinePersistenceException {
-            //Update cash inserted
-            this.currentMoney = new BigDecimal("0");
-            //Let's make and return change
-            return new Change(remainingCash);
-        }
-
-        @Override
-        public Change cancelGiveChange() throws VendingMachinePersistenceException, InsufficientFundsException {
-            if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
-                BigDecimal oneHundred = new BigDecimal("100");
-                int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
-                return giveChange(remainingCash);
-            } else {
-                throw new InsufficientFundsException("No money to return change on.");
             }
-
-        }
-
-        @Override
-        public BigDecimal getCurrentMoney() throws NumberFormatException {
-            return currentMoney;
-        }
-
-        @Override
-        public void setCurrentMoney
-        (BigDecimal currentMoney) throws NumberFormatException {
-            if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
-                this.currentMoney = this.currentMoney.add(currentMoney, MathContext.UNLIMITED);
-            } else {
-                throw new NumberFormatException("Money added must be greater than 0.");
-            }
+        } else {
+            throw new NoItemInventoryException(
+                    "You must choose an item from the inventory.");
         }
     }
+
+    @Override
+    public Change giveChange(int remainingCash) throws VendingMachinePersistenceException {
+        //Update cash inserted
+        this.currentMoney = new BigDecimal("0");
+        //Let's make and return change
+        return new Change(remainingCash);
+    }
+
+    @Override
+    public Change cancelGiveChange() throws VendingMachinePersistenceException, InsufficientFundsException {
+        if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
+            BigDecimal oneHundred = new BigDecimal("100");
+            int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
+            return giveChange(remainingCash);
+        } else {
+            throw new InsufficientFundsException("No money to return change on.");
+        }
+
+    }
+
+    @Override
+    public BigDecimal getCurrentMoney() throws NumberFormatException {
+        return currentMoney;
+    }
+
+    @Override
+    public void setCurrentMoney(BigDecimal currentMoney) throws NumberFormatException {
+        if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
+            this.currentMoney = this.currentMoney.add(currentMoney, MathContext.UNLIMITED);
+        } else {
+            throw new NumberFormatException("Money added must be greater than 0.");
+        }
+    }
+}

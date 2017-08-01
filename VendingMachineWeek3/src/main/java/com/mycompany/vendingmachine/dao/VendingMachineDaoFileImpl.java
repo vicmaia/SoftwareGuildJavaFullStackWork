@@ -26,10 +26,17 @@ import java.util.stream.Collectors;
  */
 public class VendingMachineDaoFileImpl implements VendingMachineDao {
 
-    public static final String INVENTORY_FILE = "inventory.txt";
+    public String inventoryFile = "inventory.txt";
     public static final String DELIMITER = "::";
 
     private Map<String, Item> items = new HashMap<>();
+
+    public VendingMachineDaoFileImpl(String inventoryFile) {
+        this.inventoryFile = inventoryFile;
+    }
+
+    public VendingMachineDaoFileImpl() {
+    }
 
     @Override
     public List<Item> getAllItems() throws VendingMachinePersistenceException {
@@ -69,7 +76,7 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
         Scanner scanner;
 
         try {
-            scanner = new Scanner(new BufferedReader(new FileReader(INVENTORY_FILE)));
+            scanner = new Scanner(new BufferedReader(new FileReader(inventoryFile)));
         } catch (FileNotFoundException e) {
             throw new VendingMachinePersistenceException(
                     "-_- Could not load inventory data into memory.", e);
@@ -106,7 +113,7 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
         PrintWriter out;
 
         try {
-            out = new PrintWriter(new FileWriter(INVENTORY_FILE));
+            out = new PrintWriter(new FileWriter(inventoryFile));
         } catch (IOException e) {
             throw new VendingMachinePersistenceException(
                     "Could not save inventory data.", e);

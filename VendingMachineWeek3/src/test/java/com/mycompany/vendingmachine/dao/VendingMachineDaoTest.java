@@ -17,8 +17,10 @@ import org.junit.Test;
  * @author n0252282
  */
 public class VendingMachineDaoTest {
-
-    private VendingMachineDao dao = new VendingMachineDaoFileImpl();
+    //Setting up file name for injection
+    String inventoryFile = "test_inventory.txt";
+    //Injecting test inventory file into the DaoFileImpl
+    private VendingMachineDao dao = new VendingMachineDaoFileImpl(inventoryFile);
 
     public VendingMachineDaoTest() {
     }
