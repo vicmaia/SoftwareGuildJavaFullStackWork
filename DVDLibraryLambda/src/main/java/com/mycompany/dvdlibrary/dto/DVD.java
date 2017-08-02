@@ -6,6 +6,8 @@
 //Date Transfer Object
 package com.mycompany.dvdlibrary.dto;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Objects;
 public class DVD {
 
     private String title;
-    private String releaseDate;
+    private LocalDate releaseDate;
     private String rating;
     private String director;
     private String studio;
@@ -26,7 +28,7 @@ public class DVD {
 
     public DVD(String title, String releaseDate, String rating, String director, String studio, String comment) {
         this.title = title;
-        this.releaseDate = releaseDate;
+        LocalDate.parse(releaseDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         this.rating = rating;
         this.director = director;
         this.studio = studio;
@@ -46,12 +48,12 @@ public class DVD {
         return title;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
     public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+        this.releaseDate = LocalDate.parse(releaseDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
     }
 
     public String getRating() {

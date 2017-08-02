@@ -9,6 +9,7 @@ import com.mycompany.dvdlibrary.dao.DVDLibraryLambdaDao;
 import com.mycompany.dvdlibrary.dto.DVDLibraryException;
 import com.mycompany.dvdlibrary.dto.DVD;
 import com.mycompany.dvdlibrary.ui.DVDLibraryView;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -132,7 +133,7 @@ public class DVDLibraryController {
         String DVDtitle = view.getDVDTitleChoice();
         //Return DVD object
         DVD dvd = dao.getDVD(DVDtitle);
-        DVD dvdEdit = new DVD(dvd.getTitle(), dvd.getReleaseDate(), dvd.getRating(), dvd.getDirector(), dvd.getStudio(), dvd.getComment());
+        DVD dvdEdit = new DVD(dvd.getTitle(), dvd.getReleaseDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), dvd.getRating(), dvd.getDirector(), dvd.getStudio(), dvd.getComment());
         //edit logic
         boolean keepGoing = true;
         int editFieldChoice = 0;

@@ -6,6 +6,8 @@
 package com.mycompany.dvdlibrary.ui;
 
 import com.mycompany.dvdlibrary.dto.DVD;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.Set;
 
@@ -90,9 +92,11 @@ public class DVDLibraryView {
         return io.readString("Please enter the DVD Title.");
     }
 //
+
     public String getDVDMultiChoice(String field) {
         return io.readString("Please enter the DVD " + field + "to filter on:");
     }
+
     public void displayDVD(DVD currentDVD) {
         if (currentDVD != null) {
             displayFormattedDetails(currentDVD);
@@ -118,7 +122,7 @@ public class DVDLibraryView {
     }
 
     public String editDVD(int menuChoice) {
-        
+
         switch (menuChoice) {
             case 1:
                 return io.readString("Please enter a new title: ");
@@ -168,8 +172,9 @@ public class DVDLibraryView {
     }
 
     public void displayFormattedDetails(DVD currentDVD) {
+        String formattedDate = currentDVD.getReleaseDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
         io.print("1.Title: " + currentDVD.getTitle() + "\n"
-                + "2.Release Date: " + currentDVD.getReleaseDate() + "\n"
+                + "2.Release Date: " + formattedDate + "\n"
                 + "3.MPAA Rating: " + currentDVD.getRating() + "\n"
                 + "4.Director: " + currentDVD.getDirector() + "\n"
                 + "5.Studio: " + currentDVD.getStudio() + "\n"

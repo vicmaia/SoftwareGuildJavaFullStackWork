@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,8 +129,12 @@ public class DVDLibraryLambdaDaoFileImpl implements DVDLibraryLambdaDao {
         List<DVD> DVDList = this.getAllDVDs();
         for (DVD currentDVD : DVDList) {
             // write the Student object to the file
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            String formattedDate = currentDVD.getReleaseDate().format(dtf);
+            
             out.println(currentDVD.getTitle() + DELIMITER
-                    + currentDVD.getReleaseDate() + DELIMITER
+                    + formattedDate + DELIMITER
                     + currentDVD.getRating() + DELIMITER
                     + currentDVD.getDirector() + DELIMITER
                     + currentDVD.getStudio() + DELIMITER

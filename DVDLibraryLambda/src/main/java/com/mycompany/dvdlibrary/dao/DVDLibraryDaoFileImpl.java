@@ -13,8 +13,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -40,7 +44,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     @Override
     public List<DVD> getAllDVDs() throws DVDLibraryException {
         loadDVDs();
-        return new ArrayList<DVD>(dvds.values());
+        return new LinkedList<DVD>(dvds.values());
     }
 
     @Override
@@ -126,9 +130,14 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
         List<DVD> DVDList = this.getAllDVDs();
         for (DVD currentDVD : DVDList) {
+            //String formattedDate = currentDVD.getReleaseDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             // write the Student object to the file
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            String formattedDate = currentDVD.getReleaseDate().format(dtf);
+        
+        //(currentDVD.getReleaseDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             out.println(currentDVD.getTitle() + DELIMITER
-                    + currentDVD.getReleaseDate() + DELIMITER
+                    + "01/01/1990" + DELIMITER
                     + currentDVD.getRating() + DELIMITER
                     + currentDVD.getDirector() + DELIMITER
                     + currentDVD.getStudio() + DELIMITER
