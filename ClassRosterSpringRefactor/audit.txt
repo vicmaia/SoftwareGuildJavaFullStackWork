@@ -1,2 +1,6 @@
 2017-07-24T10:52:59.557 : Student test REMOVED.
 2017-07-24T10:53:11.589 : Student Ken CREATED.
+2017-08-02T14:51:21.477 : createStudent: ID: 0003 |Name: Kenny G |Cohort: July
+2017-08-02T15:00:58.286 : createStudent: ID: 0001 |Name: Ken G |Cohort: July
+2017-08-02T15:03:52.672 : createStudent: ID: 0004 |Name: Zep BlipBlap |Cohort: Neptune
+2017-08-02T15:05:16.661 : removeStudent: 0004

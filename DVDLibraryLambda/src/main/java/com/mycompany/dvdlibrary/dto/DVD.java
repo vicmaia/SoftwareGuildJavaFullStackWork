@@ -56,6 +56,10 @@ public class DVD {
         this.releaseDate = LocalDate.parse(releaseDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
     }
 
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public String getRating() {
         return rating;
     }

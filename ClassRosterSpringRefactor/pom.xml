@@ -28,6 +28,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>4.3.9.RELEASE</version>       
-        </dependency>       
+        </dependency> 
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>1.5.4</version>
+        </dependency>             
     </dependencies>
 </project>

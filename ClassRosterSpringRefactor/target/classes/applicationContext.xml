@@ -25,21 +25,46 @@
     </bean>
    
     <bean id="classRosterDao" 
-         class="com.mycompany.classroster.dao.ClassRosterDaoFileImpl"/>
+          class="com.mycompany.classroster.dao.ClassRosterDaoFileImpl"/>
    
     <bean id="auditDao" 
-         class="com.mycompany.classroster.dao.ClassRosterAuditDaoFileImpl"/>
+          class="com.mycompany.classroster.dao.ClassRosterAuditDaoFileImpl"/>
    
     <bean id="serviceLayer" 
-         class="com.mycompany.classroster.service.ClassRosterServiceLayerImpl">
+          class="com.mycompany.classroster.service.ClassRosterServiceLayerImpl">
         <constructor-arg ref="classRosterDao"/>
         <constructor-arg ref="auditDao"/>           
     </bean>
    
     <bean id="controller" 
-         class="com.mycompany.classroster.controller.ClassRosterController">
+          class="com.mycompany.classroster.controller.ClassRosterController">
         <constructor-arg ref="serviceLayer"/>
         <constructor-arg ref="view"/>
     </bean>
+    
+    <bean id="loggingAdvice" class="com.mycompany.classroster.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    
+    <!-- we need to fully qualify aop:config because it is not our main namespace-->
+    
+    <!--advice and pointcut - loggingAdvice is our advice -->
+    <!--below is the method to run on the LoggingAdvice class -->
+    <!--apply our logging aspect to our create student and to our remove student (..) <- means any parameters for method -->
+    <aop:config>
+        <aop:aspect ref="loggingAdvice"> 
+
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.mycompany.classroster.service.ClassRosterServiceLayer.createStudent(..))"
+            />
+         
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.mycompany.classroster.service.ClassRosterServiceLayer.removeStudent(..))"
+            />
+           
+        </aop:aspect>
+    </aop:config> 
    
 </beans>

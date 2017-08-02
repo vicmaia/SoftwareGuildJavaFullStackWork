@@ -5,6 +5,8 @@
  */
 package com.mycompany.dvdlibrary.ui;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author n0252282
@@ -12,6 +14,10 @@ package com.mycompany.dvdlibrary.ui;
 public interface UserIO {
 
     void print(String msg);
+    
+    LocalDate readLocalDate(String prompt);
+    
+    LocalDate readLocalDate(String prompt, LocalDate min, LocalDate max);
 
     double readDouble(String prompt);
 

@@ -52,9 +52,8 @@ public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer {
         dao.addStudent(student.getStudentId(), student);
 
         // The student was successfully created, now write to the audit log
-        auditDao.writeAuditEntry(
-                "Student " + student.getStudentId() + " CREATED.");
-
+        //auditDao.writeAuditEntry(
+        //       "Student " + student.getStudentId() + " CREATED.");
     }
 
     //Pass through method
@@ -75,7 +74,7 @@ public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer {
         //return dao.removeStudent(studentId);
         Student removedStudent = dao.removeStudent(studentId);
         // Write to audit log
-        auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
+        //auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
         return removedStudent;
     }
 

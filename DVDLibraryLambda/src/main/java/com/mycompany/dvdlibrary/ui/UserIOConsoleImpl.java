@@ -6,6 +6,8 @@
 package com.mycompany.dvdlibrary.ui;
 
 import static java.lang.Integer.parseInt;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -85,4 +87,16 @@ public class UserIOConsoleImpl implements UserIO {
         stringIn = sc.nextLine();
         return stringIn;
     }
+
+    @Override
+    public LocalDate readLocalDate(String prompt) {
+        return LocalDate.parse(readString(prompt), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+    }
+
+    @Override
+    public LocalDate readLocalDate(String prompt, LocalDate min, LocalDate max) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

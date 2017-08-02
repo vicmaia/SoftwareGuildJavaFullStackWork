@@ -6,10 +6,10 @@
 package com.mycompany.dvdlibrary.ui;
 
 import com.mycompany.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -41,7 +41,7 @@ public class DVDLibraryView {
 
     public DVD getNewDVDInfo() {
         String dvdTitle = io.readString("Please enter the DVD title");
-        String releaseDate = io.readString("Please enter the release date");
+        LocalDate releaseDate = io.readLocalDate("Please enter the release date");
         String rating = io.readString("Please enter the rating");
         String director = io.readString("Please enter the director");
         String studio = io.readString("Please enter the studio");
