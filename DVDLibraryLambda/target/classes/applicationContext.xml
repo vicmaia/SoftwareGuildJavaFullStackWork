@@ -40,5 +40,33 @@
         <constructor-arg ref="dvdLibraryDao"/>
         <constructor-arg ref="view"/>
     </bean>
+    
+    <bean id="auditDao" 
+              class="com.mycompany.dvdlibrary.dao.DVDLibraryAuditDaoFileImpl"/>
+    
+    <bean id="loggingAdvice" class="com.mycompany.dvdlibrary.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    
+    <!-- we need to fully qualify aop:config because it is not our main namespace-->
+    
+    <!--advice and pointcut - loggingAdvice is our advice -->
+    <!--below is the method to run on the LoggingAdvice class -->
+    <!--apply our logging aspect to our create student and to our remove student (..) <- means any parameters for method -->
+    <aop:config>
+        <aop:aspect ref="loggingAdvice"> 
+
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.mycompany.dvdlibrary.dao.DVDLibraryDaoFileImpl.addDVD(..))"
+            />
+         
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.mycompany.dvdlibrary.controller.DVDLibraryController.removeDVD(..))"
+            />
+           
+        </aop:aspect>
+    </aop:config>      
    
 </beans>

@@ -137,4 +137,9 @@ public class DVD {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "DVD{" + "title=" + title + ", releaseDate=" + releaseDate + ", rating=" + rating + ", director=" + director + ", studio=" + studio + ", comment=" + comment + '}';
+    }
+
 }
