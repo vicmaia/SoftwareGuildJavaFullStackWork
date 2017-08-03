@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop  
+          http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+ 
+    <!-- Bean definitions go here
+    ids are really just aliases or can think of them as a key    -->
+    <bean id="userIO" class="com.mycompany.vendingmachine.ui.UserIOConsoleImpl"/>
+   
+    <!-- construtor-arg tag has one ref attribute refers to another bean that has been previously defined -->
+    <bean id="view" class="com.mycompany.vendingmachine.ui.VendingMachineView">
+        <constructor-arg ref="userIO"/>
+    </bean>
+   
+    <bean id="vendingMachineDao" 
+          class="com.mycompany.vendingmachine.dao.VendingMachineDaoFileImpl"/>
+   
+    <bean id="auditDao" 
+          class="com.mycompany.vendingmachine.dao.VendingMachineAuditDaoFileImpl"/>
+   
+    <bean id="serviceLayer" 
+          class="com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl">
+        <constructor-arg ref="vendingMachineDao"/>        
+    </bean>
+   
+    <bean id="controller" 
+          class="com.mycompany.vendingmachine.controller.VendingMachineController">
+        <constructor-arg ref="serviceLayer"/>
+        <constructor-arg ref="view"/>
+    </bean>
+    
+    <bean id="loggingAdvice" class="com.mycompany.vendingmachine.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    
+    <!-- we need to fully qualify aop:config because it is not our main namespace-->
+    
+    <!--advice and pointcut - loggingAdvice is our advice -->
+    <!--below is the method to run on the LoggingAdvice class -->
+    <!--apply our logging aspect to our create student and to our remove student (..) <- means any parameters for method -->
+    <aop:config>
+        <aop:aspect ref="loggingAdvice"> 
+
+            <aop:after-throwing
+                method="createAuditEntryIFE"
+                throwing="ex"
+                pointcut="execution(* com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl.purchaseItem(..))"                
+            />  
+            
+            <aop:after-throwing
+                method="createAuditEntryNII"
+                throwing="ex"
+                pointcut="execution(* com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl.purchaseItem(..))"                
+            />  
+            
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl.purchaseItem(..))"
+            />
+                
+        </aop:aspect>
+    </aop:config> 
+   
+</beans>
