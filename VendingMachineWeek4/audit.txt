@@ -1,17 +1,4 @@
-2017-08-03T12:01:42.956 : purchaseItem: 1
-2017-08-03T12:06:13.695 : purchaseItem: 1
-2017-08-03T12:06:24.175 : purchaseItem: 2
-2017-08-03T13:03:02.349 : purchaseItem: 1 Exception type: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
-2017-08-03T13:03:04.782 : purchaseItem: 2 Exception type: com.mycompany.vendingmachine.service.NoItemInventoryException: Quantity = 0, cannot purchase
-2017-08-03T13:39:17.031 : purchaseItem: 1 InsufficientFundsException: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
-2017-08-03T13:39:21.777 : purchaseItem: 2 NoItemInventoryException: com.mycompany.vendingmachine.service.NoItemInventoryException: Quantity = 0, cannot purchase
-2017-08-03T13:47:54.844 : purchaseItem: Item Requested: 1 InsufficientFundsException: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
-2017-08-03T13:49:44.494 : purchaseItem: Item Requested: 2 NoItemInventoryException: com.mycompany.vendingmachine.service.NoItemInventoryException: Quantity = 0, cannot purchase
-2017-08-03T13:50:34.807 : Method name: purchaseItem | Item Requested: 1 InsufficientFundsException: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
-2017-08-03T13:52:35.752 : Method name: purchaseItem | Item Requested: 1 | InsufficientFundsException: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
-2017-08-03T14:14:22.011 : Method name: purchaseItem | Item Requested: 1 | InsufficientFundsException: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
-2017-08-03T14:14:25.473 : Method name: purchaseItem | Item Requested: 2 | NoItemInventoryException: com.mycompany.vendingmachine.service.NoItemInventoryException: Quantity = 0, cannot purchase
-2017-08-03T15:21:42.352 : purchaseItem: 1
-2017-08-03T15:33:34.368 : purchaseItem: Item successfully purchased: 1
-2017-08-03T15:35:10.354 : Method name: purchaseItem | Item Requested:  | NoItemInventoryException: com.mycompany.vendingmachine.service.NoItemInventoryException: You must choose an item from the inventory.
-2017-08-03T15:35:18.415 : Method name: purchaseItem | Item successfully purchased: 4
+2017-08-03T20:01:26.653 : Method name: purchaseItem | Item Requested: 1 | NoItemInventoryException: com.mycompany.vendingmachine.service.NoItemInventoryException: Quantity = 0, cannot purchase
+2017-08-03T20:01:30.475 : Method name: purchaseItem | Item Requested: 2 | NoItemInventoryException: com.mycompany.vendingmachine.service.NoItemInventoryException: Quantity = 0, cannot purchase
+2017-08-03T20:01:42.161 : Method name: purchaseItem | Item Requested: 3 | InsufficientFundsException: com.mycompany.vendingmachine.service.InsufficientFundsException: Not enough money!
+2017-08-03T20:01:51.227 : Method name: purchaseItem | Item successfully purchased: 3

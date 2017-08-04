@@ -5,12 +5,9 @@
  */
 package com.mycompany.vendingmachine.service;
 
-import com.mycompany.vendingmachine.dao.VendingMachineDao;
-import com.mycompany.vendingmachine.dao.VendingMachineDaoStubFileImpl;
 import com.mycompany.vendingmachine.dao.VendingMachinePersistenceException;
 import com.mycompany.vendingmachine.dto.Item;
 import java.math.BigDecimal;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -18,6 +15,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -26,10 +25,10 @@ import org.junit.Test;
 public class VendingMachineServiceLayerTest {
 
     private VendingMachineServiceLayer service;
-    private VendingMachineDao dao = new VendingMachineDaoStubFileImpl();
 
     public VendingMachineServiceLayerTest() {
-        service = new VendingMachineServiceLayerImpl(dao);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        service = ctx.getBean("serviceLayer", VendingMachineServiceLayer.class);
     }
 
     @BeforeClass
@@ -43,13 +42,7 @@ public class VendingMachineServiceLayerTest {
 
     @Before
     public void setUp() throws VendingMachinePersistenceException {
-        List<Item> itemList = service.getAllItems();
-        //Clean list
-        for (Item item : itemList) {
-            //remove item only in dao, no functionality in program so not passed to service layer
-            dao.removeItem(item.getItemID());
 
-        }
     }
 
     @After
@@ -61,21 +54,6 @@ public class VendingMachineServiceLayerTest {
      */
     @Test
     public void testGetAllItems() throws Exception {
-        // Add some inventory
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice(".50");
-        item1.setItemQuantity(3);
-
-        dao.addItem(item1.getItemID(), item1);
-
-        Item item2 = new Item("2");
-        item2.setItemName("Nacho");
-        item2.setItemPrice("1.50");
-        item2.setItemQuantity(0);
-
-        dao.addItem(item2.getItemID(), item2);
-
         assertEquals(2, service.getAllItems().size());;
     }
 
@@ -84,36 +62,16 @@ public class VendingMachineServiceLayerTest {
      */
     @Test
     public void testGetAllItemsFiltered() throws Exception {
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice(".50");
-        item1.setItemQuantity(3);
-
-        dao.addItem(item1.getItemID(), item1);
-
-        Item item2 = new Item("2");
-        item2.setItemName("Nacho");
-        item2.setItemPrice("1.50");
-        item2.setItemQuantity(0);
-
-        dao.addItem(item2.getItemID(), item2);
-
         assertEquals(1, service.getAllItemsFiltered().size());;
     }
 
-    /**
+    /*
      * Test of getItem method, of class VendingMachineServiceLayer.
      */
     @Test
     public void testGetItem() throws Exception {
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice(".50");
-        item1.setItemQuantity(3);
-
-        dao.addItem(item1.getItemID(), item1);
-
-        assertEquals(item1, service.getItem("1"));
+        Item testItem = service.getItem("1");
+        assertEquals(testItem, service.getItem("1"));
     }
 
     /**
@@ -121,24 +79,7 @@ public class VendingMachineServiceLayerTest {
      */
     @Test
     public void testPurchaseItemSuccess() throws Exception {
-
         //if no exceptions are returned, this test will pass, no assert needed
-        //add items
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice(".50");
-        item1.setItemQuantity(3);
-
-        dao.addItem(item1.getItemID(), item1);
-
-        Item item2 = new Item("2");
-        item2.setItemName("Nacho");
-        item2.setItemPrice("1.50");
-        item2.setItemQuantity(0);
-
-        dao.addItem(item2.getItemID(), item2);
-
-        //user adds 3 dollars
         service.setCurrentMoney(new BigDecimal("3"));
         //user makes purchase "Taco for .50"
         service.purchaseItem("1");
@@ -147,15 +88,6 @@ public class VendingMachineServiceLayerTest {
 
     @Test
     public void testPurchaseItemOutOfStock() throws Exception {
-
-        //if we catch exception, this test will pass, no assert needed
-        //add item
-        Item item2 = new Item("2");
-        item2.setItemName("Nacho");
-        item2.setItemPrice("1.50");
-        item2.setItemQuantity(0);
-
-        dao.addItem(item2.getItemID(), item2);
 
         //user adds 3 dollars
         service.setCurrentMoney(new BigDecimal("3"));
@@ -173,17 +105,8 @@ public class VendingMachineServiceLayerTest {
     public void testPurchaseNotEnoughMoney() throws Exception {
 
         //if we catch exception, this test will pass, no assert needed
-        //add item
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice(".50");
-        item1.setItemQuantity(3);
-
-        dao.addItem(item1.getItemID(), item1);
-
-        //user adds 3 dollars
+        //user adds $.25
         service.setCurrentMoney(new BigDecimal(".25"));
-
         //user attempts to purchase taco, insufficient funds.
         try {
             service.purchaseItem("1");
@@ -199,12 +122,6 @@ public class VendingMachineServiceLayerTest {
      */
     @Test
     public void testMakeSaleReduceInventory() throws Exception {
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice(".50");
-        item1.setItemQuantity(3);
-
-        dao.addItem(item1.getItemID(), item1);
 
         //user adds 3 dollars
         service.setCurrentMoney(new BigDecimal("2"));
@@ -212,8 +129,11 @@ public class VendingMachineServiceLayerTest {
         //user makes purchase of taco
         service.purchaseItem("1");
 
+        //reload from file to get updated quantity
+        Item testItem = service.getItem("1");
+
         //quantity on item one should now be at 2
-        assertEquals(2, (int) item1.getItemQuantity());
+        assertEquals(2, (int) testItem.getItemQuantity());
     }
 
     /**
@@ -221,21 +141,15 @@ public class VendingMachineServiceLayerTest {
      */
     @Test
     public void testGiveChange() throws Exception {
-        Item item1 = new Item("1");
-        item1.setItemName("Taco");
-        item1.setItemPrice("1.00");
-        item1.setItemQuantity(3);
 
-        dao.addItem(item1.getItemID(), item1);
-
-        //user adds 3.19 dollars
+        //user adds $3.19
         service.setCurrentMoney(new BigDecimal("3.19"));
 
         //user makes purchase of taco and gets change
         Change userChange = service.purchaseItem("1");
 
         //make a new Change object, store return
-        Change perfectChange = new Change(219);
+        Change perfectChange = new Change(269);
 
         assertEquals(perfectChange, userChange);
     }

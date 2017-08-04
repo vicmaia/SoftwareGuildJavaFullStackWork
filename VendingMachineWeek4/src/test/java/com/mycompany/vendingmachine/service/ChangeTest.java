@@ -5,12 +5,15 @@
  */
 package com.mycompany.vendingmachine.service;
 
+import com.mycompany.vendingmachine.dao.VendingMachineDao;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -21,6 +24,7 @@ public class ChangeTest {
     Change myChange;
 
     public ChangeTest() {
+
     }
 
     @BeforeClass

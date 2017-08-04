@@ -17,9 +17,26 @@ import java.util.stream.Collectors;
  *
  * @author n0252282
  */
-public class VendingMachineDaoStubFileImpl implements VendingMachineDao {
+public class VendingMachineDaoStubImpl implements VendingMachineDao {
 
     private Map<String, Item> items = new HashMap<>();
+
+    public VendingMachineDaoStubImpl() throws VendingMachinePersistenceException{
+        // Add some inventory
+        Item item1 = new Item("1");
+        item1.setItemName("Taco");
+        item1.setItemPrice(".50");
+        item1.setItemQuantity(3);
+
+        addItem(item1.getItemID(), item1);
+
+        Item item2 = new Item("2");
+        item2.setItemName("Nacho");
+        item2.setItemPrice("1.50");
+        item2.setItemQuantity(0);
+
+        addItem(item2.getItemID(), item2);
+    }
 
     @Override
     public List<Item> getAllItems() throws VendingMachinePersistenceException {

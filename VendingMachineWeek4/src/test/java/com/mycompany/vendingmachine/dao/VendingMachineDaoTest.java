@@ -6,23 +6,27 @@
 package com.mycompany.vendingmachine.dao;
 
 import com.mycompany.vendingmachine.dto.Item;
+import com.mycompany.vendingmachine.service.VendingMachineServiceLayer;
 import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author n0252282
  */
 public class VendingMachineDaoTest {
-    //Setting up file name for injection
-    String inventoryFile = "test_inventory.txt";
-    //Injecting test inventory file into the DaoFileImpl
-    private VendingMachineDao dao = new VendingMachineDaoFileImpl(inventoryFile);
+
+    private VendingMachineDao dao;
 
     public VendingMachineDaoTest() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        dao = ctx.getBean("vendingMachineDao", VendingMachineDao.class);
     }
 
     @Before
