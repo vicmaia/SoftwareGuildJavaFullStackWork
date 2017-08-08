@@ -27,7 +27,7 @@ public interface ClassRosterDao {
      * id if it exists, null otherwise
      * @throws com.mycompany.classroster.dto.ClassRosterPersistenceException
      */
-    Student addStudent(String studentId, Student student) throws ClassRosterPersistenceException;
+    Student addStudent(String leagueName, Student student) throws ClassRosterPersistenceException;
 
     /**
      * Returns a String array containing the student ids of all students in the

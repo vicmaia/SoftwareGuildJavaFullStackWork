@@ -3,24 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachine.service;
+package com.mycompany.flooringmastery.service;
 
-import com.mycompany.vendingmachine.dao.VendingMachinePersistenceException;
-import com.mycompany.vendingmachine.dto.Item;
+import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
+import com.mycompany.flooringmastery.dto.Item;
 import java.util.List;
-import com.mycompany.vendingmachine.dao.VendingMachineDao;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import com.mycompany.flooringmastery.dao.FlooringMasteryOrderDao;
 
 /**
  *
  * @author n0252282
  */
-public class VendingMachineServiceLayerImpl implements VendingMachineServiceLayer {
+public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLayer {
 
-    VendingMachineDao dao;
+    FlooringMasteryOrderDao dao;
 
-    public VendingMachineServiceLayerImpl(VendingMachineDao dao) {
+    public FlooringMasteryServiceLayerImpl(FlooringMasteryOrderDao dao) {
         this.dao = dao;
     }
 
@@ -28,25 +28,25 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
 
     //Pass through method
     @Override
-    public List<Item> getAllItems() throws VendingMachinePersistenceException {
+    public List<Item> getAllItems() throws FlooringMasteryPersistenceException {
         return dao.getAllItems();
     }
 
 //Pass through method
     @Override
-    public List<Item> getAllItemsFiltered() throws VendingMachinePersistenceException {
+    public List<Item> getAllItemsFiltered() throws FlooringMasteryPersistenceException {
         return dao.getAllItemsFiltered();
     }
 
     //Pass through method
     @Override
-    public Item getItem(String itemID) throws VendingMachinePersistenceException {
+    public Item getItem(String itemID) throws FlooringMasteryPersistenceException {
         return dao.getItem(itemID);
     }
     //Pass through method
 
     @Override
-    public Change purchaseItem(String itemID) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
+    public Change purchaseItem(String itemID) throws InsufficientFundsException, FlooringMasteryPersistenceException, NoItemInventoryException {
         Item itemToPurchase = dao.getItem(itemID);
         BigDecimal oneHundred = new BigDecimal("100");
 
@@ -70,12 +70,12 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     }
 
     @Override
-    public Item makeSaleReduceInventory(String itemID) throws VendingMachinePersistenceException, NoItemInventoryException {
+    public Item makeSaleReduceInventory(String itemID) throws FlooringMasteryPersistenceException, NoItemInventoryException {
         Item removedItem = dao.makeSaleReduceInventory(itemID);
         return removedItem;
     }
 
-    private Boolean validateItem(String itemID) throws VendingMachinePersistenceException, NoItemInventoryException {
+    private Boolean validateItem(String itemID) throws FlooringMasteryPersistenceException, NoItemInventoryException {
         Item item = dao.getItem(itemID);
         if (item != null) {
             if (item.getItemQuantity() <= 0) {
@@ -91,7 +91,7 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     }
 
     @Override
-    public Change giveChange(int remainingCash) throws VendingMachinePersistenceException {
+    public Change giveChange(int remainingCash) throws FlooringMasteryPersistenceException {
         //Update cash inserted
         this.currentMoney = new BigDecimal("0");
         //Let's make and return change
@@ -99,7 +99,7 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     }
 
     @Override
-    public Change cancelGiveChange() throws VendingMachinePersistenceException, InsufficientFundsException {
+    public Change cancelGiveChange() throws FlooringMasteryPersistenceException, InsufficientFundsException {
         if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
             BigDecimal oneHundred = new BigDecimal("100");
             int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
