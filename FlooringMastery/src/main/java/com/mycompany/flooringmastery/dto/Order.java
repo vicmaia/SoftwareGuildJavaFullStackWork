@@ -6,6 +6,8 @@
 package com.mycompany.flooringmastery.dto;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -21,13 +23,12 @@ public class Order {
     private Tax taxRate;
     private Product product;
     private BigDecimal area;
-    
+
     //calculated fields
 //    private BigDecimal materialCost;
 //    private BigDecimal laborCost;
 //    private BigDecimal taxTotal;
 //    private BigDecimal totalCost;
-
     public Order() {
     }
 
@@ -92,11 +93,12 @@ public class Order {
     }
 
     public BigDecimal getTaxTotal() {
-        return taxRate.getTaxRate().multiply(this.getMaterialCost()).multiply(this.getLaborCost());
+        BigDecimal onehundred = new BigDecimal("100");
+        return taxRate.getTaxRate().divide(onehundred, MathContext.UNLIMITED).multiply((this.getMaterialCost()).add(this.getLaborCost())).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTotalCost() {
-        return this.getLaborCost().add(this.getTaxTotal()).add(this.getMaterialCost());
+        return this.getLaborCost().add(this.getTaxTotal()).add(this.getMaterialCost()).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
@@ -144,6 +146,19 @@ public class Order {
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "Order{"
+                + "orderNumber=" + orderNumber
+                + ", orderDate=" + orderDate
+                + ", customerName=" + customerName
+                + ", taxRate=" + taxRate
+                + ", product=" + product
+                + ", area=" + area
+                + "getMaterialCost=" + getMaterialCost()
+                + "getLaborCost=" + getLaborCost()
+                + "getTaxTotal=" + getTaxTotal()
+                + "getTotalCost=" + getTotalCost() + '}';
+    }
 
 }

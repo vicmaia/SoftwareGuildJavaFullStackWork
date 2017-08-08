@@ -53,6 +53,32 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
         //return new ArrayList<>(orders.get(orderDate).values());
     }
 
+    @Override
+    public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
+        this.ordersDate = orderDate;
+        Integer orderNumber = generateOrderNumber(orderDate);
+        order.setOrderNumber(orderNumber);
+        System.out.println(order);
+        Order newOrder = ordersMap.put(order.getOrderNumber(), order);
+        writeOrderFile();
+        return newOrder;
+    }
+
+    private Integer generateOrderNumber(LocalDate orderDate) throws FlooringMasteryPersistenceException {
+        this.ordersDate = orderDate;
+        try {
+            loadOrders();
+            Map.Entry<Integer, Order> nextOrderNumber = ordersMap
+                    .entrySet()
+                    .stream()
+                    .max(Map.Entry.comparingByKey())
+                    .orElse(null);
+            return nextOrderNumber.getKey() + 1;
+        } catch (FlooringMasteryPersistenceException e) {
+            return 1;
+        }
+    }
+
 //    @Override
 //    public Order getOrder(String orderID) throws FlooringMasteryPersistenceException {
 //        loadInventory();
@@ -104,36 +130,38 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
         scanner.close();
     }
 
-//    private void writeInventory() throws FlooringMasteryPersistenceException {
-//
-//        PrintWriter out;
-//
-//        try {
-//            out = new PrintWriter(new FileWriter(inventoryFile));
-//        } catch (IOException e) {
-//            throw new FlooringMasteryPersistenceException(
-//                    "Could not save inventory data.", e);
-//        }
-//
-//        List<Order> orderList = this.getAllOrders();
-//        for (Order currentStudent : orderList) {
-//            // write the Order object to the file
-//            out.println(currentStudent.getOrderID() + DELIMITER
-//                    + currentStudent.getOrderName() + DELIMITER
-//                    + currentStudent.getOrderQuantity() + DELIMITER
-//                    + currentStudent.getOrderPrice());
-//            // force PrintWriter to write line to the file
-//            out.flush();
-//        }
-//        // Clean up
-//        out.close();
-//    }
-    @Override
-    public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
-        this.ordersDate = orderDate;
-        Order newOrder = ordersMap.put(order.getOrderNumber(), order);
-        //writeInventory();
-        return newOrder;
+    private void writeOrderFile() throws FlooringMasteryPersistenceException {
+
+        PrintWriter out;
+        String ordersFileWithDate;
+        ordersFileWithDate = ordersFile + ordersDate.format(DateTimeFormatter.ofPattern("MMddyyyy")) + ".txt";
+        try {
+            out = new PrintWriter(new FileWriter(ordersFileWithDate));
+        } catch (IOException e) {
+            throw new FlooringMasteryPersistenceException(
+                    "Could not save order data.", e);
+        }
+
+        List<Order> orderList = new ArrayList<>(ordersMap.values());
+        for (Order currentOrder : orderList) {
+            // write the Order object to the file
+            out.println(currentOrder.getOrderNumber() + DELIMITER
+                    + currentOrder.getCustomerName() + DELIMITER
+                    + currentOrder.getTaxRate().getState() + DELIMITER
+                    + currentOrder.getTaxRate().getTaxRate() + DELIMITER
+                    + currentOrder.getProduct().getProductType() + DELIMITER
+                    + currentOrder.getArea() + DELIMITER
+                    + currentOrder.getProduct().getCostPerSquareFoot() + DELIMITER
+                    + currentOrder.getProduct().getLaborCostPerSquareFoot() + DELIMITER
+                    + currentOrder.getMaterialCost() + DELIMITER
+                    + currentOrder.getLaborCost() + DELIMITER
+                    + currentOrder.getTaxTotal() + DELIMITER
+                    + currentOrder.getTotalCost());
+            // force PrintWriter to write line to the file
+            out.flush();
+        }
+        // Clean up
+        out.close();
     }
 
     @Override

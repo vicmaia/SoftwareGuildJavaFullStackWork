@@ -12,7 +12,6 @@ import com.mycompany.flooringmastery.dao.FlooringMasteryTaxDao;
 import com.mycompany.flooringmastery.dto.Order;
 import com.mycompany.flooringmastery.dto.Product;
 import com.mycompany.flooringmastery.dto.Tax;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,11 +38,13 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
-        Tax orderTax = order.getTaxRate();
-        orderTax.setTaxRate(retrieveTax(orderTax.getState()));
-
-        Product orderProduct = order.getProduct();
-        orderProduct.setCostPerSquareFoot(getSingleProduct());
+        //set TaxRate on Order object (both state and rate)
+        order.setTaxRate(retrieveTax(order.getTaxRate().getState()));
+        //set Product info on Order object
+        order.setProduct(getSingleProduct(order.getProduct().getProductType()));
+        //set Date on Order object...just because -or- maybe instead of passing separate date object
+        order.setOrderDate(orderDate);
+        //create the order
         return orderDao.createOrder(orderDate, order);
     }
 
@@ -83,13 +84,13 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Product getSingleProduct() throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Product getSingleProduct(String productType) throws FlooringMasteryPersistenceException {
+        return productDao.getProduct(productType);
     }
 
     @Override
-    public BigDecimal retrieveTax(String state) throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Tax retrieveTax(String state) throws FlooringMasteryPersistenceException {
+        return taxDao.getTax(state);
     }
 
 //    private BigDecimal currentMoney = new BigDecimal("0");

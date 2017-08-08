@@ -31,11 +31,11 @@ public interface FlooringMasteryServiceLayer {
 
     List<Product> getAllProducts() throws FlooringMasteryPersistenceException;
     
-    Product getSingleProduct() throws FlooringMasteryPersistenceException;
+    Product getSingleProduct(String productType) throws FlooringMasteryPersistenceException;
 
     List<Tax> retrieveTaxList() throws FlooringMasteryPersistenceException;
 
-    BigDecimal retrieveTax(String state) throws FlooringMasteryPersistenceException;
+    Tax retrieveTax(String state) throws FlooringMasteryPersistenceException;
     
     Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
 
