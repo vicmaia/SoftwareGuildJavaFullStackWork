@@ -9,9 +9,9 @@ import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
 import com.mycompany.flooringmastery.dto.Order;
 import com.mycompany.flooringmastery.dto.Product;
 import com.mycompany.flooringmastery.dto.Tax;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import javafx.collections.ListChangeListener.Change;
 
 /**
  *
@@ -30,9 +30,13 @@ public interface FlooringMasteryServiceLayer {
     void saveCurrentWork() throws FlooringMasteryPersistenceException;
 
     List<Product> getAllProducts() throws FlooringMasteryPersistenceException;
+    
+    Product getSingleProduct() throws FlooringMasteryPersistenceException;
 
     List<Tax> retrieveTaxList() throws FlooringMasteryPersistenceException;
 
+    BigDecimal retrieveTax(String state) throws FlooringMasteryPersistenceException;
+    
     Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
 
     void validateOrder(Order order) throws FlooringMasteryPersistenceException;

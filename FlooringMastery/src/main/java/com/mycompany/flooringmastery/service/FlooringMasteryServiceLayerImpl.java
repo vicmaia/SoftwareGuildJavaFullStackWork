@@ -12,6 +12,7 @@ import com.mycompany.flooringmastery.dao.FlooringMasteryTaxDao;
 import com.mycompany.flooringmastery.dto.Order;
 import com.mycompany.flooringmastery.dto.Product;
 import com.mycompany.flooringmastery.dto.Tax;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,7 +39,12 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Tax orderTax = order.getTaxRate();
+        orderTax.setTaxRate(retrieveTax(orderTax.getState()));
+
+        Product orderProduct = order.getProduct();
+        orderProduct.setCostPerSquareFoot(getSingleProduct());
+        return orderDao.createOrder(orderDate, order);
     }
 
     @Override
@@ -63,7 +69,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public List<Tax> retrieveTaxList() throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return taxDao.getAllTaxes();
     }
 
     @Override
@@ -73,6 +79,16 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public void validateOrder(Order order) throws FlooringMasteryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Product getSingleProduct() throws FlooringMasteryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public BigDecimal retrieveTax(String state) throws FlooringMasteryPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

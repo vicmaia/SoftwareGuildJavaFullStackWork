@@ -22,11 +22,14 @@ public class Order {
     private Product product;
     private BigDecimal area;
     
-    //calulated fields
-    private BigDecimal materialCost;
-    private BigDecimal laborCost;
-    private BigDecimal taxTotal;
-    private BigDecimal totalCost;
+    //calculated fields
+//    private BigDecimal materialCost;
+//    private BigDecimal laborCost;
+//    private BigDecimal taxTotal;
+//    private BigDecimal totalCost;
+
+    public Order() {
+    }
 
     public Order(Integer orderNumber) {
         this.orderNumber = orderNumber;
@@ -105,10 +108,6 @@ public class Order {
         hash = 59 * hash + Objects.hashCode(this.taxRate);
         hash = 59 * hash + Objects.hashCode(this.product);
         hash = 59 * hash + Objects.hashCode(this.area);
-        hash = 59 * hash + Objects.hashCode(this.materialCost);
-        hash = 59 * hash + Objects.hashCode(this.laborCost);
-        hash = 59 * hash + Objects.hashCode(this.taxTotal);
-        hash = 59 * hash + Objects.hashCode(this.totalCost);
         return hash;
     }
 
@@ -142,24 +141,9 @@ public class Order {
         if (!Objects.equals(this.area, other.area)) {
             return false;
         }
-        if (!Objects.equals(this.materialCost, other.materialCost)) {
-            return false;
-        }
-        if (!Objects.equals(this.laborCost, other.laborCost)) {
-            return false;
-        }
-        if (!Objects.equals(this.taxTotal, other.taxTotal)) {
-            return false;
-        }
-        if (!Objects.equals(this.totalCost, other.totalCost)) {
-            return false;
-        }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" + "orderNumber=" + orderNumber + ", orderDate=" + orderDate + ", customerName=" + customerName + ", taxRate=" + taxRate + ", product=" + product + ", area=" + area + ", materialCost=" + materialCost + ", laborCost=" + laborCost + ", taxTotal=" + taxTotal + ", totalCost=" + totalCost + '}';
-    }
+
 
 }

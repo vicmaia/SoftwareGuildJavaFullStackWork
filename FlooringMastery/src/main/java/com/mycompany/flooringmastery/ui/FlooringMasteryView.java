@@ -6,6 +6,8 @@
 package com.mycompany.flooringmastery.ui;
 
 import com.mycompany.flooringmastery.dto.Order;
+import com.mycompany.flooringmastery.dto.Product;
+import com.mycompany.flooringmastery.dto.Tax;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -51,6 +53,24 @@ public class FlooringMasteryView {
                     + currentOrder.getTotalCost() + "  ");
         }
         io.print("");
+    }
+
+    public Order getOrderDetails() {
+        Order newOrder = new Order();
+        Tax taxRate = new Tax();
+        Product newProduct = new Product();
+        
+        newOrder.setCustomerName(io.readString("Please enter customer name: "));
+        
+        taxRate.setState(io.readString("Please enter customer state: "));
+        newOrder.setTaxRate(taxRate);
+        
+        newProduct.setProductType(io.readString("Please enter desired product: "));
+        newOrder.setProduct(newProduct);
+        
+        newOrder.setArea(io.readBigDecimal("Please enter area in number of square feet: "));
+        
+        return newOrder;
     }
 
     public String getObjectChoice() {

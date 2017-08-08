@@ -1,8 +1,10 @@
 package com.mycompany.flooringmastery.controller;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
+import com.mycompany.flooringmastery.dto.Order;
 import com.mycompany.flooringmastery.ui.FlooringMasteryView;
 import com.mycompany.flooringmastery.service.FlooringMasteryServiceLayer;
+import java.time.LocalDate;
 
 /**
  *
@@ -33,13 +35,19 @@ public class FlooringMasteryController {
                         getOrdersByDate();
                         break;
                     case 2:
-                        //purchase();
+                        addAnOrder();
                         break;
                     case 3:
-                        //giveChange();
+                        //;
                         break;
                     case 4:
-                        //keepGoing = false;
+                        //;
+                        break;
+                    case 5:
+                        //;
+                        break;
+                    case 6:
+                        keepGoing = false;
                         break;
                     default:
                         unknownCommand();
@@ -64,6 +72,14 @@ public class FlooringMasteryController {
     private void getOrdersByDate() throws FlooringMasteryPersistenceException {
         try {
             view.displayAllOrders(service.getOrdersByDate(view.getOrderDate()));;
+        } catch (FlooringMasteryPersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
+    }
+
+    private void addAnOrder() throws FlooringMasteryPersistenceException {
+        try {
+            service.createOrder(view.getOrderDate(), view.getOrderDetails());
         } catch (FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
