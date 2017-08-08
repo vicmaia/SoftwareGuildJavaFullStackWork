@@ -9,13 +9,13 @@ package com.mycompany.flooringmastery.service;
  *
  * @author n0252282
  */
-public class NoItemInventoryException extends Exception {
+public class NoOrderFoundException extends Exception {
 
-    public NoItemInventoryException(String message) {
+    public NoOrderFoundException(String message) {
         super(message);
     }
 
-    public NoItemInventoryException(String message,
+    public NoOrderFoundException(String message,
             Throwable cause) {
         super(message, cause);
     }

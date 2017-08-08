@@ -17,31 +17,39 @@
  
     <!-- Bean definitions go here
     ids are really just aliases or can think of them as a key    -->
-    <bean id="userIO" class="com.mycompany.vendingmachine.ui.UserIOConsoleImpl"/>
+    <bean id="userIO" class="com.mycompany.flooringmastery.ui.UserIOConsoleImpl"/>
    
     <!-- construtor-arg tag has one ref attribute refers to another bean that has been previously defined -->
-    <bean id="view" class="com.mycompany.vendingmachine.ui.VendingMachineView">
+    <bean id="view" class="com.mycompany.flooringmastery.ui.FlooringMasteryView">
         <constructor-arg ref="userIO"/>
     </bean>
    
-    <bean id="vendingMachineDao" 
-          class="com.mycompany.vendingmachine.dao.VendingMachineDaoFileImpl"/>
+    <bean id="flooringMasterOrderDao" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoFileImpl"/>
+    
+    <bean id="flooringMasterProductDao" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoFileImpl"/>
+       
+    <bean id="flooringMasterTaxDao" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryTaxDaoFileImpl"/>
    
     <bean id="auditDao" 
-          class="com.mycompany.vendingmachine.dao.VendingMachineAuditDaoFileImpl"/>
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryAuditDaoFileImpl"/>
    
     <bean id="serviceLayer" 
-          class="com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl">
-        <constructor-arg ref="vendingMachineDao"/>        
+          class="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl">
+        <constructor-arg ref="flooringMasterOrderDao"/>
+        <constructor-arg ref="flooringMasterProductDao"/> 
+        <constructor-arg ref="flooringMasterTaxDao"/>         
     </bean>
    
     <bean id="controller" 
-          class="com.mycompany.vendingmachine.controller.VendingMachineController">
+          class="com.mycompany.flooringmastery.controller.FlooringMasteryController">
         <constructor-arg ref="serviceLayer"/>
         <constructor-arg ref="view"/>
     </bean>
     
-    <bean id="loggingAdvice" class="com.mycompany.vendingmachine.advice.LoggingAdvice">
+    <bean id="loggingAdvice" class="com.mycompany.flooringmastery.advice.LoggingAdvice">
         <constructor-arg ref="auditDao"/>
     </bean>
     
@@ -50,27 +58,28 @@
     <!--advice and pointcut - loggingAdvice is our advice -->
     <!--below is the method to run on the LoggingAdvice class -->
     <!--apply our logging aspect to our create student and to our remove student (..) <- means any parameters for method -->
+    <!--
     <aop:config>
         <aop:aspect ref="loggingAdvice"> 
 
             <aop:after-throwing
                 method="createAuditEntryIFE"
                 throwing="ex"
-                pointcut="execution(* com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl.purchaseItem(..))"                
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.purchaseItem(..))"                
             />  
             
             <aop:after-throwing
                 method="createAuditEntryNII"
                 throwing="ex"
-                pointcut="execution(* com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl.purchaseItem(..))"                
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.purchaseItem(..))"                
             />  
             
             <aop:after-returning
                 method="createAuditEntry"
-                pointcut="execution(* com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl.purchaseItem(..))"
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.purchaseItem(..))"
             />
                 
-        </aop:aspect>
-    </aop:config> 
-   
+         </aop:aspect>
+     </aop:config> 
+    -->
 </beans>

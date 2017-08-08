@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachine.ui;
+package com.mycompany.flooringmastery.ui;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  *
@@ -34,4 +35,8 @@ public interface UserIO {
     BigDecimal readBigDecimal(String prompt);
 
     String readString(String prompt);
+
+    LocalDate readLocalDate(String prompt);
+
+    LocalDate readLocalDate(String prompt, LocalDate min, LocalDate max);
 }

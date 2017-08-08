@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachine.ui;
+package com.mycompany.flooringmastery.ui;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -121,5 +123,15 @@ public class UserIOConsoleImpl implements UserIO {
             }
         }
         return new BigDecimal("0");
+    }
+
+    @Override
+    public LocalDate readLocalDate(String prompt) {
+        return LocalDate.parse(readString(prompt), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+    }
+
+    @Override
+    public LocalDate readLocalDate(String prompt, LocalDate min, LocalDate max) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

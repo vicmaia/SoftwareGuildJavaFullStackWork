@@ -22,6 +22,10 @@ public class Tax {
         this.state = state;
     }
 
+    public Tax() {
+    }
+
+    
     public String getState() {
         return state;
     }

@@ -9,13 +9,13 @@ package com.mycompany.flooringmastery.service;
  *
  * @author n0252282
  */
-public class NoItemInventoryException extends Exception {
+public class ItemNotAvailableException extends Exception {
 
-    public NoItemInventoryException(String message) {
+    public ItemNotAvailableException(String message) {
         super(message);
     }
 
-    public NoItemInventoryException(String message,
+    public ItemNotAvailableException(String message,
             Throwable cause) {
         super(message, cause);
     }

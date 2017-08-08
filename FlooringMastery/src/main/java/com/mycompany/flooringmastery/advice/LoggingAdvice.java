@@ -7,7 +7,7 @@ package com.mycompany.flooringmastery.advice;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryAuditDao;
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
-import com.mycompany.flooringmastery.service.NoItemInventoryException;
+import com.mycompany.flooringmastery.service.ItemNotAvailableException;
 import org.aspectj.lang.JoinPoint;
 
 /**
@@ -42,7 +42,7 @@ public class LoggingAdvice {
 //        }
 //    }
 //
-//    public void createAuditEntryNII(JoinPoint jp, NoItemInventoryException ex) {
+//    public void createAuditEntryNII(JoinPoint jp, ItemNotAvailableException ex) {
 //        Object[] args = jp.getArgs();
 //        //getsignature.getname = need of the calling method "getStudent" "removeStudent"
 //        String auditEntry = "Method name: " + jp.getSignature().getName() + " | ";
@@ -51,7 +51,7 @@ public class LoggingAdvice {
 //        for (Object currentArg : args) {
 //            auditEntry += currentArg;
 //        }
-//        auditEntry += " | NoItemInventoryException: " + ex;
+//        auditEntry += " | ItemNotAvailableException: " + ex;
 //        try {
 //            auditDao.writeAuditEntry(auditEntry);
 //        } catch (FlooringMasteryPersistenceException e) {

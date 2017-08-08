@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachine.dao;
+package com.mycompany.flooringmastery.dao;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryAuditDao;
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;

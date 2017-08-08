@@ -5,9 +5,8 @@
  */
 package com.mycompany.flooringmastery.ui;
 
-import com.mycompany.flooringmastery.dto.Item;
-import com.mycompany.flooringmastery.service.Change;
-import java.math.BigDecimal;
+import com.mycompany.flooringmastery.dto.Order;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -22,36 +21,39 @@ public class FlooringMasteryView {
         this.io = io;
     }
 
-    public int printMenuAndGetSelection(BigDecimal currentMoney) throws NumberFormatException {
-        io.print("Welcome to Vend-a-lot 2000:");
-        io.print("Money inserted: " + currentMoney);
-        io.print("1. Add money");//+currentBalance
-        io.print("2. Purchase an item");
-        io.print("3. Get Change");
-        io.print("4. Exit");
+    public int printMenuAndGetSelection() throws NumberFormatException {
+        io.print("Welcome to Flooring World!");
+        io.print("1. Display all orders by date");
+        io.print("2. Add an Order");
+        io.print("3. Edit an Order");
+        io.print("4. Remove an Order");
+        io.print("5. Save Current Work");
+        io.print("6. Exit");
 
-        return io.readInt("Please select from the above choices: ", 1, 4);
+        return io.readInt("Please select from the above choices: ", 1, 6);
     }
 
-    public BigDecimal getMoneyEntry() {
-        return io.readBigDecimal("Please insert your money: ");
+    public LocalDate getOrderDate() throws NumberFormatException {
+        return io.readLocalDate("Please enter the order date: ");
     }
 
-    public void displayPurchaseSuccess() {
-        io.print("Purchase successful!");
-    }
-
-    public void displayAllItems(List<Item> itemList) {
-        io.print("Current Inventory:\n");
-        for (Item currentItem : itemList) {
-            io.print(currentItem.getItemID() + " "
-                    + currentItem.getItemName() + "  "
-                    + currentItem.getItemPrice());
+    public void displayAllOrders(List<Order> orderList) {
+        io.print("Current Orders: \n");
+        for (Order currentOrder : orderList) {
+            io.print(currentOrder.getOrderNumber() + " "
+                    + currentOrder.getCustomerName() + "  "
+                    + currentOrder.getTaxRate() + "  "
+                    + currentOrder.getProduct() + "  "
+                    + currentOrder.getArea() + "  "
+                    + currentOrder.getMaterialCost() + "  "
+                    + currentOrder.getLaborCost() + "  "
+                    + currentOrder.getTaxTotal() + "  "
+                    + currentOrder.getTotalCost() + "  ");
         }
         io.print("");
     }
 
-    public String getItemChoice() {
+    public String getObjectChoice() {
         return io.readString("Please enter the Item ID.");
     }
 
@@ -69,20 +71,4 @@ public class FlooringMasteryView {
         io.readString("Press any key to continue.");
     }
 
-    public void displayChange(Change change) {
-        if (change.getNumDimes() + change.getNumQuarters() + change.getNumNickles() + change.getNumPennies() != 0) {
-            io.print("Here is your change:");
-            io.print(change.getNumQuarters() + " Quarters");
-            io.print(change.getNumDimes() + " Dimes");
-            io.print(change.getNumNickles() + " Nickels");
-            io.print(change.getNumPennies() + " Pennies");
-        } else {
-            io.print("No change to return!");
-        }
-        io.readString("Press any key to continue.");
-    }
-
-    public void displayCurrentMoney(BigDecimal currentMoney) {
-        io.print("You have $" + currentMoney);
-    }
 }

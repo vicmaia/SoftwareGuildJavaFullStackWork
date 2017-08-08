@@ -9,13 +9,13 @@ package com.mycompany.vendingmachine.service;
  *
  * @author n0252282
  */
-public class InsufficientFundsException extends Exception {
+public class DataValidationException extends Exception {
 
-    public InsufficientFundsException(String message) {
+    public DataValidationException(String message) {
         super(message);
     }
 
-    public InsufficientFundsException(String message,
+    public DataValidationException(String message,
             Throwable cause) {
         super(message, cause);
     }

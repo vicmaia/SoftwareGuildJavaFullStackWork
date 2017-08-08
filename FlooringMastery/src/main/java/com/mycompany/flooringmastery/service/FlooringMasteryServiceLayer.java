@@ -6,9 +6,12 @@
 package com.mycompany.flooringmastery.service;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
-import com.mycompany.flooringmastery.dto.Item;
-import java.math.BigDecimal;
+import com.mycompany.flooringmastery.dto.Order;
+import com.mycompany.flooringmastery.dto.Product;
+import com.mycompany.flooringmastery.dto.Tax;
+import java.time.LocalDate;
 import java.util.List;
+import javafx.collections.ListChangeListener.Change;
 
 /**
  *
@@ -16,27 +19,22 @@ import java.util.List;
  */
 public interface FlooringMasteryServiceLayer {
 
-    List<Item> getAllItems() throws FlooringMasteryPersistenceException;
-    
-    List<Item> getAllItemsFiltered() throws FlooringMasteryPersistenceException;
+    List<Order> getOrdersByDate(LocalDate orderDate) throws FlooringMasteryPersistenceException;
 
-    Item getItem(String itemID) throws FlooringMasteryPersistenceException;
+    Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException;
 
-    Change purchaseItem(String itemID) throws InsufficientFundsException, FlooringMasteryPersistenceException, NoItemInventoryException;
+    Order editOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException;
 
-    Item makeSaleReduceInventory(String itemID) throws FlooringMasteryPersistenceException, NoItemInventoryException;
+    Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
 
-    public void setCurrentMoney(BigDecimal moneyEntry);
+    void saveCurrentWork() throws FlooringMasteryPersistenceException;
 
-    public BigDecimal getCurrentMoney();
+    List<Product> getAllProducts() throws FlooringMasteryPersistenceException;
 
-    public Change giveChange(int remainingCash) throws FlooringMasteryPersistenceException;
-    
-    public Change cancelGiveChange() throws FlooringMasteryPersistenceException, InsufficientFundsException;
+    List<Tax> retrieveTaxList() throws FlooringMasteryPersistenceException;
 
-    //for future use
-    //    void createItem (Item student) throws
-    //            FlooringMasteryDuplicateIdException,
-    //            InsufficientFundsException,
-    //            FlooringMasteryPersistenceException;
+    Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
+
+    void validateOrder(Order order) throws FlooringMasteryPersistenceException;
+
 }

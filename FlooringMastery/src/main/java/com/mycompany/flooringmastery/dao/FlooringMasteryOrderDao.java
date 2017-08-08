@@ -6,7 +6,7 @@
 package com.mycompany.flooringmastery.dao;
 
 import com.mycompany.flooringmastery.dto.Order;
-import com.mycompany.flooringmastery.service.NoItemInventoryException;
+import com.mycompany.flooringmastery.service.ItemNotAvailableException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface FlooringMasteryOrderDao {
 
-    List<Order> getAllOrders(LocalDate orderDate) throws FlooringMasteryPersistenceException;
+    List<Order> getAllOrdersByDate(LocalDate orderDate) throws FlooringMasteryPersistenceException;
 
-    List<Order> getOrderByDate(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException;
+    Order getOrderByDate(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException;
     
-    Order createOrder(LocalDate orderDate) throws FlooringMasteryPersistenceException;
+    Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException;
     
-    Order removeOrder(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException;
+    Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
     
     void saveCurrentOrder () throws FlooringMasteryPersistenceException;
 

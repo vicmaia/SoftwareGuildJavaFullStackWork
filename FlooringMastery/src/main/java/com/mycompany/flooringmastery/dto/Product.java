@@ -22,6 +22,9 @@ public class Product {
     public Product(String productType) {
         this.productType = productType;
     }
+
+    public Product() {
+    }
     
     public String getProductType() {
         return productType;

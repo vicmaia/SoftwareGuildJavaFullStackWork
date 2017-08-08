@@ -9,13 +9,13 @@ package com.mycompany.flooringmastery.service;
  *
  * @author n0252282
  */
-public class NoItemInventoryException extends Exception {
+public class TaxException extends Exception {
 
-    public NoItemInventoryException(String message) {
+    public TaxException(String message) {
         super(message);
     }
 
-    public NoItemInventoryException(String message,
+    public TaxException(String message,
             Throwable cause) {
         super(message, cause);
     }

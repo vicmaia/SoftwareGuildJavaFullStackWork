@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.mycompany.flooringmastery.dto;
 
 import java.math.BigDecimal;
@@ -22,6 +21,8 @@ public class Order {
     private Tax taxRate;
     private Product product;
     private BigDecimal area;
+    
+    //calulated fields
     private BigDecimal materialCost;
     private BigDecimal laborCost;
     private BigDecimal taxTotal;
@@ -80,19 +81,19 @@ public class Order {
     }
 
     public BigDecimal getMaterialCost() {
-        return materialCost;
+        return product.getCostPerSquareFoot().multiply(this.area);
     }
 
     public BigDecimal getLaborCost() {
-        return laborCost;
+        return product.getLaborCostPerSquareFoot().multiply(this.area);
     }
 
     public BigDecimal getTaxTotal() {
-        return taxTotal;
+        return taxRate.getTaxRate().multiply(this.getMaterialCost()).multiply(this.getLaborCost());
     }
 
     public BigDecimal getTotalCost() {
-        return totalCost;
+        return this.getLaborCost().add(this.getTaxTotal()).add(this.getMaterialCost());
     }
 
     @Override

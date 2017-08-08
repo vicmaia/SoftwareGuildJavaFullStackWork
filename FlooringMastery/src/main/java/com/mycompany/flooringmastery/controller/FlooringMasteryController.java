@@ -1,7 +1,6 @@
 package com.mycompany.flooringmastery.controller;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
-import com.mycompany.flooringmastery.service.NoItemInventoryException;
 import com.mycompany.flooringmastery.ui.FlooringMasteryView;
 import com.mycompany.flooringmastery.service.FlooringMasteryServiceLayer;
 
@@ -31,16 +30,16 @@ public class FlooringMasteryController {
 
                 switch (menuSelection) {
                     case 1:
-                        addMoney();
+                        getOrdersByDate();
                         break;
                     case 2:
-                        purchase();
+                        //purchase();
                         break;
                     case 3:
-                        giveChange();
+                        //giveChange();
                         break;
                     case 4:
-                        keepGoing = false;
+                        //keepGoing = false;
                         break;
                     default:
                         unknownCommand();
@@ -48,46 +47,24 @@ public class FlooringMasteryController {
 
             }
             exitMessage();
-        } catch (FlooringMasteryPersistenceException | InsufficientFundsException | NoItemInventoryException | NumberFormatException e) {
+        } catch (FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
 
     private int getMenuSelection() {
-
         try {
-            view.displayAllItems(service.getAllItemsFiltered());
-            //passing in current money so that it can be displayed with the menu
-            return view.printMenuAndGetSelection(service.getCurrentMoney());
-        } catch (FlooringMasteryPersistenceException e) {
+            return view.printMenuAndGetSelection();
+        } catch (NumberFormatException e) {
             view.displayErrorMessage(e.getMessage());
         }
         return 0;
     }
 
-    private void addMoney() throws NumberFormatException {
+    private void getOrdersByDate() throws FlooringMasteryPersistenceException {
         try {
-            service.setCurrentMoney(view.getMoneyEntry());
-            view.displayCurrentMoney(service.getCurrentMoney());
-        } catch (NumberFormatException e) {
-            view.displayErrorMessage(e.getMessage());
-        }
-    }
-
-    private void purchase() throws FlooringMasteryPersistenceException, InsufficientFundsException, NoItemInventoryException {
-        try {
-            Change change = service.purchaseItem(view.getItemChoice());
-            view.displayPurchaseSuccess();
-            view.displayChange(change);
-        } catch (FlooringMasteryPersistenceException | InsufficientFundsException | NoItemInventoryException e) {
-            view.displayErrorMessage(e.getMessage());
-        }
-    }
-
-    private void giveChange() throws FlooringMasteryPersistenceException, InsufficientFundsException {
-        try {
-            view.displayChange(service.cancelGiveChange());
-        } catch (FlooringMasteryPersistenceException | InsufficientFundsException e) {
+            view.displayAllOrders(service.getOrdersByDate(view.getOrderDate()));;
+        } catch (FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
