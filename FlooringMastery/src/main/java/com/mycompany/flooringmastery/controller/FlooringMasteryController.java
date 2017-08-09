@@ -1,7 +1,6 @@
 package com.mycompany.flooringmastery.controller;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
-import com.mycompany.flooringmastery.dto.Order;
 import com.mycompany.flooringmastery.ui.FlooringMasteryView;
 import com.mycompany.flooringmastery.service.FlooringMasteryServiceLayer;
 import java.time.LocalDate;
@@ -38,7 +37,7 @@ public class FlooringMasteryController {
                         addAnOrder();
                         break;
                     case 3:
-                        //;
+                        editAnOrder();
                         break;
                     case 4:
                         //;
@@ -71,7 +70,7 @@ public class FlooringMasteryController {
 
     private void getOrdersByDate() throws FlooringMasteryPersistenceException {
         try {
-            view.displayAllOrders(service.getOrdersByDate(view.getOrderDate()));;
+            view.displayAllOrders(service.getOrdersByDate(view.getOrderDate()));
         } catch (FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
@@ -79,7 +78,21 @@ public class FlooringMasteryController {
 
     private void addAnOrder() throws FlooringMasteryPersistenceException {
         try {
-            service.createOrder(view.getOrderDate(), view.getOrderDetails());
+            service.createOrder(view.getOrderDate(), view.getNewOrderDetails());
+        } catch (FlooringMasteryPersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
+    }
+
+    private void editAnOrder() throws FlooringMasteryPersistenceException {
+        try {
+            LocalDate orderToEditDate = view.getOrderDate();
+            view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
+            
+            Integer editChoice = view.getEditChoice();
+            service.retrieveOrder(orderToEditDate, editChoice);
+            
+            view.getEditedOrderDetails(Order orderToEdit)
         } catch (FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }

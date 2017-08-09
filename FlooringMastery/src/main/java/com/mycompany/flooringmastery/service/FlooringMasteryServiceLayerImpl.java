@@ -75,7 +75,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return orderDao.getOrderByDate(orderID, orderDate);
     }
 
     @Override

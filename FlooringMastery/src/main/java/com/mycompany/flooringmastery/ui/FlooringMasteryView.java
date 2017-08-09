@@ -55,22 +55,29 @@ public class FlooringMasteryView {
         io.print("");
     }
 
-    public Order getOrderDetails() {
+    public Order getNewOrderDetails() {
         Order newOrder = new Order();
         Tax taxRate = new Tax();
         Product newProduct = new Product();
-        
+
         newOrder.setCustomerName(io.readString("Please enter customer name: "));
-        
+
         taxRate.setState(io.readString("Please enter customer state: "));
         newOrder.setTaxRate(taxRate);
-        
+
         newProduct.setProductType(io.readString("Please enter desired product: "));
         newOrder.setProduct(newProduct);
-        
+
         newOrder.setArea(io.readBigDecimal("Please enter area in number of square feet: "));
-        
+
         return newOrder;
+    }
+
+    public Order getEditedOrderDetails(Order orderToEdit) {
+        Order editOrder = orderToEdit;
+        
+        
+        
     }
 
     public String getObjectChoice() {
@@ -89,6 +96,10 @@ public class FlooringMasteryView {
         io.print("=== ERROR ===");
         io.print(errorMsg);
         io.readString("Press any key to continue.");
+    }
+
+    public Integer getEditChoice() {
+        return io.readInt("Please enter the record you would like to edit: ");
     }
 
 }
