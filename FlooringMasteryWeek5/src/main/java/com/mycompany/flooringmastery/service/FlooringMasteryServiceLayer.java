@@ -37,7 +37,7 @@ public interface FlooringMasteryServiceLayer {
 
     Tax retrieveTax(String state) throws FlooringMasteryPersistenceException;
     
-    Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
+    Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException, NoOrderFoundException;
 
     void validateOrder(Order order) throws FlooringMasteryPersistenceException;
 

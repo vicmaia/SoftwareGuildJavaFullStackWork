@@ -8,6 +8,7 @@ package com.mycompany.flooringmastery.ui;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
@@ -22,34 +23,6 @@ public class UserIOConsoleImpl implements UserIO {
     public void print(String message) {
         System.out.println(message);
 
-    }
-
-    @Override
-    public double readDouble(String prompt) {
-        return Double.parseDouble(readString(prompt));
-    }
-
-    @Override
-    public double readDouble(String prompt, double min, double max) {
-        double returnedDouble;
-        do {
-            returnedDouble = Double.parseDouble(readString(prompt));
-        } while (returnedDouble < min || returnedDouble > max);
-        return returnedDouble;
-    }
-
-    @Override
-    public float readFloat(String prompt) {
-        return Float.parseFloat(readString(prompt));
-    }
-
-    @Override
-    public float readFloat(String prompt, float min, float max) {
-        float returnedFloat;
-        do {
-            returnedFloat = Float.parseFloat(readString(prompt));
-        } while (returnedFloat < min || returnedFloat > max);
-        return returnedFloat;
     }
 
     @Override
@@ -89,20 +62,6 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     @Override
-    public long readLong(String prompt) {
-        return Long.parseLong(readString(prompt));
-    }
-
-    @Override
-    public long readLong(String prompt, long min, long max) {
-        long returnedLong;
-        do {
-            returnedLong = Long.parseLong(readString(prompt));
-        } while (returnedLong < min || returnedLong > max);
-        return returnedLong;
-    }
-
-    @Override
     public String readString(String prompt) {
         String stringIn = "";
         System.out.println(prompt);
@@ -118,7 +77,7 @@ public class UserIOConsoleImpl implements UserIO {
             try {
                 return new BigDecimal(readString(prompt));
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid amount of money.");
+                System.out.println("Please enter a valid decimal number.");
                 success = false;
             }
         }
@@ -127,11 +86,16 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public LocalDate readLocalDate(String prompt) {
-        return LocalDate.parse(readString(prompt), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-    }
-
-    @Override
-    public LocalDate readLocalDate(String prompt, LocalDate min, LocalDate max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean success = false;
+        while (!success) {
+            success = true;
+            try {
+                return LocalDate.parse(readString(prompt), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Please enter a valid date in the format MM/dd/yyyy.");
+                success = false;
+            }
+        }
+        return null;
     }
 }

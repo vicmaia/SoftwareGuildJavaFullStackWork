@@ -52,10 +52,9 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public Order editOrder(Order orderToEdit, Order editedOrder) throws FlooringMasteryPersistenceException {
         //delete the original order
         removeOrder(orderToEdit.getOrderDate(), orderToEdit.getOrderNumber());
-        
+
         //Process and create the edited order
         //Fill in edited order details       
-        
         //set TaxRate on Order object (both state and rate)
         editedOrder.setTaxRate(retrieveTax(editedOrder.getTaxRate().getState()));
         //set Product info on Order object
@@ -86,8 +85,12 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
-        return orderDao.getOrderByDate(orderID, orderDate);
+    public Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException, NoOrderFoundException {
+        if (orderDao.getOrderByDate(orderID, orderDate) != null) {
+            return orderDao.getOrderByDate(orderID, orderDate);
+        } else {
+            throw new NoOrderFoundException("That order is not available to edit.  Please choose again.");
+        }
     }
 
     @Override

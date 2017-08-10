@@ -46,29 +46,25 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
     @Override
     public List<Order> getAllOrdersByDate(LocalDate orderDate) throws FlooringMasteryPersistenceException {
         this.ordersDate = orderDate;
-        loadOrders();
+        if (!ordersByDateMap.containsKey(orderDate)) {
+            loadOrders();
+        }
         return new ArrayList<>(ordersByDateMap.get(orderDate).values());
     }
 
     @Override
     public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
-        //if dateordermap contains key for the date -- then add order to the inner map
-        //else try to load the orders for the date
-        //if you catch the persistence exception, you would then create your inner map with the new order
-        //and then put it in the outer map
-        //
-
         Map<Integer, Order> ordersMap = new HashMap<>();
-
         this.ordersDate = orderDate;
+
         //if we can't load orders, it's a new date
         try {
             loadOrders();
             ordersMap.putAll(ordersByDateMap.get(orderDate));
         } catch (FlooringMasteryPersistenceException e) {
             //we'll create a new file if it doesn't exist
-            //if this is a new record, it shouldn't have an order number, but if it does (edit?), let's keep it
         }
+        //if this is a new record, it shouldn't have an order number, but if it does (edit?), let's keep it
         if (order.getOrderNumber() == null) {
             order.setOrderNumber(generateOrderNumber());
         }
@@ -122,16 +118,16 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
 //    }
     private void loadOrders() throws FlooringMasteryPersistenceException {
         Scanner scanner;
-        
+
         Map<Integer, Order> ordersMap = new HashMap<>();
 
         String ordersFileWithDate = ordersFile + ordersDate.format(DateTimeFormatter.ofPattern("MMddyyyy")) + ".txt";
-        
+
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(ordersFileWithDate)));
         } catch (FileNotFoundException e) {
             throw new FlooringMasteryPersistenceException(
-                    "-_- Could not load inventory data into memory.", e);
+                    ":( Could not load order data into memory.", e);
         }
         String currentLine;
 
@@ -220,8 +216,13 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
 
     @Override
     public Order getOrderByDate(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException {
+        //catch npe return null to service call
         this.ordersDate = orderDate;
-        return ordersByDateMap.get(orderDate).get(orderID);
+        if (ordersByDateMap.get(orderDate).containsKey(orderID)) {
+            return ordersByDateMap.get(orderDate).get(orderID);
+        } else {
+            return null;
+        }
     }
 
     @Override

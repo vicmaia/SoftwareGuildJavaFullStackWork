@@ -5,7 +5,6 @@
  */
 package com.mycompany.flooringmastery.dao;
 
-import com.mycompany.flooringmastery.dto.Product;
 import com.mycompany.flooringmastery.dto.Tax;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

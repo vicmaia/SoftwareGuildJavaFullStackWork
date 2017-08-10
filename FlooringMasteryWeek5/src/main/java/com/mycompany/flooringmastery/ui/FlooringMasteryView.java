@@ -38,7 +38,7 @@ public class FlooringMasteryView {
     }
 
     public LocalDate getOrderDate() throws NumberFormatException {
-        return io.readLocalDate("Please enter the order date: ");
+        return io.readLocalDate("Please enter the order date (MM/dd/yyyy): ");
     }
 
     public void displayAllOrders(List<Order> orderList) {
@@ -85,6 +85,7 @@ public class FlooringMasteryView {
         if (editedDate.compareTo("") == 0) {
             editedOrder.setOrderDate(orderToEdit.getOrderDate());
         } else {
+            //to do catch bad parse
             editedOrder.setOrderDate(LocalDate.parse(editedDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
         }
 
@@ -121,6 +122,14 @@ public class FlooringMasteryView {
         return io.readString("Please enter the Item ID.");
     }
 
+    public void displayOrderCreatedBanner() {
+        io.print("--Order created and saved--");
+    }
+
+    public void displayOrderAbortBanner() {
+        io.print("--Order not created--");
+    }
+
     public void displayExitBanner() {
         io.print("Good Bye!!!");
     }
@@ -137,6 +146,10 @@ public class FlooringMasteryView {
 
     public Integer getEditChoice() {
         return io.readInt("Please enter the record you would like to edit: ");
+    }
+
+    public String getPersistDataChoice() {
+        return io.readString("Would you like to save this record or discard? (S, D)");
     }
 
 }
