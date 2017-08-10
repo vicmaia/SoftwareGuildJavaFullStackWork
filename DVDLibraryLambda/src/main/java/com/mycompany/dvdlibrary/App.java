@@ -18,12 +18,15 @@ public class App {
     public static void main(String[] args) {
         //instantiate context
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-
+        DVDLibraryController controller;
         // ask context to instantiate controller
-        // please get me the bean with the alias called controller and 
-        // please cast it back as the type classrostercontroller
-        DVDLibraryController controller = ctx.getBean("controller", DVDLibraryController.class);
-
+                // please get me the bean with the alias called controller and 
+                // please cast it back as the type classrostercontroller
+        if (args[0].equalsIgnoreCase("test")) {
+            controller = ctx.getBean("controller", DVDLibraryController.class);
+        } else {
+            controller = ctx.getBean("controller", DVDLibraryController.class);
+        }
         controller.run();
 
 //        //Select an IO Implementation

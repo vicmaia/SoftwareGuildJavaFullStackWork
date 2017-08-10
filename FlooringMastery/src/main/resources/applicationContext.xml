@@ -27,6 +27,9 @@
     <bean id="flooringMasterOrderDao" 
           class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoFileImpl"/>
     
+    <bean id="flooringMasterOrderDaoTest" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoTestFileImpl"/>
+    
     <bean id="flooringMasterProductDao" 
           class="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoFileImpl"/>
        
@@ -42,10 +45,23 @@
         <constructor-arg ref="flooringMasterProductDao"/> 
         <constructor-arg ref="flooringMasterTaxDao"/>         
     </bean>
+    
+    <bean id="serviceLayerTest"
+          class="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl">
+        <constructor-arg ref="flooringMasterOrderDaoTest"/>
+        <constructor-arg ref="flooringMasterProductDao"/> 
+        <constructor-arg ref="flooringMasterTaxDao"/>         
+    </bean>
    
     <bean id="controller" 
           class="com.mycompany.flooringmastery.controller.FlooringMasteryController">
         <constructor-arg ref="serviceLayer"/>
+        <constructor-arg ref="view"/>
+    </bean>
+    
+    <bean id="controllerTest" 
+          class="com.mycompany.flooringmastery.controller.FlooringMasteryController">
+        <constructor-arg ref="serviceLayerTest"/>
         <constructor-arg ref="view"/>
     </bean>
     

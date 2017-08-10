@@ -36,6 +36,15 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
+    public Order(Integer orderNumber, LocalDate orderDate, String customerName, Tax taxRate, Product product, BigDecimal area) {
+        this.orderNumber = orderNumber;
+        this.orderDate = orderDate;
+        this.customerName = customerName;
+        this.taxRate = taxRate;
+        this.product = product;
+        this.area = area;
+    }
+
     public Integer getOrderNumber() {
         return orderNumber;
     }
@@ -155,10 +164,7 @@ public class Order {
                 + ", taxRate=" + taxRate
                 + ", product=" + product
                 + ", area=" + area
-                + "getMaterialCost=" + getMaterialCost()
-                + "getLaborCost=" + getLaborCost()
-                + "getTaxTotal=" + getTaxTotal()
-                + "getTotalCost=" + getTotalCost() + '}';
+                + '}';
     }
 
 }

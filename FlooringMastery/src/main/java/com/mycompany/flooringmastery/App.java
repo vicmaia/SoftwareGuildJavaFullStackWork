@@ -13,11 +13,18 @@ public class App {
     public static void main(String[] args) {
         //instantiate context
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-
+        FlooringMasteryController controller;
+        for (String arg : args) {
+            System.out.println(arg);
+        }
         // ask context to instantiate controller
         // please get me the bean with the alias called controller and 
         // please cast it back as the type FlooringMasteryController
-        FlooringMasteryController controller = ctx.getBean("controller", FlooringMasteryController.class);
+        if (args[0].equalsIgnoreCase("test")) {
+            controller = ctx.getBean("controller", FlooringMasteryController.class);
+        } else {
+            controller = ctx.getBean("controller", FlooringMasteryController.class);
+        }
 
         controller.run();
     }

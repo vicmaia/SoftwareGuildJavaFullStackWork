@@ -23,7 +23,7 @@ public interface FlooringMasteryServiceLayer {
 
     Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException;
 
-    Order editOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException;
+    Order editOrder(Order orderToEdit, Order editedOrder) throws FlooringMasteryPersistenceException;
 
     Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
 
