@@ -68,7 +68,7 @@ public class FlooringMasteryOrderDaoTest {
         //need to load Map in Map
         dao.getAllOrdersByDate(ld);
         //Check for order 113
-        dao.getOrderByDate(113, ld);
+        assertTrue(dao.getOrderByDate(113, ld) != null);
     }
 
     /**
@@ -91,18 +91,18 @@ public class FlooringMasteryOrderDaoTest {
         testTax.setState("MI");
         testTax.setTaxRate(new BigDecimal("5.75"));
         testOrder.setTaxRate(testTax);
-        
+
         Product testProduct = new Product();
         testProduct.setProductType("Tile");
-        testProduct.setCostPerSquareFoot(new BigDecimal ("3.50"));
-        testProduct.setLaborCostPerSquareFoot(new BigDecimal ("4.15"));
+        testProduct.setCostPerSquareFoot(new BigDecimal("3.50"));
+        testProduct.setLaborCostPerSquareFoot(new BigDecimal("4.15"));
         testOrder.setProduct(testProduct);
-        
-        testOrder.setArea(new BigDecimal ("800"));
-        
+
+        testOrder.setArea(new BigDecimal("800"));
+
         //Put returned object into local object for comparison
         Order createOrderReturn = dao.createOrder(ld, testOrder);
-        
+
         //is the return the same as the test order?
         assertTrue(testOrder.equals(createOrderReturn));
     }
@@ -117,13 +117,13 @@ public class FlooringMasteryOrderDaoTest {
         dao.getAllOrdersByDate(ld);
         //get initial size of inner map for date (should be 4)
         int initialSize = dao.getAllOrdersByDate(ld).size();
-        
+
         //Remove an order
         dao.removeOrder(ld, 113);
-        
+
         //get final size of inner map for date (should be 3)
         int finalSize = dao.getAllOrdersByDate(ld).size();
-        
+
         //intialsize - 1 = finalsize
         assertTrue(initialSize - 1 == finalSize);
     }
@@ -133,6 +133,38 @@ public class FlooringMasteryOrderDaoTest {
      */
     @Test
     public void testSaveCurrentOrder() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        //need to load Map in Map
+        dao.getAllOrdersByDate(ld);
+
+        //create test order
+        Order testOrder = new Order();
+
+        testOrder.setOrderNumber(200);
+        testOrder.setCustomerName("Joe");
+        testOrder.setOrderDate(ld);
+
+        Tax testTax = new Tax();
+        testTax.setState("MI");
+        testTax.setTaxRate(new BigDecimal("5.75"));
+        testOrder.setTaxRate(testTax);
+
+        Product testProduct = new Product();
+        testProduct.setProductType("Tile");
+        testProduct.setCostPerSquareFoot(new BigDecimal("3.50"));
+        testProduct.setLaborCostPerSquareFoot(new BigDecimal("4.15"));
+        testOrder.setProduct(testProduct);
+
+        testOrder.setArea(new BigDecimal("800"));
+        int initialSize = dao.getAllOrdersByDate(ld).size();
+
+        dao.createOrder(ld, testOrder);
+        dao.saveCurrentOrder();
+        int finalSize = dao.getAllOrdersByDate(ld).size();
+        dao.removeOrder(ld, 200);
+        dao.saveCurrentOrder();
+        assertTrue(initialSize + 1 == finalSize);
+        
     }
 
 }
