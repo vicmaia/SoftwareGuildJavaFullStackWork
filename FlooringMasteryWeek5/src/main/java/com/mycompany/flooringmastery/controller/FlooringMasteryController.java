@@ -158,6 +158,5 @@ public class FlooringMasteryController {
         } catch (FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
-
     }
 }

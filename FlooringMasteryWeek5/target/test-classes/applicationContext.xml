@@ -17,18 +17,25 @@
  
     <!-- Bean definitions go here
     ids are really just aliases or can think of them as a key    -->
-   
-    <bean id="vendingMachineDaoStub" 
-          class="com.mycompany.vendingmachine.dao.VendingMachineDaoStubImpl"/>
-        
-    <bean id="vendingMachineDao" 
-          class="com.mycompany.vendingmachine.dao.VendingMachineDaoFileImpl">
-        <constructor-arg value="test_inventory.txt"/>  
+    <!--
+   <bean id="vendingMachineDaoStub" 
+         class="com.mycompany.vendingmachine.dao.VendingMachineDaoStubImpl"/>
+    -->
+ 
+    <bean id="FlooringMasteryProductDao" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoFileImpl">
+        <constructor-arg value="TestProducts.txt"/>
     </bean>
     
-    <bean id="serviceLayer" 
-          class="com.mycompany.vendingmachine.service.VendingMachineServiceLayerImpl">
-        <constructor-arg ref="vendingMachineDaoStub"/>        
+    <bean id="FlooringMasteryTaxDao" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryTaxDaoFileImpl"> 
+        <constructor-arg value="TestTaxes.txt"/>
     </bean>
+    
+    <bean id="FlooringMasteryOrderDao" 
+              class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoFileImpl"> 
+        <constructor-arg value="TestOrders_"/>
+    </bean>
+
 </beans>
 

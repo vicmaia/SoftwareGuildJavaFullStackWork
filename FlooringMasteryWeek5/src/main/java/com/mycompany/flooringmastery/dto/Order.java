@@ -113,12 +113,12 @@ public class Order {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.orderNumber);
-        hash = 59 * hash + Objects.hashCode(this.orderDate);
-        hash = 59 * hash + Objects.hashCode(this.customerName);
-        hash = 59 * hash + Objects.hashCode(this.taxRate);
-        hash = 59 * hash + Objects.hashCode(this.product);
-        hash = 59 * hash + Objects.hashCode(this.area);
+        hash = 97 * hash + Objects.hashCode(this.orderNumber);
+        hash = 97 * hash + Objects.hashCode(this.orderDate);
+        hash = 97 * hash + Objects.hashCode(this.customerName);
+        hash = 97 * hash + Objects.hashCode(this.taxRate);
+        hash = 97 * hash + Objects.hashCode(this.product);
+        hash = 97 * hash + Objects.hashCode(this.area);
         return hash;
     }
 
@@ -154,6 +154,7 @@ public class Order {
         }
         return true;
     }
+
 
     @Override
     public String toString() {
