@@ -11,6 +11,7 @@ import com.mycompany.flooringmastery.dto.Tax;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -78,15 +79,28 @@ public class FlooringMasteryView {
 
     public Order getEditedOrderDetails(Order orderToEdit) {
         Order editedOrder = new Order(orderToEdit.getOrderNumber(), orderToEdit.getOrderDate(), orderToEdit.getCustomerName(), orderToEdit.getTaxRate(), orderToEdit.getProduct(), orderToEdit.getArea());
+
         Tax taxRate = new Tax();
         Product newProduct = new Product();
 
-        String editedDate = io.readString("Current order date is " + orderToEdit.getOrderDate() + ". Please update, or hit enter to keep: ");
-        if (editedDate.compareTo("") == 0) {
-            editedOrder.setOrderDate(orderToEdit.getOrderDate());
-        } else {
-            //to do catch bad parse
-            editedOrder.setOrderDate(LocalDate.parse(editedDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        LocalDate orderToEditDate = orderToEdit.getOrderDate();
+        String orderToEditDateString = orderToEditDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+        //Loop date prompt until properly formatted date entered
+        boolean success = false;
+        while (!success) {
+            success = true;
+            String editedDate = io.readString("Current order date is " + orderToEditDateString + ". Please update, or hit enter to keep: ");
+            if (editedDate.compareTo("") == 0) {
+                editedOrder.setOrderDate(orderToEdit.getOrderDate());
+            } else {
+                try {
+                    editedOrder.setOrderDate(LocalDate.parse(editedDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+                } catch (DateTimeParseException e) {
+                    success = false;
+                    System.out.println("Please enter a valid date in the format MM/dd/yyyy.");
+                }
+            }
         }
 
         editedOrder.setCustomerName(io.readString("Current customer name is " + orderToEdit.getCustomerName() + ". Please update, or hit enter to keep: "));
@@ -108,13 +122,22 @@ public class FlooringMasteryView {
             editedOrder.setProduct(newProduct);
         }
 
-        String editedArea = io.readString("Current area in square feet is " + orderToEdit.getArea() + ". Please update, or hit enter to keep: ");
-        if (editedArea.compareTo("") == 0) {
-            editedOrder.setArea(orderToEdit.getArea());
-        } else {
-            editedOrder.setArea(new BigDecimal(editedArea));
+        //Loop date prompt until properly formatted BigD entered
+        success = false;
+        while (!success) {
+            success = true;
+            String editedArea = io.readString("Current area in square feet is " + orderToEdit.getArea() + ". Please update, or hit enter to keep: ");
+            if (editedArea.compareTo("") == 0) {
+                editedOrder.setArea(orderToEdit.getArea());
+            } else {
+                try {
+                    editedOrder.setArea(new BigDecimal(editedArea));
+                } catch (NumberFormatException e) {
+                    success = false;
+                    System.out.println("Please enter a decimal number.");
+                }
+            }
         }
-
         return editedOrder;
     }
 
@@ -122,8 +145,8 @@ public class FlooringMasteryView {
         return io.readString("Please enter the Item ID.");
     }
 
-    public void displayOrderCreatedBanner() {
-        io.print("--Order created and saved--");
+    public void displayChangesSavedBanner() {
+        io.print("--Changes Saved!--");
     }
 
     public void displayOrderAbortBanner() {
@@ -146,6 +169,10 @@ public class FlooringMasteryView {
 
     public Integer getEditChoice() {
         return io.readInt("Please enter the record you would like to edit: ");
+    }
+
+    public Integer getRemoveChoice() {
+        return io.readInt("Please enter the record you would like to remove: ");
     }
 
     public String getPersistDataChoice() {

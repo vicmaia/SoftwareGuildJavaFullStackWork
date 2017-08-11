@@ -2,9 +2,12 @@ package com.mycompany.flooringmastery.controller;
 
 import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
 import com.mycompany.flooringmastery.dto.Order;
+import com.mycompany.flooringmastery.service.DataValidationException;
 import com.mycompany.flooringmastery.ui.FlooringMasteryView;
 import com.mycompany.flooringmastery.service.FlooringMasteryServiceLayer;
+import com.mycompany.flooringmastery.service.ItemNotAvailableException;
 import com.mycompany.flooringmastery.service.NoOrderFoundException;
+import com.mycompany.flooringmastery.service.TaxException;
 import java.time.LocalDate;
 
 /**
@@ -87,59 +90,56 @@ public class FlooringMasteryController {
             if (view.getPersistDataChoice().compareToIgnoreCase("s") == 0) {
                 service.createOrder(orderDate, newOrder);
                 service.saveCurrentWork();
-                view.displayOrderCreatedBanner();
+                view.displayChangesSavedBanner();
             } else {
                 view.displayOrderAbortBanner();
             }
-        } catch (FlooringMasteryPersistenceException e) {
+        } catch (FlooringMasteryPersistenceException | ItemNotAvailableException | TaxException | DataValidationException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
 
     private void editAnOrder() throws FlooringMasteryPersistenceException {
-        try {
-            //get order date to edit from user
-            LocalDate orderToEditDate = view.getOrderDate();
+        //get order date to edit from user
+        LocalDate orderToEditDate = view.getOrderDate();
 
-            //display all orders based on date from user
-            
+        //ask user to choose an order to edit, store it
+        Integer editChoice = 0;
 
-            //ask user to choose an order to edit, store it
-            Integer editChoice = 0;
-            boolean success = false;
-   
-            Order orderToEdit = new Order();
-            Order editedOrder = new Order();
-            
-            success = false;
-            while (!success) {
-                success = true;
-                try {
-                    view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
-                    editChoice = view.getEditChoice();
+        Order orderToEdit = new Order();
+        Order editedOrder = new Order();
+
+        boolean success = false;
+        while (!success) {
+            success = true;
+            try {
+                view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
+                editChoice = view.getEditChoice();
+                if (editChoice > 0) {
                     orderToEdit = service.retrieveOrder(orderToEditDate, editChoice);
                     editedOrder = view.getEditedOrderDetails(orderToEdit);
                     service.editOrder(orderToEdit, editedOrder);
-                } catch (NoOrderFoundException e) {
-                    success = false;
-                    view.displayErrorMessage(e.getMessage());
                 }
+            } catch (NoOrderFoundException | ItemNotAvailableException | TaxException | DataValidationException e) {
+                success = false;
+                view.displayErrorMessage(e.getMessage());
             }
-        } catch (FlooringMasteryPersistenceException e) {
-            view.displayErrorMessage(e.getMessage());
         }
     }
 
     private void removeAnOrder() throws FlooringMasteryPersistenceException {
-        try {
-            LocalDate orderToEditDate = view.getOrderDate();
-            view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
-
-            Integer editChoice = view.getEditChoice();
-
-            service.removeOrder(orderToEditDate, editChoice);
-        } catch (FlooringMasteryPersistenceException e) {
-            view.displayErrorMessage(e.getMessage());
+        LocalDate orderToEditDate = view.getOrderDate();
+        boolean success = false;
+        while (!success) {
+            success = true;
+            try {
+                view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
+                Integer editChoice = view.getRemoveChoice();
+                service.removeOrder(orderToEditDate, editChoice);
+            } catch (FlooringMasteryPersistenceException | NoOrderFoundException e) {
+                success = false;
+                view.displayErrorMessage(e.getMessage());
+            }
         }
     }
 
@@ -151,8 +151,13 @@ public class FlooringMasteryController {
         view.displayExitBanner();
     }
 
-    private void saveProgess() throws FlooringMasteryPersistenceException {
-        service.saveCurrentWork();
-    }
+    private void saveProgess() {
+        try {
+            service.saveCurrentWork();
+            view.displayChangesSavedBanner();
+        } catch (FlooringMasteryPersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
 
+    }
 }

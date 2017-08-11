@@ -21,24 +21,24 @@ public interface FlooringMasteryServiceLayer {
 
     List<Order> getOrdersByDate(LocalDate orderDate) throws FlooringMasteryPersistenceException;
 
-    Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException;
+    Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException, ItemNotAvailableException, TaxException, DataValidationException;
 
-    Order editOrder(Order orderToEdit, Order editedOrder) throws FlooringMasteryPersistenceException;
+    Order editOrder(Order orderToEdit, Order editedOrder) throws FlooringMasteryPersistenceException, ItemNotAvailableException, TaxException, NoOrderFoundException, DataValidationException;
 
-    Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException;
+    Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException, NoOrderFoundException;
 
     void saveCurrentWork() throws FlooringMasteryPersistenceException;
 
     List<Product> getAllProducts() throws FlooringMasteryPersistenceException;
     
-    Product getSingleProduct(String productType) throws FlooringMasteryPersistenceException;
+    Product getSingleProduct(String productType) throws FlooringMasteryPersistenceException, ItemNotAvailableException, TaxException;
 
     List<Tax> retrieveTaxList() throws FlooringMasteryPersistenceException;
 
-    Tax retrieveTax(String state) throws FlooringMasteryPersistenceException;
+    Tax retrieveTax(String state) throws FlooringMasteryPersistenceException, TaxException;
     
     Order retrieveOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException, NoOrderFoundException;
 
-    void validateOrder(Order order) throws FlooringMasteryPersistenceException;
+    boolean validateOrder(Order order) throws FlooringMasteryPersistenceException, DataValidationException;
 
 }

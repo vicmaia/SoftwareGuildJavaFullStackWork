@@ -21,7 +21,7 @@ public class App {
         // please get me the bean with the alias called controller and 
         // please cast it back as the type FlooringMasteryController
         if (args[0].equalsIgnoreCase("test")) {
-            controller = ctx.getBean("controller", FlooringMasteryController.class);
+            controller = ctx.getBean("controllerTest", FlooringMasteryController.class);
         } else {
             controller = ctx.getBean("controller", FlooringMasteryController.class);
         }

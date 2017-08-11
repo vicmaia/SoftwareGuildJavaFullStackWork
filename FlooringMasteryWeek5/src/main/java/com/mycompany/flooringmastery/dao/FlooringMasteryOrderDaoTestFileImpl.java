@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,13 +33,11 @@ public class FlooringMasteryOrderDaoTestFileImpl implements FlooringMasteryOrder
     public static final String DELIMITER = ",";
     public LocalDate ordersDate;
 
-    //outer map
-    private Map<LocalDate, HashMap<Integer, Order>> ordersByDateMap = new HashMap<>();
-    //inner map
-    private Map<Integer, Order> ordersMap = new HashMap<>();
+    //outer map - our in-mem db
+    private Map<LocalDate, Map<Integer, Order>> ordersByDateMap = new HashMap<>();
 
-    public FlooringMasteryOrderDaoTestFileImpl(String inventoryFile) {
-        this.ordersFile = inventoryFile;
+    public FlooringMasteryOrderDaoTestFileImpl(String orderFile) {
+        this.ordersFile = orderFile;
     }
 
     public FlooringMasteryOrderDaoTestFileImpl() {
@@ -49,28 +46,41 @@ public class FlooringMasteryOrderDaoTestFileImpl implements FlooringMasteryOrder
     @Override
     public List<Order> getAllOrdersByDate(LocalDate orderDate) throws FlooringMasteryPersistenceException {
         this.ordersDate = orderDate;
-        loadOrders();
-        return new ArrayList<>(ordersMap.values());
-        //return new ArrayList<>(orders.get(orderDate).values());
+        if (!ordersByDateMap.containsKey(orderDate)) {
+            loadOrders();
+        }
+        return new ArrayList<>(ordersByDateMap.get(orderDate).values());
     }
 
     @Override
     public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
+        Map<Integer, Order> ordersMap = new HashMap<>();
         this.ordersDate = orderDate;
+
+        //if we can't load orders, it's a new date
         try {
             loadOrders();
+            ordersMap.putAll(ordersByDateMap.get(orderDate));
         } catch (FlooringMasteryPersistenceException e) {
-            ordersMap.clear();
+            //we'll create a new file if it doesn't exist
         }
-        Integer orderNumber = generateOrderNumber(orderDate);
-        order.setOrderNumber(orderNumber);
-        System.out.println(order);
+        //if this is a new record, it shouldn't have an order number, but if it does (edit?), let's keep it
+        if (order.getOrderNumber() == null) {
+            order.setOrderNumber(generateOrderNumber());
+        }
+        //this is just for debugging
+        //System.out.println(order);
+        //these two conditions are the same.  we need to put to a new inner map and then push to the outer map
+        //If the big map has the date, we've already loaded the file, so we just need to add to big map
+        //if big map does not have the date, we need to add it to the big map
+
         Order newOrder = ordersMap.put(order.getOrderNumber(), order);
-        writeOrderFile();
+        ordersByDateMap.put(orderDate, ordersMap);
+        //writeOrderFile();
         return newOrder;
     }
 
-    private Integer generateOrderNumber(LocalDate orderDate) throws FlooringMasteryPersistenceException {
+    private Integer generateOrderNumber() throws FlooringMasteryPersistenceException {
         Scanner scanner = null;
         Integer nextOrderNumber = 0;
 
@@ -81,7 +91,7 @@ public class FlooringMasteryOrderDaoTestFileImpl implements FlooringMasteryOrder
         }
 
         nextOrderNumber = scanner.nextInt() + 1;
-        System.out.println(nextOrderNumber);
+
         scanner.close();
 
         PrintWriter out = null;
@@ -90,12 +100,14 @@ public class FlooringMasteryOrderDaoTestFileImpl implements FlooringMasteryOrder
         } catch (IOException e) {
             System.out.println(e);
         }
+
+        out.println(nextOrderNumber);
         // force PrintWriter to write line to the file
         out.flush();
 
         // Clean up
         out.close();
-        
+
         return nextOrderNumber;
     }
 
@@ -106,13 +118,16 @@ public class FlooringMasteryOrderDaoTestFileImpl implements FlooringMasteryOrder
 //    }
     private void loadOrders() throws FlooringMasteryPersistenceException {
         Scanner scanner;
-        String ordersFileWithDate;
-        ordersFileWithDate = ordersFile + ordersDate.format(DateTimeFormatter.ofPattern("MMddyyyy")) + ".txt";
+
+        Map<Integer, Order> ordersMap = new HashMap<>();
+
+        String ordersFileWithDate = ordersFile + ordersDate.format(DateTimeFormatter.ofPattern("MMddyyyy")) + ".txt";
+
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(ordersFileWithDate)));
         } catch (FileNotFoundException e) {
             throw new FlooringMasteryPersistenceException(
-                    "-_- Could not load inventory data into memory.", e);
+                    ":( Could not load order data into memory.", e);
         }
         String currentLine;
 
@@ -147,63 +162,41 @@ public class FlooringMasteryOrderDaoTestFileImpl implements FlooringMasteryOrder
 
             //put order into inner map
             ordersMap.put(currentOrder.getOrderNumber(), currentOrder);
+            ordersByDateMap.put(ordersDate, ordersMap);
+
         }
         // close scanner
+
         scanner.close();
     }
 
     private void writeOrderFile() throws FlooringMasteryPersistenceException {
-
-        PrintWriter out;
-        String ordersFileWithDate;
-        ordersFileWithDate = ordersFile + ordersDate.format(DateTimeFormatter.ofPattern("MMddyyyy")) + ".txt";
-        try {
-            out = new PrintWriter(new FileWriter(ordersFileWithDate));
-        } catch (IOException e) {
-            throw new FlooringMasteryPersistenceException(
-                    "Could not save order data.", e);
-        }
-
-        List<Order> orderList = new ArrayList<>(ordersMap.values());
-        for (Order currentOrder : orderList) {
-            // write the Order object to the file
-            out.println(currentOrder.getOrderNumber() + DELIMITER
-                    + currentOrder.getCustomerName() + DELIMITER
-                    + currentOrder.getTaxRate().getState() + DELIMITER
-                    + currentOrder.getTaxRate().getTaxRate() + DELIMITER
-                    + currentOrder.getProduct().getProductType() + DELIMITER
-                    + currentOrder.getArea() + DELIMITER
-                    + currentOrder.getProduct().getCostPerSquareFoot() + DELIMITER
-                    + currentOrder.getProduct().getLaborCostPerSquareFoot() + DELIMITER
-                    + currentOrder.getMaterialCost() + DELIMITER
-                    + currentOrder.getLaborCost() + DELIMITER
-                    + currentOrder.getTaxTotal() + DELIMITER
-                    + currentOrder.getTotalCost());
-            // force PrintWriter to write line to the file
-            out.flush();
-        }
-        // Clean up
-        out.close();
+        throw new FlooringMasteryPersistenceException("Test mode. Files not updated.");
     }
 
     @Override
     public Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
         this.ordersDate = orderDate;
-        Order removedOrder = ordersMap.remove(orderID);
-        writeOrderFile();
-        return removedOrder;
+        if (ordersByDateMap.get(orderDate).containsKey(orderID)) {
+            return ordersByDateMap.get(orderDate).remove(orderID);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Order getOrderByDate(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException {
+        //catch npe return null to service call
         this.ordersDate = orderDate;
-        loadOrders();
-        return ordersMap.get(orderID);
+        if (ordersByDateMap.get(orderDate).containsKey(orderID)) {
+            return ordersByDateMap.get(orderDate).get(orderID);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void saveCurrentOrder() throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        writeOrderFile();
     }
-
 }

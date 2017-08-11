@@ -37,7 +37,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException {
+    public Order createOrder(LocalDate orderDate, Order order) throws FlooringMasteryPersistenceException, ItemNotAvailableException, TaxException, DataValidationException {
+        validateOrder(order);
         //set TaxRate on Order object (both state and rate)
         order.setTaxRate(retrieveTax(order.getTaxRate().getState()));
         //set Product info on Order object
@@ -49,10 +50,10 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order editOrder(Order orderToEdit, Order editedOrder) throws FlooringMasteryPersistenceException {
+    public Order editOrder(Order orderToEdit, Order editedOrder) throws FlooringMasteryPersistenceException, ItemNotAvailableException, TaxException, NoOrderFoundException, DataValidationException {
+        validateOrder(editedOrder);
         //delete the original order
         removeOrder(orderToEdit.getOrderDate(), orderToEdit.getOrderNumber());
-
         //Process and create the edited order
         //Fill in edited order details       
         //set TaxRate on Order object (both state and rate)
@@ -65,8 +66,12 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
-        return orderDao.removeOrder(orderDate, orderID);
+    public Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException, NoOrderFoundException {
+        if (orderDao.removeOrder(orderDate, orderID) != null) {
+            return orderDao.removeOrder(orderDate, orderID);
+        } else {
+            throw new NoOrderFoundException("That order is not available to remove.");
+        }
     }
 
     @Override
@@ -76,7 +81,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public List<Product> getAllProducts() throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return productDao.getAllProducts();
     }
 
     @Override
@@ -94,17 +99,28 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public void validateOrder(Order order) throws FlooringMasteryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean validateOrder(Order order) throws FlooringMasteryPersistenceException, DataValidationException {
+        if (order.getCustomerName() == null || order.getProduct() == null || order.getTaxRate() == null || order.getArea() == null) {
+            throw new DataValidationException("Item not valid.  Please ensure all fields are complete.");
+        } else {
+            return true;
+        }
     }
 
     @Override
-    public Product getSingleProduct(String productType) throws FlooringMasteryPersistenceException {
-        return productDao.getProduct(productType);
+    public Product getSingleProduct(String productType) throws FlooringMasteryPersistenceException, ItemNotAvailableException {
+        if (productDao.getProduct(productType) == null) {
+            throw new ItemNotAvailableException("That item is not available for purchase.");
+        } else {
+            return productDao.getProduct(productType);
+        }
     }
 
     @Override
-    public Tax retrieveTax(String state) throws FlooringMasteryPersistenceException {
+    public Tax retrieveTax(String state) throws FlooringMasteryPersistenceException, TaxException {
+        if (taxDao.getTax(state) == null) {
+            throw new TaxException("Invalid state.");
+        }
         return taxDao.getTax(state);
     }
 }

@@ -69,7 +69,7 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
             order.setOrderNumber(generateOrderNumber());
         }
         //this is just for debugging
-        System.out.println(order);
+        //System.out.println(order);
         //these two conditions are the same.  we need to put to a new inner map and then push to the outer map
         //If the big map has the date, we've already loaded the file, so we just need to add to big map
         //if big map does not have the date, we need to add it to the big map
@@ -211,7 +211,11 @@ public class FlooringMasteryOrderDaoFileImpl implements FlooringMasteryOrderDao 
     @Override
     public Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
         this.ordersDate = orderDate;
-        return ordersByDateMap.get(orderDate).remove(orderID);
+        if (ordersByDateMap.get(orderDate).containsKey(orderID)) {
+            return ordersByDateMap.get(orderDate).remove(orderID);
+        } else {
+            return null;
+        }
     }
 
     @Override
