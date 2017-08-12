@@ -5,40 +5,40 @@
  */
 package com.mycompany.flooringmastery.service;
 
-import com.mycompany.flooringmastery.dao.FlooringMasteryPersistenceException;
-import com.mycompany.flooringmastery.dto.Order;
-import com.mycompany.flooringmastery.dto.Product;
-import com.mycompany.flooringmastery.dto.Tax;
-import java.time.LocalDate;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author n0252282
  */
 public class FlooringMasteryServiceLayerTest {
-    
+
+    private FlooringMasteryServiceLayer service;
+
     public FlooringMasteryServiceLayerTest() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        service = ctx.getBean("ServiceLayerTest", FlooringMasteryServiceLayer.class);
     }
     
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -119,5 +119,5 @@ public class FlooringMasteryServiceLayerTest {
     @Test
     public void testValidateOrder() throws Exception {
     }
- 
+
 }

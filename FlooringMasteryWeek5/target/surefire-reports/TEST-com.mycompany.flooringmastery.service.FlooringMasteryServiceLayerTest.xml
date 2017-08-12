@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoTest" time="0" errors="0" skipped="0">
+<testsuite tests="11" failures="0" name="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" time="0.442" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_131\jre\bin"/>
@@ -61,6 +61,15 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoTest" name="testGetProduct" time="0"/>
-  <testcase classname="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoTest" name="testGetAllProducts" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testEditOrder" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testCreateOrder" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testRemoveOrder" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testRetrieveOrder" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testGetSingleProduct" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testValidateOrder" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testGetAllProducts" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testRetrieveTax" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testGetOrdersByDate" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testRetrieveTaxList" time="0"/>
+  <testcase classname="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerTest" name="testSaveCurrentWork" time="0"/>
 </testsuite>

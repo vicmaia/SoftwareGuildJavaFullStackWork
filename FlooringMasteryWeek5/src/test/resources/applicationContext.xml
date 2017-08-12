@@ -27,14 +27,33 @@
         <constructor-arg value="TestProducts.txt"/>
     </bean>
     
+    <bean id="FlooringMasteryProductDaoStub" 
+              class="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoStubFileImpl">
+    </bean>
+    
     <bean id="FlooringMasteryTaxDao" 
           class="com.mycompany.flooringmastery.dao.FlooringMasteryTaxDaoFileImpl"> 
         <constructor-arg value="TestTaxes.txt"/>
     </bean>
+        
+    <bean id="FlooringMasteryTaxDaoStub" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryTaxDaoStubFileImpl"> 
+    </bean>
     
     <bean id="FlooringMasteryOrderDao" 
-              class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoFileImpl"> 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoFileImpl"> 
         <constructor-arg value="TestOrders_"/>
+    </bean>
+    
+    <bean id="FlooringMasteryOrderDaoStub" 
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryOrderDaoStubFileImpl"> 
+    </bean>
+    
+    <bean id="ServiceLayerTest" 
+          class="com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl">
+        <constructor-arg ref="FlooringMasteryOrderDaoStub"/>
+        <constructor-arg ref="FlooringMasteryProductDaoStub"/>
+        <constructor-arg ref="FlooringMasteryTaxDaoStub"/>            
     </bean>
 
 </beans>
