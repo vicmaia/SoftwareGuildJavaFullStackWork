@@ -74,28 +74,39 @@
     <!--advice and pointcut - loggingAdvice is our advice -->
     <!--below is the method to run on the LoggingAdvice class -->
     <!--apply our logging aspect to our create student and to our remove student (..) <- means any parameters for method -->
-    <!--
+
     <aop:config>
         <aop:aspect ref="loggingAdvice"> 
 
-            <aop:after-throwing
-                method="createAuditEntryIFE"
-                throwing="ex"
-                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.purchaseItem(..))"                
-            />  
-            
-            <aop:after-throwing
-                method="createAuditEntryNII"
-                throwing="ex"
-                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.purchaseItem(..))"                
-            />  
-            
             <aop:after-returning
                 method="createAuditEntry"
-                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.purchaseItem(..))"
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.createOrder(..))"
             />
+            
+            <aop:after-throwing
+                method="createAuditEntryINAE"
+                throwing="ex"
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.createOrder(..))"                
+            />
+            
+            <aop:after-throwing
+                method="createAuditEntryINAE"
+                throwing="ex"
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.editOrder(..))"                
+            />
+            
+            <aop:after-throwing
+                method="createAuditEntryTE"
+                throwing="ex"
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.createOrder(..))"                
+            />   
+                        
+            <aop:after-throwing
+                method="createAuditEntryTE"
+                throwing="ex"
+                pointcut="execution(* com.mycompany.flooringmastery.service.FlooringMasteryServiceLayerImpl.editOrder(..))"                
+            />  
                 
-         </aop:aspect>
-     </aop:config> 
-    -->
+        </aop:aspect>
+    </aop:config> 
 </beans>
