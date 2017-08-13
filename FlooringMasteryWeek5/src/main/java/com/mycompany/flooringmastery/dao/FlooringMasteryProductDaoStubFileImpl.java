@@ -49,12 +49,13 @@ public class FlooringMasteryProductDaoStubFileImpl implements FlooringMasteryPro
         product4.setCostPerSquareFoot(new BigDecimal("5.15"));
         product4.setCostPerSquareFoot(new BigDecimal("4.75"));
         products.put(product4.getProductType(), product4);
-        
+
         return new ArrayList<>(products.values());
     }
 
     @Override
     public Product getProduct(String productID) throws FlooringMasteryPersistenceException {
+        getAllProducts();
         return products.get(productID);
     }
 

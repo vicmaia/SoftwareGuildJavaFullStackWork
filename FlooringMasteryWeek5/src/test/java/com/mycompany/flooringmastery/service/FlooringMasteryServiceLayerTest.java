@@ -5,8 +5,18 @@
  */
 package com.mycompany.flooringmastery.service;
 
+import com.mycompany.flooringmastery.dto.Order;
+import com.mycompany.flooringmastery.dto.Product;
+import com.mycompany.flooringmastery.dto.Tax;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,7 +36,7 @@ public class FlooringMasteryServiceLayerTest {
 
         service = ctx.getBean("ServiceLayerTest", FlooringMasteryServiceLayer.class);
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
@@ -48,6 +58,12 @@ public class FlooringMasteryServiceLayerTest {
      */
     @Test
     public void testGetOrdersByDate() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        List<Order> orderList = new ArrayList();
+        orderList = service.getOrdersByDate(ld);
+
+        assertEquals(2, orderList.size());
+
     }
 
     /**
@@ -55,6 +71,28 @@ public class FlooringMasteryServiceLayerTest {
      */
     @Test
     public void testCreateOrder() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        Order testOrder = new Order();
+
+        //Create testorder
+        testOrder.setOrderNumber(113);
+        testOrder.setCustomerName("Kenny");
+
+        Tax testTax = new Tax();
+        testTax.setState("OH");
+        testOrder.setTaxRate(testTax);
+
+        Product testProduct = new Product();
+        testProduct.setProductType("Tile");
+        testOrder.setProduct(testProduct);
+
+        testOrder.setArea(new BigDecimal("800"));
+
+        Order newOrder = service.createOrder(ld, testOrder);
+
+        List<Order> orderList = service.getOrdersByDate(ld);
+
+        assertEquals(3, orderList.size());
     }
 
     /**
@@ -62,6 +100,33 @@ public class FlooringMasteryServiceLayerTest {
      */
     @Test
     public void testEditOrder() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        Order testOrder = new Order();
+        Order editedOrder = new Order();
+
+        testOrder = service.retrieveOrder(ld, 200);
+
+        //Create edited order
+        editedOrder.setOrderNumber(200);
+        editedOrder.setCustomerName("Linden");
+        editedOrder.setOrderDate(ld);
+
+        Tax testTaxEdit = new Tax();
+        testTaxEdit.setState("OH");
+        editedOrder.setTaxRate(testTaxEdit);
+
+        Product testProductEdit = new Product();
+        testProductEdit.setProductType("Tile");
+        editedOrder.setProduct(testProductEdit);
+
+        editedOrder.setArea(new BigDecimal("800"));
+
+        service.editOrder(testOrder, editedOrder);
+
+        List<Order> orderList = service.getOrdersByDate(ld);
+
+        assertEquals(2, orderList.size());
+
     }
 
     /**

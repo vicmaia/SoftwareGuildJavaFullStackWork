@@ -127,18 +127,19 @@ public class FlooringMasteryOrderDaoStubFileImpl implements FlooringMasteryOrder
         //put orders into inner map
         ordersMap.put(testOrder1.getOrderNumber(), testOrder1);
         ordersByDateMap.put(testOrder1.getOrderDate(), ordersMap);
-        
+
         ordersMap.put(testOrder2.getOrderNumber(), testOrder2);
         ordersByDateMap.put(testOrder2.getOrderDate(), ordersMap);
 
     }
 
-private void writeOrderFile() throws FlooringMasteryPersistenceException {
-        
+    private void writeOrderFile() throws FlooringMasteryPersistenceException {
+
     }
 
     @Override
-        public Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
+    public Order removeOrder(LocalDate orderDate, Integer orderID) throws FlooringMasteryPersistenceException {
+        loadOrders();
         this.ordersDate = orderDate;
         if (ordersByDateMap.get(orderDate).containsKey(orderID)) {
             return ordersByDateMap.get(orderDate).remove(orderID);
@@ -148,8 +149,9 @@ private void writeOrderFile() throws FlooringMasteryPersistenceException {
     }
 
     @Override
-        public Order getOrderByDate(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException {
+    public Order getOrderByDate(Integer orderID, LocalDate orderDate) throws FlooringMasteryPersistenceException {
         //catch npe return null to service call
+        loadOrders();
         this.ordersDate = orderDate;
         if (ordersByDateMap.get(orderDate).containsKey(orderID)) {
             return ordersByDateMap.get(orderDate).get(orderID);
@@ -159,7 +161,7 @@ private void writeOrderFile() throws FlooringMasteryPersistenceException {
     }
 
     @Override
-        public void saveCurrentOrder() throws FlooringMasteryPersistenceException {
+    public void saveCurrentOrder() throws FlooringMasteryPersistenceException {
         writeOrderFile();
     }
 }

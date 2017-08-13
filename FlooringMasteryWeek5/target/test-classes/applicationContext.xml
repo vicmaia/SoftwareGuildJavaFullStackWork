@@ -28,7 +28,7 @@
     </bean>
     
     <bean id="FlooringMasteryProductDaoStub" 
-              class="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoStubFileImpl">
+          class="com.mycompany.flooringmastery.dao.FlooringMasteryProductDaoStubFileImpl">
     </bean>
     
     <bean id="FlooringMasteryTaxDao" 
