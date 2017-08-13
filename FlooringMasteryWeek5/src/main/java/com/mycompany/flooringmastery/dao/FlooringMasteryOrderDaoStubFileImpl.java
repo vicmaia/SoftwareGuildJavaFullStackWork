@@ -114,13 +114,13 @@ public class FlooringMasteryOrderDaoStubFileImpl implements FlooringMasteryOrder
         Tax testTax2 = new Tax();
         testTax2.setState("OH");
         testTax2.setTaxRate(new BigDecimal("6.25"));
-        testOrder2.setTaxRate(testTax);
+        testOrder2.setTaxRate(testTax2);
 
         Product testProduct2 = new Product();
         testProduct2.setProductType("Carpet");
         testProduct2.setCostPerSquareFoot(new BigDecimal("2.25"));
         testProduct2.setLaborCostPerSquareFoot(new BigDecimal("2.10"));
-        testOrder2.setProduct(testProduct);
+        testOrder2.setProduct(testProduct2);
 
         testOrder2.setArea(new BigDecimal("500"));
 
