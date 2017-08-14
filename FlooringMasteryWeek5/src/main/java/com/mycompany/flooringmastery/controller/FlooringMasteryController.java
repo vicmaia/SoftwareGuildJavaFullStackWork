@@ -99,28 +99,32 @@ public class FlooringMasteryController {
                 view.displayOrderAbortBanner();
 
             }
-        } catch (FlooringMasteryPersistenceException | ItemNotAvailableException | TaxException | DataValidationException e) {
+        } catch (ItemNotAvailableException | TaxException | DataValidationException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
 
     private void editAnOrder() throws FlooringMasteryPersistenceException {
         Integer editChoice = 0;
-
         Order orderToEdit = new Order();
         Order editedOrder = new Order();
+        LocalDate orderToEditDate = null;
 
-//        //display products
-//        view.displayAllProducts(service.getAllProducts());
-//        //display tax states
-//        view.displayAllTaxes(service.retrieveTaxList());
         boolean success = false;
         while (!success) {
             success = true;
             try {
-                //get order date to edit from user
-                LocalDate orderToEditDate = view.getOrderDate();
-                view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
+                //added this try/catch in order to catch bad dates and send user back to main menu
+                try {
+                    //get order date to edit from user
+                    orderToEditDate = view.getOrderDate();
+                    //display all order for the given date.
+                    view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
+                } catch (FlooringMasteryPersistenceException e) {
+                    view.displayErrorMessage(e.getMessage());
+                    return;
+                }
+                //
                 editChoice = view.getEditChoice();
                 if (editChoice > 0) {
                     //display products
@@ -131,7 +135,7 @@ public class FlooringMasteryController {
                     editedOrder = view.getEditedOrderDetails(orderToEdit);
                     service.editOrder(orderToEdit, editedOrder);
                 }
-            } catch (NoOrderFoundException | ItemNotAvailableException | TaxException | DataValidationException | FlooringMasteryPersistenceException e) {
+            } catch (NoOrderFoundException | ItemNotAvailableException | TaxException | DataValidationException e) {
                 success = false;
                 view.displayErrorMessage(e.getMessage());
             }
