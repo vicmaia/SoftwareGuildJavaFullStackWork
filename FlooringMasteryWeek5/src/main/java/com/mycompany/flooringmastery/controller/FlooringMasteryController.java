@@ -84,20 +84,20 @@ public class FlooringMasteryController {
 
     private void addAnOrder() throws FlooringMasteryPersistenceException {
         try {
-            //create a new order, passing in order date and order details from user
-            LocalDate orderDate = view.getOrderDate();
-            //display products
-            view.displayAllProducts(service.getAllProducts());
-            //display tax states
-            view.displayAllTaxes(service.retrieveTaxList());
-
             Order newOrder = view.getNewOrderDetails();
             if (view.getPersistDataChoice().compareToIgnoreCase("s") == 0) {
+                //create a new order, passing in order date and order details from user
+                LocalDate orderDate = view.getOrderDate();
+                //display products
+                view.displayAllProducts(service.getAllProducts());
+                //display tax states
+                view.displayAllTaxes(service.retrieveTaxList());
                 service.createOrder(orderDate, newOrder);
                 service.saveCurrentWork();
                 view.displayChangesSavedBanner();
             } else {
                 view.displayOrderAbortBanner();
+
             }
         } catch (FlooringMasteryPersistenceException | ItemNotAvailableException | TaxException | DataValidationException e) {
             view.displayErrorMessage(e.getMessage());
@@ -105,31 +105,33 @@ public class FlooringMasteryController {
     }
 
     private void editAnOrder() throws FlooringMasteryPersistenceException {
-        //get order date to edit from user
-        LocalDate orderToEditDate = view.getOrderDate();
-
-        //ask user to choose an order to edit, store it
         Integer editChoice = 0;
 
         Order orderToEdit = new Order();
         Order editedOrder = new Order();
 
-        //display products
-        view.displayAllProducts(service.getAllProducts());
-        //display tax states
-        view.displayAllTaxes(service.retrieveTaxList());
+//        //display products
+//        view.displayAllProducts(service.getAllProducts());
+//        //display tax states
+//        view.displayAllTaxes(service.retrieveTaxList());
         boolean success = false;
         while (!success) {
             success = true;
             try {
+                //get order date to edit from user
+                LocalDate orderToEditDate = view.getOrderDate();
                 view.displayAllOrders(service.getOrdersByDate(orderToEditDate));
                 editChoice = view.getEditChoice();
                 if (editChoice > 0) {
+                    //display products
+                    view.displayAllProducts(service.getAllProducts());
+                    //display tax states
+                    view.displayAllTaxes(service.retrieveTaxList());
                     orderToEdit = service.retrieveOrder(orderToEditDate, editChoice);
                     editedOrder = view.getEditedOrderDetails(orderToEdit);
                     service.editOrder(orderToEdit, editedOrder);
                 }
-            } catch (NoOrderFoundException | ItemNotAvailableException | TaxException | DataValidationException e) {
+            } catch (NoOrderFoundException | ItemNotAvailableException | TaxException | DataValidationException | FlooringMasteryPersistenceException e) {
                 success = false;
                 view.displayErrorMessage(e.getMessage());
             }
