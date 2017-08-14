@@ -158,6 +158,7 @@ public class FlooringMasteryController {
             } catch (FlooringMasteryPersistenceException | NoOrderFoundException e) {
                 success = false;
                 view.displayErrorMessage(e.getMessage());
+                return;
             }
         }
     }
