@@ -16,7 +16,7 @@ import java.time.LocalDate;
  */
 public class FlooringMasteryController {
 
-    FlooringMasteryView view;
+    private FlooringMasteryView view;
 
     private FlooringMasteryServiceLayer service;
 
@@ -83,23 +83,24 @@ public class FlooringMasteryController {
     }
 
     private void addAnOrder() throws FlooringMasteryPersistenceException {
-        //create a new order, passing in order date and order details from user
+        //get order date from user
         LocalDate orderDate = view.getOrderDate();
         try {
+            //display products
+            view.displayAllProducts(service.getAllProducts());
+            //display tax states
+            view.displayAllTaxes(service.retrieveTaxList());
+            //get new order details from user
             Order newOrder = view.getNewOrderDetails();
+            //ask the user if they want to keep the new order
             if (view.getPersistDataChoice().compareToIgnoreCase("s") == 0) {
-                //display products
-                view.displayAllProducts(service.getAllProducts());
-                //display tax states
-                view.displayAllTaxes(service.retrieveTaxList());
                 service.createOrder(orderDate, newOrder);
                 service.saveCurrentWork();
                 view.displayChangesSavedBanner();
             } else {
                 view.displayOrderAbortBanner();
-
             }
-        } catch (ItemNotAvailableException | TaxException | DataValidationException e) {
+        } catch (ItemNotAvailableException | TaxException | DataValidationException | FlooringMasteryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
@@ -124,15 +125,18 @@ public class FlooringMasteryController {
                     view.displayErrorMessage(e.getMessage());
                     return;
                 }
-                //
+                //If we make it through date validation, and have presented orders, display existing orders
                 editChoice = view.getEditChoice();
                 if (editChoice > 0) {
                     //display products
                     view.displayAllProducts(service.getAllProducts());
                     //display tax states
                     view.displayAllTaxes(service.retrieveTaxList());
+                    //Bring back the original order to edit
                     orderToEdit = service.retrieveOrder(orderToEditDate, editChoice);
+                    //Get the details from the user for the edited order
                     editedOrder = view.getEditedOrderDetails(orderToEdit);
+                    //Call the editOrder method to delte the old order from the map and add the new edited order
                     service.editOrder(orderToEdit, editedOrder);
                 }
             } catch (NoOrderFoundException | ItemNotAvailableException | TaxException | DataValidationException e) {
