@@ -83,11 +83,11 @@ public class FlooringMasteryController {
     }
 
     private void addAnOrder() throws FlooringMasteryPersistenceException {
+        //create a new order, passing in order date and order details from user
+        LocalDate orderDate = view.getOrderDate();
         try {
             Order newOrder = view.getNewOrderDetails();
             if (view.getPersistDataChoice().compareToIgnoreCase("s") == 0) {
-                //create a new order, passing in order date and order details from user
-                LocalDate orderDate = view.getOrderDate();
                 //display products
                 view.displayAllProducts(service.getAllProducts());
                 //display tax states
