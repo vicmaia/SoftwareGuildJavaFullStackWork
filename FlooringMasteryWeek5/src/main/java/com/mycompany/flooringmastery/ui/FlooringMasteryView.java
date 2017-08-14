@@ -59,6 +59,23 @@ public class FlooringMasteryView {
         io.print("");
     }
 
+    public void displayAllProducts(List<Product> productList) {
+        io.print("Products available:");
+        for (Product currentProduct : productList) {
+            io.print("Product: " + currentProduct.getProductType()
+                    + " Cost per square foot: " + currentProduct.getCostPerSquareFoot()
+                    + " Labor cost per square foot: " + currentProduct.getLaborCostPerSquareFoot());
+        }
+    }
+
+    public void displayAllTaxes(List<Tax> taxList) {
+        io.print("States available for order addresses:");
+        for (Tax currentTax : taxList) {
+            io.print("Tax state: " + currentTax.getState()
+                    + " Tax rate: " + currentTax.getTaxRate());
+        }
+    }
+
     public Order getNewOrderDetails() {
         Order newOrder = new Order();
         Tax taxRate = new Tax();

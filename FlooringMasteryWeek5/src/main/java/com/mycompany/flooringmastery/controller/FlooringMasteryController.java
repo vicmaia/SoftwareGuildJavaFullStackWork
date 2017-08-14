@@ -86,6 +86,11 @@ public class FlooringMasteryController {
         try {
             //create a new order, passing in order date and order details from user
             LocalDate orderDate = view.getOrderDate();
+            //display products
+            view.displayAllProducts(service.getAllProducts());
+            //display tax states
+            view.displayAllTaxes(service.retrieveTaxList());
+
             Order newOrder = view.getNewOrderDetails();
             if (view.getPersistDataChoice().compareToIgnoreCase("s") == 0) {
                 service.createOrder(orderDate, newOrder);
@@ -109,6 +114,10 @@ public class FlooringMasteryController {
         Order orderToEdit = new Order();
         Order editedOrder = new Order();
 
+        //display products
+        view.displayAllProducts(service.getAllProducts());
+        //display tax states
+        view.displayAllTaxes(service.retrieveTaxList());
         boolean success = false;
         while (!success) {
             success = true;

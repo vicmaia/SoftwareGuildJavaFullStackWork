@@ -96,6 +96,62 @@ public class FlooringMasteryServiceLayerTest {
         assertEquals(3, orderList.size());
     }
 
+    //Create an order with bad Tax state, should throw exception
+    @Test
+    public void testCreateOrderBadState() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        Order testOrder = new Order();
+
+        //Create testorder
+        testOrder.setOrderNumber(113);
+        testOrder.setCustomerName("Kenny");
+
+        Tax testTax = new Tax();
+        testTax.setState("NH");
+        testOrder.setTaxRate(testTax);
+
+        Product testProduct = new Product();
+        testProduct.setProductType("Tile");
+        testOrder.setProduct(testProduct);
+
+        testOrder.setArea(new BigDecimal("800"));
+
+        try {
+            Order newOrder = service.createOrder(ld, testOrder);
+            fail("Exception should have been thrown for bad tax state.");
+        } catch (TaxException e) {
+            return;
+        }
+    }
+
+    //Create an order with bad Tax state, should throw exception
+    @Test
+    public void testCreateOrderBadProduct() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        Order testOrder = new Order();
+
+        //Create testorder
+        testOrder.setOrderNumber(113);
+        testOrder.setCustomerName("Kenny");
+
+        Tax testTax = new Tax();
+        testTax.setState("OH");
+        testOrder.setTaxRate(testTax);
+
+        Product testProduct = new Product();
+        testProduct.setProductType("Kryptonite");
+        testOrder.setProduct(testProduct);
+
+        testOrder.setArea(new BigDecimal("800"));
+
+        try {
+            Order newOrder = service.createOrder(ld, testOrder);
+            fail("Exception should have been thrown for bad tax state.");
+        } catch (ItemNotAvailableException e) {
+            return;
+        }
+    }
+
     /**
      * Test of editOrder method, of class FlooringMasteryServiceLayer.
      */
