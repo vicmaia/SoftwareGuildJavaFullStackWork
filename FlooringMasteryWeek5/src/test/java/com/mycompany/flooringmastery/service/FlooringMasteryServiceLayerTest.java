@@ -146,7 +146,7 @@ public class FlooringMasteryServiceLayerTest {
 
         try {
             Order newOrder = service.createOrder(ld, testOrder);
-            fail("Exception should have been thrown for bad tax state.");
+            fail("Exception should have been thrown for bad product selection.");
         } catch (ItemNotAvailableException e) {
             return;
         }
@@ -183,7 +183,66 @@ public class FlooringMasteryServiceLayerTest {
         List<Order> orderList = service.getOrdersByDate(ld);
 
         assertEquals(2, orderList.size());
+    }
 
+    @Test
+    public void testEditOrderBadState() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        Order testOrder = new Order();
+        Order editedOrder = new Order();
+
+        testOrder = service.retrieveOrder(ld, 200);
+
+        //Create edited order
+        editedOrder.setOrderNumber(200);
+        editedOrder.setCustomerName("Linden");
+        editedOrder.setOrderDate(ld);
+
+        Tax testTaxEdit = new Tax();
+        testTaxEdit.setState("RI");
+        editedOrder.setTaxRate(testTaxEdit);
+
+        Product testProductEdit = new Product();
+        testProductEdit.setProductType("Tile");
+        editedOrder.setProduct(testProductEdit);
+
+        editedOrder.setArea(new BigDecimal("800"));
+        try {
+            service.editOrder(testOrder, editedOrder);
+            fail("Exception should have been thrown for bad tax state selection.");
+        } catch (TaxException e) {
+            return;
+        }
+    }
+
+    @Test
+    public void testEditOrderBadProduct() throws Exception {
+        LocalDate ld = LocalDate.parse("2010-01-01");
+        Order testOrder = new Order();
+        Order editedOrder = new Order();
+
+        testOrder = service.retrieveOrder(ld, 200);
+
+        //Create edited order
+        editedOrder.setOrderNumber(200);
+        editedOrder.setCustomerName("Linden");
+        editedOrder.setOrderDate(ld);
+
+        Tax testTaxEdit = new Tax();
+        testTaxEdit.setState("OH");
+        editedOrder.setTaxRate(testTaxEdit);
+
+        Product testProductEdit = new Product();
+        testProductEdit.setProductType("Titanium");
+        editedOrder.setProduct(testProductEdit);
+
+        editedOrder.setArea(new BigDecimal("800"));
+        try {
+            service.editOrder(testOrder, editedOrder);
+            fail("Exception should have been thrown for bad product selection.");
+        } catch (ItemNotAvailableException e) {
+            return;
+        }
     }
 
     /**
