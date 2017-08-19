@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Vending Machine</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>
+                    Vending Machine
+                    <small>Getting you through 3 hour afternoon Skype meetings since 1990.</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-9" id="items-div">
+
+            </div>
+
+            <div class="col-md-3" id="left-column">
+                <h2>
+                    Total $ In:
+                </h2>
+
+                <div id="money-in">
+                    <p id="amount"></p>
+                </div>
+                <button class="btn btn-default" type="button" id="dollar">
+                    Add Dollar
+                </button>
+                <button class="btn btn-default" type="button" id="quarter">
+                    Add Quarter
+                </button>
+                <button class="btn btn-default" type="button" id="dime">
+                    Add Dime
+                </button>
+                <button class="btn btn-default" type="button" id="nickel">
+                    Add Nickel
+                </button>
+
+                <hr/>
+
+                <h2>
+                    Messages
+                </h2>
+
+                <div id="messages">
+                    <p id="message">&nbsp</p>
+                </div>
+
+                <form class="form-horizontal" role="form" id="edit-form">
+                    <div class="col-md-12">
+                        <label for="edit-item-selection" id="item-selection-label">
+                            Item:
+                        </label>
+
+                        <div class="col-md-8 pull-right">
+                            <input type="text"
+                                   class="form-control"
+                                   id="edit-item-selection"
+                                   placeholder="Item #"/>
+                        </div>
+                    </div>
+                </form>
+
+                <button type="button" class="btn btn-default" id="buy-button">
+                    Make Purchase
+                </button>
+
+                <hr/>
+
+                <h2>
+                    Change
+                </h2>
+
+                <div id="change-out">
+                    <p id="change">&nbsp</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

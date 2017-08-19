@@ -1,0 +1,62 @@
+.dynamic-items {
+    font-family: Menlo;
+    font-size: 18pt;
+    text-align: center;
+    background: Whitesmoke;
+    border: 1px solid #000;
+    box-shadow: 1px 1px 5px -1px #000;
+    margin: 30px;
+}
+
+.item-id {
+    font-family: Menlo;
+    font-size: 20pt;
+    text-align: left;
+}
+
+#money-in {
+    font-family: Menlo;
+    font-size: 18pt;
+    text-align: center;
+    background: Whitesmoke;
+    border: 1px solid #000;
+    box-shadow: 1px 1px 5px -1px #000;
+    margin-bottom: 10px;
+}
+
+#messages {
+    font-family: Menlo;
+    font-size: 18pt;
+    text-align: center;
+    background: Whitesmoke;
+    border: 1px solid #000;
+    box-shadow: 1px 1px 5px -1px #000;
+    margin-bottom: 10px;
+}
+
+#change-out {
+    font-family: Menlo;
+    font-size: 18pt;
+    text-align: center;
+    background: Whitesmoke;
+    border: 1px solid #000;
+    box-shadow: 1px 1px 5px -1px #000;
+    margin-bottom: 10px;
+}
+
+
+.btn-default {
+    font-size: 10pt;
+    text-align: center;
+    margin: 10px;
+}
+
+#left-column {
+    align-content: center;
+    text-align: center;
+}
+
+#item-selection-label {
+    font-family: Menlo;
+    font-size: 18pt;
+}
