@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Weather Page</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="mainHeading" align="center">Weather Page</h1>
+    </div>
+
+    <div class="container">
+        <form class="form-horizontal" role="form" id="entry-form">
+
+            <div class="form-group">
+                <label for="zip-code" class="col-md-4 control-label">Zipcode:</label>
+
+                <div class="col-md-4" align="center">
+                    <input type="text" pattern="^\d{5}" class="form-control" id="zip-code" placeholder="Zipcode:" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4" align="center">
+                    <label for="units" class="col-md-4 control-label">Units:</label>
+                    <select class="selectpicker" id="units">
+                    <option>Imperial</option>
+                    <option>Metric</option>
+                    <option>Kelvin</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12" align="center">
+                    <button type="button" id="get-weather-button" class="btn btn-default">Get Weather</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Today's Weather</h1>
+
+                <div id="today">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Five Day Forecast</h1>
+                <div class="col-md-2" div id="tomorrow">
+                    
+                </div>
+            </div>
+
+
+
+            <script src="js/jquery-2.2.4.min.js"></script>
+            <script src="js/home.js"></script>
+</body>
+
+</html>

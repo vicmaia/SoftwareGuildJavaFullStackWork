@@ -57,4 +57,15 @@ $(document).ready(function () {
     $('#louisvilleWeatherButton').on('click', function() {
         $('#louisvilleWeather').toggle();
     });
+
+        $('tr').not(":eq(0)").hover(
+        // in callback
+        function() {
+            $(this).css('background-color', 'WhiteSmoke');
+        },
+        //this runs when we're not hovering over a div, it changes the background color back to ''
+        // out callback
+        function() {
+            $(this).css('background-color', '');
+        });
 });
