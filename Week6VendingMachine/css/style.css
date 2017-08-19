@@ -14,9 +14,10 @@
     text-align: left;
 }
 
-#money-in {
+.displays {
     font-family: Menlo;
     font-size: 18pt;
+    height: 50px;
     text-align: center;
     background: Whitesmoke;
     border: 1px solid #000;
@@ -24,26 +25,15 @@
     margin-bottom: 10px;
 }
 
-#messages {
+#change {
     font-family: Menlo;
     font-size: 18pt;
+    height: 100px;
     text-align: center;
     background: Whitesmoke;
     border: 1px solid #000;
     box-shadow: 1px 1px 5px -1px #000;
-    margin-bottom: 10px;
 }
-
-#change-out {
-    font-family: Menlo;
-    font-size: 18pt;
-    text-align: center;
-    background: Whitesmoke;
-    border: 1px solid #000;
-    box-shadow: 1px 1px 5px -1px #000;
-    margin-bottom: 10px;
-}
-
 
 .btn-default {
     font-size: 10pt;

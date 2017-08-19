@@ -34,7 +34,7 @@
                     Total $ In:
                 </h2>
 
-                <div id="money-in">
+                <div id="money-in" class="displays">
                     <p id="amount"></p>
                 </div>
                 <button class="btn btn-default" type="button" id="dollar">
@@ -56,8 +56,8 @@
                     Messages
                 </h2>
 
-                <div id="messages">
-                    <p id="message">&nbsp</p>
+                <div id="messages" class="displays">
+                    <p id="message-out"></p>
                 </div>
 
                 <form class="form-horizontal" role="form" id="edit-form">
@@ -68,6 +68,8 @@
 
                         <div class="col-md-8 pull-right">
                             <input type="text"
+                                   name="selection"
+                                   readonly="readonly"
                                    class="form-control"
                                    id="edit-item-selection"
                                    placeholder="Item #"/>
@@ -85,8 +87,8 @@
                     Change
                 </h2>
 
-                <div id="change-out">
-                    <p id="change">&nbsp</p>
+                <div id="change-out" class="displays">
+                    <p id="change"></p>
                 </div>
             </div>
         </div>
