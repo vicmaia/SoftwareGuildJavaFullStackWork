@@ -56,6 +56,38 @@ $(document).ready(function () {
             buySnack(snack);
         });
 
+        $('#change-button').on('click', function () {
+            var numPennies = formattedMoney * 100;
+
+            clearForm();
+            clearMessage();
+            clearChange();
+
+            var numQuarters, numDimes, numNickels, numPennies;
+            if (numPennies == 0) {
+                $('#message-out').text('No change to return!');
+            }
+            if (numPennies >= 25) {
+                numQuarters = Math.floor(numPennies / 25);
+                $('#change').append(' Quarters: ' + numQuarters);
+                numPennies -= numQuarters * 25;
+            }
+            if (numPennies >= 10) {
+                numDimes = Math.floor(numPennies / 10);
+                $('#change').append(' Dimes: ' + numDimes);
+                numPennies -= numDimes * 10;
+            }
+            if (numPennies >= 5) {
+                numNickels = Math.floor(numPennies / 5);
+                $('#change').append(' Nickels: ' + numNickels);
+                numPennies -= numNickels * 5;
+            }
+            if (numPennies < 5 && numPennies != 0) {
+                $('#change').append(' Pennies: ' + numPennies);
+                numPennies -= numPennies;
+            }
+        });
+
         function loadSnacks() {
             var mainDiv = $('#items-div');
 
