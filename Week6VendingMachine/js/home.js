@@ -106,7 +106,9 @@ $(document).ready(function () {
                         newElement.className = "col-md-3 dynamic-items";
                         newElement.innerHTML = '<p class = "item-id">' + itemID + '</p>' + itemName + '<br/>' + price + '<br/><br/>' + quantity;
 
-                        if (item.quantity > 0) mainDiv.append(newElement);
+                        //if (item.quantity > 0) mainDiv.append(newElement);
+
+                        mainDiv.append(newElement);
 
                         $('#itemDetail' + item.id).on('click', function () {
                             clearMessage();
