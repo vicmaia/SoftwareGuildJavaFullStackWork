@@ -60,6 +60,7 @@ public String createContact(HttpServletRequest request) {
     // we don't want to forward to a View component - we want to
     // redirect to the endpoint that displays the Contacts Page
     // so it can display the new Contact in the table.
+    //redirect: does not look for a .jsp with the name, tells browser to load this page which is defined above
     return "redirect:displayContactsPage";
 }
 
