@@ -16,4 +16,6 @@
 
     <!-- Bean definitions go here -->
     
+    <bean id="contactListDao"
+      class="com.mycompany.contactlistmvc.dao.ContactListDaoInMemImpl"/>
 </beans>
