@@ -7,6 +7,7 @@ package com.mycompany.flooringcalculatorjspservlet;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +42,8 @@ public class FlooringServlet extends HttpServlet {
         //do our calculations
         BigDecimal totalSqFt = width.multiply(length);
         BigDecimal totalCost = costPerSqFt.multiply(totalSqFt);
+        BigDecimal totalLabor = totalSqFt.divide(new BigDecimal("20"), RoundingMode.UP).multiply(new BigDecimal("86"));
+        BigDecimal overall = totalCost.add(totalLabor);
 
         //set results to attributes on the request
         //set all of the results on the requestattributes map
@@ -49,6 +52,9 @@ public class FlooringServlet extends HttpServlet {
         request.setAttribute("costPerSqFt", costPerSqFt);
         request.setAttribute("totalSqFt", totalSqFt);
         request.setAttribute("totalCost", totalCost);
+        request.setAttribute("totalLabor", totalLabor);
+        request.setAttribute("overall", overall);
+        
 
         
        

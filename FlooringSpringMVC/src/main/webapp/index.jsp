@@ -1,0 +1,53 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flooring Calc</title>
+        <!-- Bootstrap core CSS -->
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" 
+              rel="stylesheet">        
+    </head>
+    <body>
+        <div class="container">
+            <h1>Flooring Calc</h1>
+            <hr/>
+            <div class="navbar">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" 
+                        class="active">
+                            <a href="${pageContext.request.contextPath}/index.jsp">
+                                Home
+                            </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="${pageContext.request.contextPath}/hello/sayhi">
+                            Hello Controller
+                        </a>
+                    </li>
+                </ul>    
+            </div>
+        <form method="POST" action="FlooringServlet">
+            <label for="width">Width:</label>
+            <input type="test" name="width" id="width">
+            <br/>
+            <label for="length">Length:</label>
+            <input type="test" name="length" id="length">
+            <br/>
+            <label for="cpsf">Cost Per Square Foot:</label>
+            <input type="test" name="costPerSqFt" id="cpsf">
+            <br/>
+            <input type="submit" value="Calculate flooring!!!">
+        </form>
+        </div>
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js">
+        </script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js">
+        </script>
+
+    </body>
+</html>
+
