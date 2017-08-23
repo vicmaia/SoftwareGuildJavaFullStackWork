@@ -9,6 +9,7 @@ import com.mycompany.contactlistmvc.dao.ContactListDao;
 import com.mycompany.contactlistmvc.model.Contact;
 import java.util.List;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,11 +42,11 @@ public Contact getContact(@PathVariable("id") long id) {
 }
 
 @RequestMapping(value = "/contact", method = RequestMethod.POST)
-@ResponseStatus(HttpStatus.CREATED)
-@ResponseBody
-public Contact createContact(@RequestBody Contact contact) {
-    return dao.addContact(contact);
-}
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public Contact createContact(@Valid @RequestBody Contact contact) {
+        return dao.addContact(contact);
+    }
 
 @RequestMapping(value = "/contact/{id}", method = RequestMethod.DELETE)
 @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -53,14 +54,14 @@ public void deleteContact(@PathVariable("id") long id) {
     dao.removeContact(id);
 }
 
-@RequestMapping(value = "/contact/{id}", method = RequestMethod.PUT)
-@ResponseStatus(HttpStatus.NO_CONTENT)
-public void updateContact(@PathVariable("id") long id, @RequestBody Contact contact) {
-    // favor the path variable over the id in the object if they differ
-    contact.setContactId(id);
-    dao.updateContact(contact);
-}
-
+    @RequestMapping(value = "/contact/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateContact(@PathVariable("id") long id, @Valid @RequestBody Contact contact) {
+        
+        contact.setContactId(id);
+        dao.updateContact(contact);
+    }
+    
 @RequestMapping(value = "/contacts", method = RequestMethod.GET)
 @ResponseBody
 public List<Contact> getAllContacts() {
