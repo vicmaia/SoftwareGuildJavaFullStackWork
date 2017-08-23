@@ -29,15 +29,7 @@ public class FlooringController {
             method = RequestMethod.POST)
     public String factorNumber(HttpServletRequest request,
             Map<String, Object> model) {
-        // A List to hold our factors
-        List<Integer> factorList = new ArrayList<>();
-        // A sum to help us calculate whether or not the number
-        // is perfect
-        int factorSum = 0;
-        boolean isPrime = false;
-        boolean isPerfect = false;
-        // Get the input from the user and convert it to an int
-
+        
         BigDecimal width = new BigDecimal(request.getParameter("width"));
         BigDecimal length = new BigDecimal(request.getParameter("length"));
         BigDecimal costPerSqFt = new BigDecimal(request.getParameter("costPerSqFt"));
