@@ -54,13 +54,17 @@ public void deleteContact(@PathVariable("id") long id) {
     dao.removeContact(id);
 }
 
-    @RequestMapping(value = "/contact/{id}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateContact(@PathVariable("id") long id, @Valid @RequestBody Contact contact) {
+@RequestMapping(value = "/contact/{id}", method = RequestMethod.PUT)
+@ResponseStatus(HttpStatus.NO_CONTENT)
+public void updateContact(@PathVariable("id") long id, 
+                          @Valid @RequestBody Contact contact) throws UpdateIntegrityException {
         
-        contact.setContactId(id);
-        dao.updateContact(contact);
+    if (id != contact.getContactId()) {
+        throw 
+          new UpdateIntegrityException("Contact Id on URL must match Contact Id in submitted data.");
     }
+    dao.updateContact(contact);
+}
     
 @RequestMapping(value = "/contacts", method = RequestMethod.GET)
 @ResponseBody

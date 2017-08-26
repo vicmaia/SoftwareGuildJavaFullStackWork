@@ -79,7 +79,7 @@
         Add col to hold the new contact form - have it take up the other 
         half of the row
     -->
-    <div class="col-md-6">
+    <div class="col-md-12">
         <h2>Add New Contact</h2>
         <form class="form-horizontal" 
               role="form" method="POST" 
