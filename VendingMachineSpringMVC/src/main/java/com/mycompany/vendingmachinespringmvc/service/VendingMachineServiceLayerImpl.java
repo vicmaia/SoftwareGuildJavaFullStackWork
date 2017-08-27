@@ -28,7 +28,8 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
 
     private BigDecimal currentMoney = new BigDecimal("0");
     private Integer selection = 0;
-    private String message = "Please make a selection";
+    private String message = "Welcome to Vending Machine";
+    private String changeMessage = "";
 
     //Pass through method
     @Override
@@ -55,11 +56,13 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
                 int remainingCash = currentMoney.subtract(itemToPurchase.getPrice()).multiply(oneHundred).intValueExact();
                 //reduce inventory by 1
                 makeSaleReduceInventory(itemId);
-                //get change
+                //Thank you message
+                message = "Thank you!";
+                //get change     
                 return giveChange(remainingCash);
             } else {
                 throw new InsufficientFundsException(
-                        "Not enough money!  Cannot purchase " + itemToPurchase.getItemName() + ".");
+                        "Not enough money!  Please insert $" + itemToPurchase.getPrice().subtract(currentMoney));
             }
         } else {
             throw new NoItemInventoryException(
@@ -93,7 +96,9 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
         //Update cash inserted
         this.currentMoney = new BigDecimal("0");
         //Let's make and return change
-        return new Change(remainingCash);
+        Change returnedChange = new Change(remainingCash);
+        changeMessage(returnedChange);
+        return returnedChange;
     }
 
     @Override
@@ -101,6 +106,8 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
         if (currentMoney.compareTo(new BigDecimal("0")) > 0) {
             BigDecimal oneHundred = new BigDecimal("100");
             int remainingCash = currentMoney.multiply(oneHundred).intValueExact();
+            Change returnedChange = new Change(remainingCash);
+            changeMessage(returnedChange);
             return giveChange(remainingCash);
         } else {
             throw new InsufficientFundsException("No money to return change on.");
@@ -117,6 +124,7 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     public void setCurrentMoney(BigDecimal moneyEntry) throws NumberFormatException {
         if (moneyEntry.compareTo(new BigDecimal("0")) > 0) {
             this.currentMoney = this.currentMoney.add(moneyEntry, MathContext.UNLIMITED);
+            changeMessage = "";
         } else {
             throw new NumberFormatException("Money added must be greater than 0.");
         }
@@ -130,10 +138,30 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     @Override
     public void setSelection(Integer selection) {
         this.selection = selection;
+        message = "Welcome to Vending Machine";
+        changeMessage = "";
     }
 
     @Override
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getChangeMessage() {
+        return changeMessage;
+    }
+
+    private void changeMessage(Change changeToReturn) {
+        changeMessage = ("Quarters:" + changeToReturn.getNumQuarters()
+                + " Dimes:" + changeToReturn.getNumDimes()
+                + "\nNickels:" + changeToReturn.getNumNickles()
+                + " Pennies:" + changeToReturn.getNumPennies());
+        this.selection = 0;
     }
 }

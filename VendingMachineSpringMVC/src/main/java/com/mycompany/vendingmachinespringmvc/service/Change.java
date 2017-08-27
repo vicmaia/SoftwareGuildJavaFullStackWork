@@ -5,6 +5,8 @@
  */
 package com.mycompany.vendingmachinespringmvc.service;
 
+import javax.inject.Inject;
+
 /**
  *
  * @author n0252282
@@ -16,7 +18,7 @@ public class Change {
     private int numDimes = 0;
     private int numQuarters = 0;
 
-    public Change (int numPennies) {
+    public Change(int numPennies) {
 
         if (numPennies >= 25) {
             this.numQuarters = numPennies / 25;
@@ -33,6 +35,7 @@ public class Change {
         if (numPennies < 5) {
             this.numPennies = numPennies;
         }
+
     }
 
     public int getNumPennies() {
@@ -87,6 +90,5 @@ public class Change {
         }
         return true;
     }
-    
-    
+
 }

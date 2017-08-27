@@ -11,9 +11,7 @@ import com.mycompany.vendingmachinespringmvc.service.InsufficientFundsException;
 import com.mycompany.vendingmachinespringmvc.service.NoItemInventoryException;
 import com.mycompany.vendingmachinespringmvc.service.VendingMachineServiceLayer;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -36,19 +34,28 @@ public class VendingController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String root(Model model) throws VendingMachinePersistenceException {
-        List<Item> items = service.getAllItems();
+    public String root(Model model) {
+        List<Item> items = null;
+
+        try {
+            items = service.getAllItems();
+        } catch (VendingMachinePersistenceException e) {
+            service.setMessage(e.getMessage());
+            return "redirect:/";
+        }
+
         BigDecimal moneyInserted = service.getCurrentMoney();
         Integer selection = service.getSelection();
         String message = service.getMessage();
+        String changeMessage = service.getChangeMessage();
 
         model.addAttribute("items", items);
         model.addAttribute("money", moneyInserted);
         model.addAttribute("selection", selection);
         model.addAttribute("message", message);
+        model.addAttribute("change", changeMessage);
         return "index";
     }
-    //also need add money, return change, make purchase
 
     @RequestMapping(value = "/addMoney", method = RequestMethod.POST)
     public String addMoney(HttpServletRequest request) {
@@ -71,21 +78,32 @@ public class VendingController {
     }
 
     @RequestMapping(value = "/selectItem", method = RequestMethod.GET)
-    public String selectItem(HttpServletRequest request) throws
-            InsufficientFundsException,
-            VendingMachinePersistenceException {
+    public String selectItem(HttpServletRequest request) {
         Integer selectItem = Integer.parseInt(request.getParameter("id"));
         service.setSelection(selectItem);
         return "redirect:/";
     }
 
     @RequestMapping(value = "/makePurchase", method = RequestMethod.GET)
-    public String makePurchase(HttpServletRequest request) throws
-            InsufficientFundsException,
-            VendingMachinePersistenceException,
-            NoItemInventoryException {
+    public String makePurchase(HttpServletRequest request) {
         Integer selectItem = Integer.parseInt(request.getParameter("id"));
-        service.purchaseItem(selectItem);
+        try {
+            service.purchaseItem(selectItem);
+        } catch (InsufficientFundsException | VendingMachinePersistenceException | NoItemInventoryException e) {
+            service.setMessage(e.getMessage());
+            return "redirect:/";
+        }
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/returnChange", method = RequestMethod.GET)
+    public String returnChange(HttpServletRequest request) {
+        try {
+            service.cancelGiveChange();
+        } catch (InsufficientFundsException | VendingMachinePersistenceException e) {
+            service.setMessage(e.getMessage());
+            return "redirect:/";
+        }
         return "redirect:/";
     }
 }

@@ -88,7 +88,7 @@
                         </div>
 
 
-                            <a class="col-md-11 btn btn-default" href="${pageContext.request.contextPath}/makePurchase?id=${selection}">Make Purchase </a>
+                            <a class="col-md-11 btn btn-default" href="${pageContext.request.contextPath}/makePurchase?id=${selection}">Make Purchase</a>
                    
 
                         <hr/>
@@ -97,11 +97,9 @@
                             Change
                         </h2>
 
-                        <div id="change-out" class="displays">
-                            <p id="change"></p>
-                            <button type="button" class="btn btn-default" id="change-button">
-                                Return Change
-                            </button>
+                        <div id="change-out" class="displays" style="font-size: 12pt;">
+                            <p id="change">${change}</p>
+                            <a class="col-md-11 btn btn-default" href="${pageContext.request.contextPath}/returnChange?id=${selection}">Return Change</a>
                         </div>
                     </div>
                 </div>
