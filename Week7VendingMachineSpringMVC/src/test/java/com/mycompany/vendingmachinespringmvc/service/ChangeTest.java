@@ -5,6 +5,7 @@
  */
 package com.mycompany.vendingmachinespringmvc.service;
 
+import com.mycompany.vendingmachinespringmvc.model.Change;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

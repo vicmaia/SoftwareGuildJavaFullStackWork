@@ -5,6 +5,7 @@
  */
 package com.mycompany.vendingmachinespringmvc.service;
 
+import com.mycompany.vendingmachinespringmvc.model.Change;
 import com.mycompany.vendingmachinespringmvc.dao.VendingDao;
 import java.util.List;
 import com.mycompany.vendingmachinespringmvc.dao.VendingMachinePersistenceException;

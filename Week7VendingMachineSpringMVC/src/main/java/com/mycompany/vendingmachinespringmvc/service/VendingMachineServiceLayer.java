@@ -5,6 +5,7 @@
  */
 package com.mycompany.vendingmachinespringmvc.service;
 
+import com.mycompany.vendingmachinespringmvc.model.Change;
 import com.mycompany.vendingmachinespringmvc.dao.VendingMachinePersistenceException;
 import com.mycompany.vendingmachinespringmvc.model.Item;
 import java.math.BigDecimal;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vendingmachinespringmvc.service;
+package com.mycompany.vendingmachinespringmvc.model;
 
 import javax.inject.Inject;
 
