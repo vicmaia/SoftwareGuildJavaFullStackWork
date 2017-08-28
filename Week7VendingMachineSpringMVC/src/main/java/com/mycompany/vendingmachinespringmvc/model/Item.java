@@ -15,7 +15,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Item {
     private Integer itemId;
-    @NotEmpty(message="Please pick an item to purchase")
     private String itemName;
     private BigDecimal price;
     private Integer quantity;
