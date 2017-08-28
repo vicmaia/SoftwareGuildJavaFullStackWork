@@ -132,6 +132,29 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
     }
 
     @Override
+    public void convertMoneyButtonInput(String btnValue) {
+        if (btnValue.equals(
+                "Add Dollar")) {
+            setCurrentMoney(new BigDecimal("1.00"));
+        }
+
+        if (btnValue.equals(
+                "Add Quarter")) {
+            setCurrentMoney(new BigDecimal(".25"));
+        }
+
+        if (btnValue.equals(
+                "Add Dime")) {
+            setCurrentMoney(new BigDecimal(".10"));
+        }
+
+        if (btnValue.equals(
+                "Add Nickel")) {
+            setCurrentMoney(new BigDecimal(".05"));
+        }
+    }
+
+    @Override
     public Integer getSelection() {
         return selection;
     }

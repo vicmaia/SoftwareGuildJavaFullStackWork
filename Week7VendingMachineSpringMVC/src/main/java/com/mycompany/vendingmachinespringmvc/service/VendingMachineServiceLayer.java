@@ -35,11 +35,13 @@ public interface VendingMachineServiceLayer {
     public void setSelection(Integer selection);
 
     public Integer getSelection();
-    
+
     public String getMessage();
-    
+
     public void setMessage(String message);
 
     public String getChangeMessage();
+
+    public void convertMoneyButtonInput(String btnValue);
 
 }

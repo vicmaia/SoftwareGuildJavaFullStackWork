@@ -59,21 +59,7 @@ public class VendingController {
 
     @RequestMapping(value = "/addMoney", method = RequestMethod.POST)
     public String addMoney(HttpServletRequest request) {
-        String btnValue = request.getParameter("money");
-
-        if (btnValue.equals("Add Dollar")) {
-            service.setCurrentMoney(new BigDecimal("1.00"));
-        }
-        if (btnValue.equals("Add Quarter")) {
-            service.setCurrentMoney(new BigDecimal(".25"));
-        }
-        if (btnValue.equals("Add Dime")) {
-            service.setCurrentMoney(new BigDecimal(".10"));
-        }
-        if (btnValue.equals("Add Nickel")) {
-            service.setCurrentMoney(new BigDecimal(".05"));
-        }
-
+        service.convertMoneyButtonInput(request.getParameter("money"));
         return "redirect:/";
     }
 

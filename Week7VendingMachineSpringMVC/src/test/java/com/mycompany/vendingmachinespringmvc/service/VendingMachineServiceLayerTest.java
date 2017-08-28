@@ -188,4 +188,12 @@ public class VendingMachineServiceLayerTest {
 
     }
 
+    @Test
+    public void convertMoneyButtonInput() throws Exception {
+        //add a quarter
+        service.convertMoneyButtonInput("Add Quarter");
+
+        //do we have .25?
+        assertEquals(new BigDecimal(".25"), service.getCurrentMoney());
+    }
 }
