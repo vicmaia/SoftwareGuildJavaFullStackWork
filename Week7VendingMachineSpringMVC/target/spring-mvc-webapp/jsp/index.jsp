@@ -3,8 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -49,7 +47,7 @@
                         </h2>
 
                         <div id="money-in" class="displays">
-                            <p id="amount">${money}</p>
+                            <p id="amount"><c:out value="${money}"/></p>
                         </div>
 
                         <form action="addMoney" method="POST">

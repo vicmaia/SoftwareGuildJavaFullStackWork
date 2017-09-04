@@ -77,7 +77,7 @@ public class VendingController {
             service.purchaseItem(selectItem);
         } catch (InsufficientFundsException | VendingMachinePersistenceException | NoItemInventoryException e) {
             service.setMessage(e.getMessage());
-            return "redirect:/";
+            //return "redirect:/";
         }
         return "redirect:/";
     }
@@ -88,7 +88,7 @@ public class VendingController {
             service.cancelGiveChange();
         } catch (InsufficientFundsException | VendingMachinePersistenceException e) {
             service.setMessage(e.getMessage());
-            return "redirect:/";
+            //return "redirect:/";
         }
         return "redirect:/";
     }
