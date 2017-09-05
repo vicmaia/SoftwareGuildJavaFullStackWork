@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `hotel`.`rooms` (
   `RoomTypeID` INT(6) NOT NULL,
   PRIMARY KEY (`RoomID`),
   UNIQUE INDEX `rooms_RoomNumber_UNIQUE` (`RoomNumber` ASC),
-  INDEX `fk_Rooms_RoomTypeID_idx` (`RoomTypeID` ASC),
+  INDEX `fk_Rooms_RoomTypeID_Idx` (`RoomTypeID` ASC),
   CONSTRAINT `fk_Rooms_RoomTypeID`
     FOREIGN KEY (`RoomTypeID`)
     REFERENCES `hotel`.`roomtypes` (`RoomTypeID`)
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `hotel`.`customeraddresses` (
   `StreetAddress` VARCHAR(256) NOT NULL,
   `ZipCode` CHAR(5) NOT NULL,
   PRIMARY KEY (`AddressID`),
-  INDEX `fk_CustomerAddresses_ZipCode_idx` (`ZipCode` ASC),
+  INDEX `fk_CustomerAddresses_ZipCode_Idx` (`ZipCode` ASC),
   CONSTRAINT `fk_CustomerAddresses_ZipCode`
     FOREIGN KEY (`ZipCode`)
     REFERENCES `hotel`.`postalcode` (`ZipCode`)
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `hotel`.`customers` (
   `CustomerEmail` VARCHAR(256) NULL,
   `AddressID` INT(12) NOT NULL,
   PRIMARY KEY (`CustomerID`),
-  INDEX `fk_Customers_AddressID_idx` (`AddressID` ASC),
+  INDEX `fk_Customers_AddressID_Idx` (`AddressID` ASC),
   CONSTRAINT `fk_customers_addressID`
     FOREIGN KEY (`AddressID`)
     REFERENCES `hotel`.`customeraddresses` (`AddressID`)
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `hotel`.`reservations` (
   `ReservationCheckInDate` DATE NOT NULL,
   `ReservationCheckOutDate` DATE NOT NULL,
   `CustomerID` INT(12) NOT NULL,
-  INDEX `fk_Customers_CustomerID_idx` (`CustomerID` ASC),
+  INDEX `fk_Customers_CustomerID_Idx` (`CustomerID` ASC),
   PRIMARY KEY (`ReservationID`),
   CONSTRAINT `fk_Customers_CustomerID`
     FOREIGN KEY (`CustomerID`)
@@ -163,9 +163,9 @@ CREATE TABLE IF NOT EXISTS `hotel`.`reservationsroomsguestsbridge` (
   `RoomID` INT(9) NOT NULL,
   `GuestID` INT(12) NOT NULL,
   PRIMARY KEY (`ReservationID`, `RoomID`, `GuestID`),
-  INDEX `fk_Rooms_RoomID_idx` (`RoomID` ASC),
-  INDEX `fk_Guests_GuestID_idx` (`GuestID` ASC),
-  INDEX `fk_Reservations_ReservationID_idx` (`ReservationID` ASC),
+  INDEX `fk_Rooms_RoomID_Idx` (`RoomID` ASC),
+  INDEX `fk_Guests_GuestID_Idx` (`GuestID` ASC),
+  INDEX `fk_Reservations_ReservationID_Idx` (`ReservationID` ASC),
   CONSTRAINT `fk_Reservations.ReservationID`
     FOREIGN KEY (`ReservationID`)
     REFERENCES `hotel`.`reservations` (`ReservationID`)
@@ -206,8 +206,8 @@ CREATE TABLE IF NOT EXISTS `hotel`.`addonsreservationsbridge` (
   `BeginDate` DATE NOT NULL,
   `EndDate` DATE NOT NULL,
   PRIMARY KEY (`AddOnID`, `ReservationID`, `BeginDate`, `EndDate`),
-  INDEX `fk_addons_reservations_reservations_idx` (`ReservationID` ASC),
-  INDEX `fk_addons_reservations_addons_idx` (`AddOnID` ASC),
+  INDEX `fk_addons_reservations_reservations_Idx` (`ReservationID` ASC),
+  INDEX `fk_addons_reservations_addons_Idx` (`AddOnID` ASC),
   CONSTRAINT `fk_addons_reservations_addons`
     FOREIGN KEY (`AddOnID`)
     REFERENCES `hotel`.`addons` (`AddOnID`)
@@ -244,8 +244,8 @@ CREATE TABLE IF NOT EXISTS `hotel`.`promotioncodesreservationsbridge` (
   `BeginDate` DATE NOT NULL,
   `EndDate` DATE NOT NULL,
   PRIMARY KEY (`PromotionCodesID`, `ReservationID`, `BeginDate`, `EndDate`),
-  INDEX `fk_Reservations_ReservationID_idx` (`ReservationID` ASC),
-  INDEX `fk_PromotionCodes_PromotionCodesID_idx` (`PromotionCodesID` ASC),
+  INDEX `fk_Reservations_ReservationID_Idx` (`ReservationID` ASC),
+  INDEX `fk_PromotionCodes_PromotionCodesID_Idx` (`PromotionCodesID` ASC),
   CONSTRAINT `fk_PromotionCodes_PromotionCodesID`
     FOREIGN KEY (`PromotionCodesID`)
     REFERENCES `hotel`.`promotioncodes` (`PromotionCodesID`)
@@ -271,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `hotel`.`billdetails` (
   `OtherAddOns` DECIMAL(6,2) NULL,
   `ReservationID` INT(12) NULL,
   PRIMARY KEY (`BillDetailID`),
-  INDEX `fk_Reservations_ReservationID_BillDetails_idx` (`ReservationID` ASC),
+  INDEX `fk_Reservations_ReservationID_BillDetails_Idx` (`ReservationID` ASC),
   CONSTRAINT `fk_Reservations_ReservationID_BillDetails`
     FOREIGN KEY (`ReservationID`)
     REFERENCES `hotel`.`reservations` (`ReservationID`)
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `hotel`.`billtotalsheader` (
   `GrandTotal` DECIMAL(8,2) NULL,
   `BillDetailsID` INT(12) NULL,
   PRIMARY KEY (`BillTotalsID`),
-  INDEX `fk_BillDetals_BillDetailsID_idx` (`BillDetailsID` ASC),
+  INDEX `fk_BillDetals_BillDetailsID_Idx` (`BillDetailsID` ASC),
   CONSTRAINT `fk_BillDetails_BillDetailID`
     FOREIGN KEY (`BillDetailsID`)
     REFERENCES `hotel`.`billdetails` (`BillDetailID`)
@@ -309,8 +309,8 @@ CREATE TABLE IF NOT EXISTS `hotel`.`roomsamenitiesbridge` (
   `RoomID` INT(9) NOT NULL,
   `RoomAmenityID` INT(6) NOT NULL,
   PRIMARY KEY (`RoomID`, `RoomAmenityID`),
-  INDEX `fk_Amenities_AmenitiesID_idx` (`RoomAmenityID` ASC),
-  INDEX `fk_Rooms_RoomID_idx` (`RoomID` ASC),
+  INDEX `fk_Amenities_AmenitiesID_Idx` (`RoomAmenityID` ASC),
+  INDEX `fk_Rooms_RoomID_Idx` (`RoomID` ASC),
   CONSTRAINT `fk_Rooms_RoomID`
     FOREIGN KEY (`RoomID`)
     REFERENCES `hotel`.`rooms` (`RoomID`)
@@ -334,8 +334,8 @@ CREATE TABLE IF NOT EXISTS `hotel`.`roomtypesratesbridge` (
   `BeginDate` DATE NOT NULL,
   `Enddate` DATE NOT NULL,
   PRIMARY KEY (`RoomTypeID`, `RoomRateID`, `BeginDate`, `Enddate`),
-  INDEX `fk_Rates_RoomRateID_idx` (`RoomRateID` ASC),
-  INDEX `fk_RoomTypes_RoomTypeID_idx` (`RoomTypeID` ASC),
+  INDEX `fk_Rates_RoomRateID_Idx` (`RoomRateID` ASC),
+  INDEX `fk_RoomTypes_RoomTypeID_Idx` (`RoomTypeID` ASC),
   CONSTRAINT `fk_Roomtypes_RoomTypeID`
     FOREIGN KEY (`RoomTypeID`)
     REFERENCES `hotel`.`roomtypes` (`RoomTypeID`)
