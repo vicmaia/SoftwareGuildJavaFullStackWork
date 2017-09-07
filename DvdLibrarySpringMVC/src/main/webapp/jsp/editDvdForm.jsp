@@ -43,12 +43,12 @@
                 <div class="form-group">
                     <label for="add-rating" class="col-md-2 control-label">Rating:</label>
                     <div class="col-md-8">
-                        <select id="country" name="country" placeholder="Rating">
+                        <select id="rating" name="rating" placeholder="Rating">
                             <option value="NONE">--- Select ---</option>
-                            <option value="US">United Stated</option>
-                            <option value="CHINA">China</option>
-                            <option value="SG">Singapore</option>
-                            <option value="MY">Malaysia</option>
+                            <option value="G">G</option>
+                            <option value="PG">PG</option>
+                            <option value="PG13">PG13</option>
+                            <option value="R">R</option>
                         </select>
                     <%--<sf:errors path="rating" cssclass="error"></sf:errors>--%>
                 </div>

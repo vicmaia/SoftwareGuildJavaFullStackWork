@@ -6,7 +6,6 @@
 package com.mycompany.addressBook.dao;
 
 import com.mycompany.addressBook.dto.Address;
-import com.mycompany.addressBook.dto.AddressBookException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

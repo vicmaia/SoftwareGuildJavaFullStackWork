@@ -22,7 +22,7 @@
         <div class="col-md-3">Search Term</div>
 
         <div id="mainTableContainer">
-            <table id="mainTable" style="background-color:#4CAF50; border: 1px solid black" class="col-md-12 table-bordered table-striped">
+            <table id="mainTable" style="border: 1px solid black" class="col-md-12 table-bordered table-striped">
                 <tr>
                     <th>
                         Title

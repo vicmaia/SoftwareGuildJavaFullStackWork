@@ -5,7 +5,6 @@
  */
 package com.mycompany.addressBook.dao;
 
-import com.mycompany.addressBook.dto.AddressBookException;
 import com.mycompany.addressBook.dto.Address;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
