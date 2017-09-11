@@ -45,7 +45,7 @@ public interface SuperDao {
 
     public void deleteHeroOrg(int heroID, int orgID);
 
-    public void updateHeroOrg(HeroOrgBridge heroOrgBridge);
+    public void updateHeroOrg(HeroOrgBridge heroOrgBridge, int oldHeroID, int oldOrgID);
 
     public HeroOrgBridge getHeroOrg(int heroID, int orgID);
 

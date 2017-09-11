@@ -93,7 +93,7 @@ public class SuperDaoTestImpl implements SuperDao {
             = "delete from locations where LocationID = ?";
 
     private static final String SQL_UPDATE_LOCATION
-            = "update locations set LocationID = ?, LocationName = ?, LocationDescription = ?, Street = ? "
+            = "update locations set LocationName = ?, LocationDescription = ?, Street = ? "
             + ", City = ?, Lat = ?, Longitude = ? where LocationID =  ?";
 
     private static final String SQL_SELECT_LOCATION
@@ -108,14 +108,14 @@ public class SuperDaoTestImpl implements SuperDao {
             + ") values (?, ?, ?)";
 
     private static final String SQL_DELETE_SIGHTING
-            = "delete from sightings where SightingsID = ?";
+            = "delete from sightings where SightingID = ?";
 
     private static final String SQL_UPDATE_SIGHTING
             = "update sightings set HeroID = ?, LocationID = ?, Date = ? "
-            + "where SightingsID =  ?";
+            + "where SightingID =  ?";
 
     private static final String SQL_SELECT_SIGHTING
-            = "select * from sightings where SightingsID = ?";
+            = "select * from sightings where SightingID = ?";
 
     private static final String SQL_SELECT_ALL_SIGHTINGS
             = "select * from sightings";
@@ -261,14 +261,13 @@ public class SuperDaoTestImpl implements SuperDao {
 
     @Override
     public void deleteHeroOrg(int heroID, int orgID) {
-        jdbcTemplate.update(SQL_DELETE_HERO, heroID);
+        jdbcTemplate.update(SQL_DELETE_HERO_ORG, heroID, orgID);
     }
 
     @Override
-    public void updateHeroOrg(HeroOrgBridge hob) {
-        jdbcTemplate.update(SQL_UPDATE_HERO_ORG,
-                hob.getHeroID(),
-                hob.getOrgID());
+    public void updateHeroOrg(HeroOrgBridge hob, int oldHeroID, int oldOrgID) {
+        deleteHeroOrg(oldHeroID, oldOrgID);
+        addHeroOrg(hob);
     }
 
     @Override
@@ -379,8 +378,7 @@ public class SuperDaoTestImpl implements SuperDao {
         jdbcTemplate.update(SQL_ADD_SIGHTING,
                 sighting.getHeroID(),
                 sighting.getLocationID(),
-                sighting.getDate());
-
+                sighting.getDate().toString());
         int sightingID = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
 
         sighting.setSightingID(sightingID);
@@ -396,7 +394,7 @@ public class SuperDaoTestImpl implements SuperDao {
         jdbcTemplate.update(SQL_UPDATE_SIGHTING,
                 sighting.getHeroID(),
                 sighting.getLocationID(),
-                sighting.getDate(),
+                sighting.getDate().toString(),
                 sighting.getSightingID());
     }
 

@@ -6,9 +6,14 @@
 package com.mycompany.superheroes.dao;
 
 import com.mycompany.superheroes.models.Hero;
+import com.mycompany.superheroes.models.HeroOrgBridge;
 import com.mycompany.superheroes.models.Location;
 import com.mycompany.superheroes.models.Org;
+import com.mycompany.superheroes.models.Sighting;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -66,6 +71,20 @@ public class SuperDaoTestImplTest {
         return location;
     }
 
+    private Location CreateASecondLocation() {
+        Location location = new Location();
+        location.setLocationName("SuperFriend Zumba Room");
+        location.setLocationDescription("Super secret workout program HQ");
+        location.setStreet("100 Aerobics Drive");
+        location.setCity("Akron");
+        location.setLat(110.123456f);
+        location.setLongitude(211.234567f);
+
+        dao.addLocation(location);
+
+        return location;
+    }
+
     private Org CreateAnOrg(int locationID) {
         Org org = new Org();
         org.setOrgName("SuperFriends");
@@ -75,6 +94,41 @@ public class SuperDaoTestImplTest {
         dao.addOrg(org);
 
         return org;
+    }
+
+    private Org CreateASecondOrg(int locationID) {
+        Org org1 = new Org();
+        org1.setOrgName("Special Guys");
+        org1.setOrgDescription("Everyone is special.");
+        org1.setLocationID(locationID);
+
+        dao.addOrg(org1);
+
+        return org1;
+    }
+
+    private HeroOrgBridge CreateAHob(int heroID, int orgID) {
+        HeroOrgBridge hob = new HeroOrgBridge();
+        hob.setHeroID(heroID);
+        hob.setOrgID(orgID);
+
+        dao.addHeroOrg(hob);
+
+        return hob;
+    }
+
+    private Sighting CreateASighting() {
+        Hero hero = CreateAHero();
+        Location location = CreateALocation();
+
+        Sighting sighting = new Sighting();
+        sighting.setHeroID(hero.getHeroID());
+        sighting.setLocationID(location.getLocationID());
+        sighting.setDate(LocalDate.parse("2005-10-12", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        dao.addSighting(sighting);
+
+        return sighting;
     }
 
     @BeforeClass
@@ -91,6 +145,18 @@ public class SuperDaoTestImplTest {
                 = new ClassPathXmlApplicationContext("test-applicationContext.xml");
 
         dao = ctx.getBean("superHeroesDao", SuperDao.class);
+
+        //delete all heroorgs
+        List<HeroOrgBridge> hobs = dao.getAllHeroOrgs();
+        for (HeroOrgBridge currentHob : hobs) {
+            dao.deleteHeroOrg(currentHob.getHeroID(), currentHob.getOrgID());
+        }
+
+        // delete all sightings        
+        List<Sighting> sightings = dao.getAllSightings();
+        for (Sighting currentSighting : sightings) {
+            dao.deleteSighting(currentSighting.getSightingID());
+        }
 
         // delete all heros
         List<Hero> heroes = dao.getAllHeroes();
@@ -154,7 +220,6 @@ public class SuperDaoTestImplTest {
         Hero hero1 = CreateASecondHero();
 
         assertEquals(2, dao.getAllHeroes().size());
-
     }
 
     //Test Org dao
@@ -168,9 +233,6 @@ public class SuperDaoTestImplTest {
         assertEquals(fromDao, org);
     }
 
-    /**
-     * Test of deleteOrg method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testDeleteOrg() {
         Location location = CreateALocation();
@@ -180,67 +242,96 @@ public class SuperDaoTestImplTest {
         assertNull(dao.getOrgById(org.getOrgID()));
     }
 
-    /**
-     * Test of updateOrg method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testUpdateOrg() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+
+        org.setOrgName("Techno-force");
+
+        dao.updateOrg(org);
+
+        assertEquals(org, dao.getOrgById(org.getOrgID()));
     }
 
-    /**
-     * Test of getOrgById method, of class SuperDaoTestImpl.
-     */
-    @Test
-    public void testGetOrgById() {
-    }
-
-    /**
-     * Test of getAllOrgs method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testGetAllOrgs() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+        Org org1 = CreateASecondOrg(location.getLocationID());
+
+        assertEquals(2, dao.getAllOrgs().size());
     }
 
-    /**
-     * Test of addHeroOrg method, of class SuperDaoTestImpl.
-     */
+    //HeroOrgs
     @Test
-    public void testAddHeroOrg() {
+    public void testAddGetHeroOrg() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+
+        Hero hero = CreateAHero();
+
+        HeroOrgBridge hob = CreateAHob(hero.getHeroID(), org.getOrgID());
+
+        HeroOrgBridge fromDao = dao.getHeroOrg(hero.getHeroID(), org.getOrgID());
+
+        assertEquals(fromDao, hob);
     }
 
-    /**
-     * Test of deleteHeroOrg method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testDeleteHeroOrg() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+
+        Hero hero = CreateAHero();
+
+        HeroOrgBridge hob = CreateAHob(hero.getHeroID(), org.getOrgID());
+
+        dao.deleteHeroOrg(hero.getHeroID(), org.getOrgID());
+        assertNull(dao.getHeroOrg(hero.getHeroID(), org.getOrgID()));
     }
 
-    /**
-     * Test of updateHeroOrg method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testUpdateHeroOrg() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+
+        Hero hero = CreateAHero();
+        Hero hero1 = CreateASecondHero();
+
+        HeroOrgBridge hob = CreateAHob(hero.getHeroID(), org.getOrgID());
+        hob.setHeroID(hero1.getHeroID());
+
+        dao.updateHeroOrg(hob, hero.getHeroID(), org.getOrgID());
+
+        assertEquals(hob, dao.getHeroOrg(hero1.getHeroID(), org.getOrgID()));
     }
 
-    /**
-     * Test of getHeroOrg method, of class SuperDaoTestImpl.
-     */
-    @Test
-    public void testGetHeroOrg() {
-    }
-
-    /**
-     * Test of getAllHeroOrgs method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testGetAllHeroOrgs() {
+        Location location = CreateALocation();
+
+        Org org = CreateAnOrg(location.getLocationID());
+        Org org1 = CreateASecondOrg(location.getLocationID());
+
+        Hero hero = CreateAHero();
+        Hero hero1 = CreateASecondHero();
+
+        HeroOrgBridge hob = CreateAHob(hero.getHeroID(), org.getOrgID());
+        HeroOrgBridge hob1 = CreateAHob(hero1.getHeroID(), org1.getOrgID());
+
+        assertEquals(2, dao.getAllOrgs().size());
+
     }
 
-    /**
-     * Test of addLocation method, of class SuperDaoTestImpl.
-     */
+    //Locations
     @Test
-    public void testAddLocation() {
+    public void testAddGetLocation() {
+        Location location = CreateALocation();
+
+        Location fromDao = dao.getLocationById(location.getLocationID());
+
+        assertEquals(fromDao, location);
     }
 
     /**
@@ -248,41 +339,49 @@ public class SuperDaoTestImplTest {
      */
     @Test
     public void testDeleteLocation() {
+        Location location = CreateALocation();
+
+        dao.deleteLocation(location.getLocationID());
+
+        assertNull(dao.getLocationById(location.getLocationID()));
     }
 
-    /**
-     * Test of updateLocation method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testUpdateLocation() {
+        Location location = CreateALocation();
+
+        location.setCity("Updated city");
+
+        dao.updateLocation(location);
+
+        assertEquals(location, dao.getLocationById(location.getLocationID()));
     }
 
-    /**
-     * Test of getLocationById method, of class SuperDaoTestImpl.
-     */
-    @Test
-    public void testGetLocationById() {
-    }
-
-    /**
-     * Test of getAllLocations method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testGetAllLocations() {
+        Location location = CreateALocation();
+
+        Location location1 = CreateASecondLocation();
+
+        assertEquals(2, dao.getAllLocations().size());
     }
 
-    /**
-     * Test of addSighting method, of class SuperDaoTestImpl.
-     */
     @Test
-    public void testAddSighting() {
+    public void testAddGetSighting() {
+        Sighting sighting = CreateASighting();
+
+        Sighting fromDao = dao.getSightingById(sighting.getSightingID());
+
+        assertEquals(fromDao, sighting);
     }
 
-    /**
-     * Test of deleteSighting method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testDeleteSighting() {
+        Sighting sighting = CreateASighting();
+
+        dao.deleteSighting(sighting.getSightingID());
+
+        assertNull(dao.getSightingById(sighting.getSightingID()));
     }
 
     /**
@@ -290,13 +389,15 @@ public class SuperDaoTestImplTest {
      */
     @Test
     public void testUpdateSighting() {
-    }
+        Sighting sighting = CreateASighting();
 
-    /**
-     * Test of getSightingById method, of class SuperDaoTestImpl.
-     */
-    @Test
-    public void testGetSightingById() {
+        sighting.setDate(LocalDate.parse("2010-10-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        dao.updateSighting(sighting);
+
+        Sighting fromDao = dao.getSightingById(sighting.getSightingID());
+
+        assertEquals(fromDao, sighting);
     }
 
     /**
