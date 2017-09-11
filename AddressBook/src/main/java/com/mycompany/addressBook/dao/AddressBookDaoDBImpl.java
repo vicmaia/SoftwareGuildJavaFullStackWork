@@ -6,27 +6,193 @@
 package com.mycompany.addressBook.dao;
 
 import com.mycompany.addressBook.dto.Address;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import javax.swing.tree.RowMapper;
 
 /**
  *
  * @author n0252282
  */
 public class AddressBookDaoDBImpl implements AddressBookDao {
+    private static final String SQL_INSERT_ADDRESS
+            = "insert into address "
+            + "(lastName, firstName, streetAddress, city, state, zip) "
+            + "values (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_DELETE_ADDRESS
+            = "delete from address where lastName = ?";
+    private static final String SQL_SELECT_ADDRESS
+            = "select * from address where lastName = ?";
+    private static final String SQL_UPDATE_ADDRESS
+            = "update address set "
+            + "lastName = ?, firstName = ?, streetAddress = ?, "
+            + "city = ?, state = ?, zip =? "
+            + "where lastName = ?";
+    private static final String SQL_SELECT_ALL_ADDRESSS
+            = "select * from address";
 
-    public static final String ADDRESS_LIBRARY_FILE = "address_library_file.txt";
-    public static final String DELIMITER = "::";
+    private JdbcTemplate jdbcTemplate;
 
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public Dvd addDvd(Dvd dvd) {
+        jdbcTemplate.update(SQL_INSERT_ADDRESS,
+                dvd.getDvdTitle(),
+                dvd.getReleaseYear(),
+                dvd.getDirector(),
+                dvd.getRating(),
+                dvd.getNotes());
+
+        // query the database for the id that was just assigned to the new
+        // row in the database
+        int newId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()",
+                Integer.class);
+        // set the new id value on the contact object and return it
+        dvd.setDvdID(newId);
+        return dvd;
+    }
+
+    @Override
+    public void removeDvd(Integer dvdID) {
+        jdbcTemplate.update(SQL_DELETE_ADDRESS, dvdID);
+    }
+
+    @Override
+    public void updateDvd(Dvd dvd) {
+        jdbcTemplate.update(SQL_UPDATE_ADDRESS,
+                dvd.getDvdTitle(),
+                dvd.getReleaseYear(),
+                dvd.getDirector(),
+                dvd.getRating(),
+                dvd.getNotes(),
+                dvd.getDvdID());                                
+    }
+
+    @Override
+    public List<Dvd> getAllDvds() {
+        return jdbcTemplate.query(SQL_SELECT_ALL_ADDRESSS,
+                new DvdMapper());
+    }
+
+    // holds all of our Dvd objects - simulates the database
+    private Map<Integer, Dvd> dvdMap = new HashMap<>();
+
+    @Override
+    public Dvd getDvdByID(Integer dvdID) {
+        try {
+            return jdbcTemplate.queryForObject(SQL_SELECT_ADDRESS,
+                    new DvdMapper(), dvdID);
+        } catch (EmptyResultDataAccessException ex) {
+            // there were no results for the given contact id - we just 
+            // want to return null in this case
+            return null;
+        }
+    }
+
+    @Override
+    public List<Dvd> searchDvds(Map<SearchTerm, String> criteria) {
+        // Get all the search term values from the map
+        String lastNameSearchCriteria
+                = criteria.get(SearchTerm.ADDRESS_TITLE);
+        String dvdDirectorSearchCriteria
+                = criteria.get(SearchTerm.DIRECTOR);
+        String dvdYearSearchCriteria
+                = criteria.get(SearchTerm.YEAR);
+        String dvdRatingSearchCriteria
+                = criteria.get(SearchTerm.RATING);
+
+        // Declare all the predicate conditions - remember that
+        // Predicate is a functional interface with one method
+        // called test(T t) that returns a boolean.  Since
+        // Predicate is generic, we get to specify the type of
+        // object we want T to be - in our case, we want T to be
+        // of type Dvd.  That means the Predicates declared 
+        // here will have one method: boolean test(Dvd c)
+        Predicate<Dvd> lastNameMatchPredicate;
+        Predicate<Dvd> dvdDirectorMatchPredicate;
+        Predicate<Dvd> dvdYearMatchPredicate;
+        Predicate<Dvd> dvdRatingMatchPredicate;
+
+        // Placeholder predicate - always returns true. Used for 
+        // search terms that are empty - if the user didn't specify 
+        // a value for one of the search terms, we must return true
+        // because we are ANDing all the search terms together and 
+        // our spec says that we return everything in the DAO when
+        // the user leaves all the search terms blank.
+        Predicate<Dvd> truePredicate = (c) -> {
+            return true;
+        };
+
+        // Assign values to predicates. If a given search term is empty, 
+        // just assign the default truePredicate, otherwise assign the 
+        // predicate that only returns true when it finds a match for the 
+        // given term.
+        if (lastNameSearchCriteria == null
+                || lastNameSearchCriteria.isEmpty()) {
+            lastNameMatchPredicate = truePredicate;
+        } else {
+            lastNameMatchPredicate
+                    = (c) -> c.getDvdTitle().equals(lastNameSearchCriteria);
+        }
+
+        if (dvdDirectorSearchCriteria == null
+                || dvdDirectorSearchCriteria.isEmpty()) {
+            dvdDirectorMatchPredicate = truePredicate;
+        } else {
+            dvdDirectorMatchPredicate
+                    = (c) -> c.getDirector().equals(dvdDirectorSearchCriteria);
+        }
+
+        if (dvdYearSearchCriteria == null
+                || dvdYearSearchCriteria.isEmpty()) {
+            dvdYearMatchPredicate = truePredicate;
+        } else {
+            dvdYearMatchPredicate
+                    = (c) -> c.getReleaseYear().equals(dvdYearSearchCriteria);
+        }
+
+        if (dvdRatingSearchCriteria == null
+                || dvdRatingSearchCriteria.isEmpty()) {
+            dvdRatingMatchPredicate = truePredicate;
+        } else {
+            dvdRatingMatchPredicate
+                    = (c) -> c.getRating().equals(dvdRatingSearchCriteria);
+        }
+
+        // Return the list of Dvds that match the given criteria. 
+        // To do this we just AND all the predicates together in a 
+        // filter operation.
+        return dvdMap.values().stream()
+                .filter(lastNameMatchPredicate
+                        .and(dvdDirectorMatchPredicate)
+                        .and(dvdYearMatchPredicate)
+                        .and(dvdRatingMatchPredicate))
+                .collect(Collectors.toList());
+    }
+
+    private static final class DvdMapper implements RowMapper<Dvd> {
+
+        public Dvd mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Dvd dvd = new Dvd();
+            dvd.setDvdID(rs.getInt("dvdID"));
+            dvd.setDvdTitle(rs.getString("lastName"));
+            dvd.setReleaseYear(rs.getInt("firstName"));
+            dvd.setDirector(rs.getString("streetAddress"));
+            dvd.setRating(rs.getString("city"));
+            dvd.setNotes(rs.getString("state"));
+            return dvd;
+        }
+    }
     private Map<String, Address> addresses = new HashMap<>();
 
     @Override
@@ -54,89 +220,4 @@ public class AddressBookDaoDBImpl implements AddressBookDao {
         writeAddress();
         return removedAddress;
     }
-
-    private void loadAddresss() throws AddressBookException {
-        Scanner scanner;
-
-        try {
-            // Create Scanner for reading the file
-            scanner = new Scanner(new BufferedReader(new FileReader(ADDRESS_LIBRARY_FILE)));
-        } catch (FileNotFoundException e) {
-            throw new AddressBookException(
-                    "-_- Could not load Address Library data into memory.", e);
-        }
-        // currentLine holds the most recent line read from the file
-        String currentLine;
-        // currentTokens holds each of the parts of the currentLine after it has
-        // been split on our DELIMITER
-        // NOTE FOR APPRENTICES: In our case we use :: as our delimiter.  If
-        // currentLine looks like this:
-        // 1234::Joe::Smith::Java-September2013
-        // then currentTokens will be a string array that looks like this:
-        //
-        // ___________________________________
-        // |    |   |     |                  |
-        // |1234|Joe|Smith|Java-September2013|
-        // |    |   |     |                  |
-        // -----------------------------------
-        //  [0]  [1]  [2]         [3]
-        String[] currentTokens;
-        // Go through ROSTER_FILE line by line, decoding each line into an 
-        // address object.
-        // Process while we have more lines in the file
-        while (scanner.hasNextLine()) {
-            // get the next line in the file
-            currentLine = scanner.nextLine();
-            // break up the line into tokens
-            currentTokens = currentLine.split(DELIMITER);
-            // Create a new Address object and put it into the map of students
-            // NOTE FOR APPRENTICES: We are going to use the Address lastName
-            // which is currentTokens[0] as the map key for our student object.
-            // We also have to pass the Address lastName into the Address constructor
-            Address currentAddress = new Address(currentTokens[0]);
-            // Set the remaining vlaues on currentStudent manually
-            currentAddress.setFirstName(currentTokens[1]);
-            currentAddress.setStreetAddress(currentTokens[2]);
-            currentAddress.setCity(currentTokens[3]);
-            currentAddress.setState(currentTokens[4]);
-            currentAddress.setZip(currentTokens[5]);
-
-            // Put currentStudent into the map using studentID as the key
-            addresses.put(currentAddress.getLastName(), currentAddress);
-        }
-        // close scanner
-        scanner.close();
-    }
-
-    private void writeAddress() throws AddressBookException {
-        // NOTE FOR APPRENTICES: We are not handling the IOException - but
-        // we are translating it to an application specific exception and 
-        // then simple throwing it (i.e. 'reporting' it) to the code that
-        // called us.  It is the responsibility of the calling code to 
-        // handle any errors that occur.
-        PrintWriter out;
-
-        try {
-            out = new PrintWriter(new FileWriter(ADDRESS_LIBRARY_FILE));
-        } catch (IOException e) {
-            throw new AddressBookException(
-                    "Could not save Address data.", e);
-        }
-
-        List<Address> AddressList = this.getAllAddresses();
-        for (Address currentAddress : AddressList) {
-            // write the Student object to the file
-            out.println(currentAddress.getLastName() + DELIMITER
-                    + currentAddress.getFirstName() + DELIMITER
-                    + currentAddress.getStreetAddress() + DELIMITER
-                    + currentAddress.getCity() + DELIMITER
-                    + currentAddress.getState() + DELIMITER
-                    + currentAddress.getZip());
-            // force PrintWriter to write line to the file
-            out.flush();
-        }
-        // Clean up
-        out.close();
-    }
-
 }
