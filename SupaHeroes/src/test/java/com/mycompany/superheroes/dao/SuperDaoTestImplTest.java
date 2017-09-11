@@ -131,6 +131,20 @@ public class SuperDaoTestImplTest {
         return sighting;
     }
 
+    private Sighting CreateASecondSighting() {
+        Hero hero = CreateAHero();
+        Location location = CreateALocation();
+
+        Sighting sighting1 = new Sighting();
+        sighting1.setHeroID(hero.getHeroID());
+        sighting1.setLocationID(location.getLocationID());
+        sighting1.setDate(LocalDate.parse("2001-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        dao.addSighting(sighting1);
+
+        return sighting1;
+    }
+
     @BeforeClass
     public static void setUpClass() {
     }
@@ -334,9 +348,6 @@ public class SuperDaoTestImplTest {
         assertEquals(fromDao, location);
     }
 
-    /**
-     * Test of deleteLocation method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testDeleteLocation() {
         Location location = CreateALocation();
@@ -366,6 +377,7 @@ public class SuperDaoTestImplTest {
         assertEquals(2, dao.getAllLocations().size());
     }
 
+    //Sightings
     @Test
     public void testAddGetSighting() {
         Sighting sighting = CreateASighting();
@@ -384,9 +396,6 @@ public class SuperDaoTestImplTest {
         assertNull(dao.getSightingById(sighting.getSightingID()));
     }
 
-    /**
-     * Test of updateSighting method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testUpdateSighting() {
         Sighting sighting = CreateASighting();
@@ -400,11 +409,12 @@ public class SuperDaoTestImplTest {
         assertEquals(fromDao, sighting);
     }
 
-    /**
-     * Test of getAllSightings method, of class SuperDaoTestImpl.
-     */
     @Test
     public void testGetAllSightings() {
+        Sighting sighting1 = CreateASighting();
+        Sighting sighting2 = CreateASecondSighting();
+
+        assertEquals(2, dao.getAllSightings().size());
     }
 
 }

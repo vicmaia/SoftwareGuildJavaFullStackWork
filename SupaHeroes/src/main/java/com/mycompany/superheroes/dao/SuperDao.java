@@ -72,5 +72,9 @@ public interface SuperDao {
     public Sighting getSightingById(int sightingID);
 
     public List<Sighting> getAllSightings();
+    
+    //Reports
+    
+    
 
 }
