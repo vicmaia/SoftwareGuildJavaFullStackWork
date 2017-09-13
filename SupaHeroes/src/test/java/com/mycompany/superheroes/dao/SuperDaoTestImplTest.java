@@ -13,7 +13,6 @@ import com.mycompany.superheroes.models.Sighting;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -117,6 +116,16 @@ public class SuperDaoTestImplTest {
         return hob;
     }
 
+    private HeroOrgBridge CreateASecondHob(int heroID, int orgID) {
+        HeroOrgBridge hob = new HeroOrgBridge();
+        hob.setHeroID(heroID);
+        hob.setOrgID(orgID);
+
+        dao.addHeroOrg(hob);
+
+        return hob;
+    }
+
     private Sighting CreateASighting() {
         Hero hero = CreateAHero();
         Location location = CreateALocation();
@@ -132,8 +141,8 @@ public class SuperDaoTestImplTest {
     }
 
     private Sighting CreateASecondSighting() {
-        Hero hero = CreateAHero();
-        Location location = CreateALocation();
+        Hero hero = CreateASecondHero();
+        Location location = CreateASecondLocation();
 
         Sighting sighting1 = new Sighting();
         sighting1.setHeroID(hero.getHeroID());
@@ -197,7 +206,17 @@ public class SuperDaoTestImplTest {
 
     //Test Hero daos
     @Test
-    public void testAddGetHero() {
+    public void testAddHero() {
+        Hero hero = CreateAHero();
+
+        Hero fromDao = dao.getHeroById(hero.getHeroID());
+
+        assertEquals(fromDao, hero);
+
+    }
+
+    @Test
+    public void testGetHero() {
         Hero hero = CreateAHero();
 
         Hero fromDao = dao.getHeroById(hero.getHeroID());
@@ -238,7 +257,17 @@ public class SuperDaoTestImplTest {
 
     //Test Org dao
     @Test
-    public void testAddGetOrg() {
+    public void testAddOrg() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+
+        Org fromDao = dao.getOrgById(org.getOrgID());
+
+        assertEquals(fromDao, org);
+    }
+
+    @Test
+    public void testGetOrg() {
         Location location = CreateALocation();
         Org org = CreateAnOrg(location.getLocationID());
 
@@ -279,7 +308,21 @@ public class SuperDaoTestImplTest {
 
     //HeroOrgs
     @Test
-    public void testAddGetHeroOrg() {
+    public void testAddHeroOrg() {
+        Location location = CreateALocation();
+        Org org = CreateAnOrg(location.getLocationID());
+
+        Hero hero = CreateAHero();
+
+        HeroOrgBridge hob = CreateAHob(hero.getHeroID(), org.getOrgID());
+
+        HeroOrgBridge fromDao = dao.getHeroOrg(hero.getHeroID(), org.getOrgID());
+
+        assertEquals(fromDao, hob);
+    }
+
+    @Test
+    public void testGetHeroOrg() {
         Location location = CreateALocation();
         Org org = CreateAnOrg(location.getLocationID());
 
@@ -340,7 +383,16 @@ public class SuperDaoTestImplTest {
 
     //Locations
     @Test
-    public void testAddGetLocation() {
+    public void testAddLocation() {
+        Location location = CreateALocation();
+
+        Location fromDao = dao.getLocationById(location.getLocationID());
+
+        assertEquals(fromDao, location);
+    }
+
+    @Test
+    public void testGetLocation() {
         Location location = CreateALocation();
 
         Location fromDao = dao.getLocationById(location.getLocationID());
@@ -379,7 +431,16 @@ public class SuperDaoTestImplTest {
 
     //Sightings
     @Test
-    public void testAddGetSighting() {
+    public void testAddSighting() {
+        Sighting sighting = CreateASighting();
+
+        Sighting fromDao = dao.getSightingById(sighting.getSightingID());
+
+        assertEquals(fromDao, sighting);
+    }
+
+    @Test
+    public void testGetSighting() {
         Sighting sighting = CreateASighting();
 
         Sighting fromDao = dao.getSightingById(sighting.getSightingID());
@@ -417,4 +478,77 @@ public class SuperDaoTestImplTest {
         assertEquals(2, dao.getAllSightings().size());
     }
 
+    //Reports
+    @Test
+    public void testGetSightingsByLocation() {
+        Sighting sighting1 = CreateASighting();
+        Sighting sighting2 = CreateASecondSighting();
+
+        List<Sighting> sightingList = dao.getSightingsByLocation(sighting2.getLocationID());
+
+        assertEquals(2, dao.getAllLocations().size());
+        assertEquals(1, sightingList.size());
+    }
+
+    @Test
+    public void testGetSightingsByHero() {
+        Sighting sighting1 = CreateASighting();
+        Sighting sighting2 = CreateASecondSighting();
+
+        List<Sighting> sightingList = dao.getSightingsByHero(sighting2.getHeroID());
+
+        assertEquals(2, dao.getAllLocations().size());
+        assertEquals(1, sightingList.size());
+    }
+
+    @Test
+    public void testGetSightingsByDate() {
+        Sighting sighting1 = CreateASighting();
+        Sighting sighting2 = CreateASecondSighting();
+
+        List<Sighting> sightingList = dao.getSightingsByDate(sighting2.getDate());
+
+        assertEquals(2, dao.getAllLocations().size());
+        assertEquals(1, sightingList.size());
+    }
+
+    @Test
+    public void testGetOrgMembers() {
+        Hero hero1 = CreateAHero();
+        Hero hero2 = CreateASecondHero();
+
+        Location location = CreateALocation();
+        Location location2 = CreateASecondLocation();
+
+        Org org1 = CreateAnOrg(location.getLocationID());
+        Org org2 = CreateASecondOrg(location2.getLocationID());
+
+        HeroOrgBridge hob1 = CreateAHob(hero1.getHeroID(), org1.getOrgID());
+        HeroOrgBridge hob2 = CreateAHob(hero2.getHeroID(), org2.getOrgID());
+
+        List<HeroOrgBridge> hobList = dao.getOrgMembers(org1.getOrgID());
+
+        assertEquals(2, dao.getAllHeroOrgs().size());
+        assertEquals(1, hobList.size());
+    }
+
+    @Test
+    public void testGetHeroMembership() {
+        Hero hero1 = CreateAHero();
+        Hero hero2 = CreateASecondHero();
+
+        Location location = CreateALocation();
+        Location location2 = CreateASecondLocation();
+
+        Org org1 = CreateAnOrg(location.getLocationID());
+        Org org2 = CreateASecondOrg(location2.getLocationID());
+
+        HeroOrgBridge hob1 = CreateAHob(hero1.getHeroID(), org1.getOrgID());
+        HeroOrgBridge hob2 = CreateAHob(hero2.getHeroID(), org2.getOrgID());
+
+        List<HeroOrgBridge> hobList = dao.getHeroMembership(hero1.getHeroID());
+
+        assertEquals(2, dao.getAllHeroOrgs().size());
+        assertEquals(1, hobList.size());
+    }
 }

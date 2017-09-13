@@ -12,6 +12,7 @@ import com.mycompany.superheroes.models.Org;
 import com.mycompany.superheroes.models.Sighting;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -119,6 +120,22 @@ public class SuperDaoTestImpl implements SuperDao {
 
     private static final String SQL_SELECT_ALL_SIGHTINGS
             = "select * from sightings";
+
+    //"Reports"
+    private static final String SQL_SIGHTINGS_AT_LOCATION
+            = "select * from sightings where LocationID = ?";
+
+    private static final String SQL_SIGHTINGS_LOCATIONS_OF_HERO
+            = "select * from sightings where HeroID = ?";
+
+    private static final String SQL_SIGHTINGS_BY_DATE
+            = "select * from sightings where Date = ?";
+
+    private static final String SQL_SELECT_ORG_MEMBERS
+            = "select * from heroesorgbridge where OrgID = ?";
+
+    private static final String SQL_SELECT_HERO_MEMBERSHIP
+            = "select * from heroesorgbridge where HeroID = ?";
 
     //Heroes
     private static final class HeroMapper implements RowMapper<Hero> {
@@ -413,5 +430,51 @@ public class SuperDaoTestImpl implements SuperDao {
     public List<Sighting> getAllSightings() {
         return jdbcTemplate.query(SQL_SELECT_ALL_SIGHTINGS,
                 new SightingMapper());
+    }
+
+    //Reports
+    @Override
+    public List<Sighting> getSightingsByLocation(int LocationID) {
+        List<Sighting> sightingList
+                = jdbcTemplate.query(SQL_SIGHTINGS_AT_LOCATION,
+                        new SightingMapper(),
+                        LocationID);
+        return sightingList;
+    }
+
+    @Override
+    public List<Sighting> getSightingsByHero(int HeroID) {
+        List<Sighting> sightingList
+                = jdbcTemplate.query(SQL_SIGHTINGS_LOCATIONS_OF_HERO,
+                        new SightingMapper(),
+                        HeroID);
+        return sightingList;
+    }
+
+    @Override
+    public List<Sighting> getSightingsByDate(LocalDate sightingDate) {
+        List<Sighting> sightingList
+                = jdbcTemplate.query(SQL_SIGHTINGS_BY_DATE,
+                        new SightingMapper(),
+                        sightingDate.toString());
+        return sightingList;
+    }
+
+    @Override
+    public List<HeroOrgBridge> getOrgMembers(int orgID) {
+        List<HeroOrgBridge> heroOrgList
+                = jdbcTemplate.query(SQL_SELECT_ORG_MEMBERS,
+                        new HeroOrgMapper(),
+                        orgID);
+        return heroOrgList;
+    }
+
+    @Override
+    public List<HeroOrgBridge> getHeroMembership(int heroID) {
+        List<HeroOrgBridge> heroOrgList
+                = jdbcTemplate.query(SQL_SELECT_HERO_MEMBERSHIP,
+                        new HeroOrgMapper(),
+                        heroID);
+        return heroOrgList;
     }
 }

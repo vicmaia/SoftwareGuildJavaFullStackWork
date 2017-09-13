@@ -10,6 +10,7 @@ import com.mycompany.superheroes.models.HeroOrgBridge;
 import com.mycompany.superheroes.models.Location;
 import com.mycompany.superheroes.models.Org;
 import com.mycompany.superheroes.models.Sighting;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -72,9 +73,16 @@ public interface SuperDao {
     public Sighting getSightingById(int sightingID);
 
     public List<Sighting> getAllSightings();
-    
+
     //Reports
+    public List<Sighting> getSightingsByLocation(int LocationID);
+
+    public List<Sighting> getSightingsByHero(int HeroID);
+
+    public List<Sighting> getSightingsByDate(LocalDate sightingDate);
     
+    public List<HeroOrgBridge> getOrgMembers(int orgID);
     
+    public List<HeroOrgBridge> getHeroMembership(int heroID);
 
 }

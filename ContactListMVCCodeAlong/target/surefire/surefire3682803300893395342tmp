@@ -1,0 +1,8 @@
+#surefire
+#Tue Sep 12 07:31:04 EDT 2017
+maven.ext.class.path=C\:\\Program Files\\NetBeans 8.2\\java\\maven-nblib\\netbeans-eventspy.jar
+user.dir=C\:\\Users\\n0252282\\bitbucket\\ken-gardiner-individual-work\\ContactListMVC
+localRepository=C\:\\Users\\n0252282\\.m2\\repository
+netbeans.deploy=true
+java.net.useSystemProxies=true
+basedir=C\:\\Users\\n0252282\\bitbucket\\ken-gardiner-individual-work\\ContactListMVC

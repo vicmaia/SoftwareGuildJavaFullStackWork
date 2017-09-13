@@ -39,8 +39,28 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="superHeroesDao" 
-          class="com.mycompany.superheroes.dao.SuperDaoTestImpl">
+    <bean id="HeroDao" 
+          class="com.mycompany.superheroes.dao.HeroDaoImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>       
+    </bean> 
+    
+    <bean id="OrgDao" 
+          class="com.mycompany.superheroes.dao.OrgDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>        
+    
+    <bean id="LocationDao" 
+          class="com.mycompany.superheroes.dao.LocationDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    
+    <bean id="HeroOrgDao" 
+          class="com.mycompany.superheroes.dao.HeroOrgDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    
+    <bean id="SightingDao" 
+          class="com.mycompany.superheroes.dao.SightingDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>   
 </beans>
