@@ -5,10 +5,11 @@
  */
 package com.mycompany.superheroes.dao;
 
-import com.mycompany.superheroes.dao.LocationDao;
-import com.mycompany.superheroes.dao.OrgDao;
+import com.mycompany.superheroes.models.Hero;
+import com.mycompany.superheroes.models.HeroOrgBridge;
 import com.mycompany.superheroes.models.Location;
 import com.mycompany.superheroes.models.Org;
+import com.mycompany.superheroes.models.Sighting;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,8 +27,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class LocationDaoImplTest {
 
+    HeroDao heroDao;
     OrgDao orgDao;
     LocationDao locationDao;
+    HeroOrgDao hobDao;
+    SightingDao sightingDao;
 
     public LocationDaoImplTest() {
     }
@@ -74,24 +78,29 @@ public class LocationDaoImplTest {
                 = new ClassPathXmlApplicationContext("test-applicationContext.xml");
 
         orgDao = ctx.getBean("OrgDao", OrgDao.class);
+        heroDao = ctx.getBean("HeroDao", HeroDao.class);
         locationDao = ctx.getBean("LocationDao", LocationDao.class);
+        hobDao = ctx.getBean("HeroOrgDao", HeroOrgDao.class);
+        sightingDao = ctx.getBean("SightingDao", SightingDao.class);
 
         //delete all heroorgs
-//        List<HeroOrgBridge> hobs = orgDao.getAllHeroOrgs();
-//        for (HeroOrgBridge currentHob : hobs) {
-//            orgDao.deleteHeroOrg(currentHob.getHeroID(), currentHob.getOrgID());
-//        }
-//
-//        // delete all sightings        
-//        List<Sighting> sightings = orgDao.getAllSightings();
-//        for (Sighting currentSighting : sightings) {
-//            orgDao.deleteSighting(currentSighting.getSightingID());
-//        }
-//        // delete all heros
-//        List<Hero> heroes = orgDao.getAllHeroes();
-//        for (Hero currentHero : heroes) {
-//            orgDao.deleteHero(currentHero.getHeroID());
-//        }
+        List<HeroOrgBridge> hobs = hobDao.getAllHeroOrgs();
+        for (HeroOrgBridge currentHob : hobs) {
+            hobDao.deleteHeroOrg(currentHob.getHeroID(), currentHob.getOrgID());
+        }
+
+        // delete all sightings        
+        List<Sighting> sightings = sightingDao.getAllSightings();
+        for (Sighting currentSighting : sightings) {
+            sightingDao.deleteSighting(currentSighting.getSightingID());
+        }
+
+        // delete all heros
+        List<Hero> heroes = heroDao.getAllHeroes();
+        for (Hero currentHero : heroes) {
+            heroDao.deleteHero(currentHero.getHeroID());
+        }
+
         //delete all orgs
         List<Org> orgs = orgDao.getAllOrgs();
         for (Org currentOrg : orgs) {
