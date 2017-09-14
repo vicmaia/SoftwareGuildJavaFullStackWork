@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -161,6 +162,9 @@ public class HeroDaoImplTest {
         Hero hero1 = CreateASecondHero();
 
         assertEquals(2, heroDao.getAllHeroes().size());
+
+        assertTrue(heroDao.getAllHeroes().contains(hero));
+        assertTrue(heroDao.getAllHeroes().contains(hero1));
     }
 
 }

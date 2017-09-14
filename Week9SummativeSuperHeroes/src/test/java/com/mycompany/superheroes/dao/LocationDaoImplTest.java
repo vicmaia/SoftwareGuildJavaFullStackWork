@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -164,6 +165,9 @@ public class LocationDaoImplTest {
         Location location1 = CreateASecondLocation();
 
         assertEquals(2, locationDao.getAllLocations().size());
+
+        assertTrue(locationDao.getAllLocations().contains(location));
+        assertTrue(locationDao.getAllLocations().contains(location1));
     }
 
 }

@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -255,6 +256,9 @@ public class HeroOrgDaoImplTest {
 
         assertEquals(2, hobDao.getAllHeroOrgs().size());
 
+        assertTrue(hobDao.getAllHeroOrgs().contains(hob));
+        assertTrue(hobDao.getAllHeroOrgs().contains(hob1));
+
     }
 
     //Reports
@@ -275,7 +279,13 @@ public class HeroOrgDaoImplTest {
         List<HeroOrgBridge> hobList = hobDao.getOrgMembers(org1.getOrgID());
 
         assertEquals(2, hobDao.getAllHeroOrgs().size());
+
+        assertTrue(hobDao.getAllHeroOrgs().contains(hob1));
+        assertTrue(hobDao.getAllHeroOrgs().contains(hob2));
+
         assertEquals(1, hobList.size());
+
+        assertTrue(hobList.contains(hob1));
     }
 
     @Test
@@ -295,6 +305,12 @@ public class HeroOrgDaoImplTest {
         List<HeroOrgBridge> hobList = hobDao.getHeroMembership(hero1.getHeroID());
 
         assertEquals(2, hobDao.getAllHeroOrgs().size());
+
+        assertTrue(hobDao.getAllHeroOrgs().contains(hob1));
+        assertTrue(hobDao.getAllHeroOrgs().contains(hob2));
+
         assertEquals(1, hobList.size());
+
+        assertTrue(hobList.contains(hob1));
     }
 }

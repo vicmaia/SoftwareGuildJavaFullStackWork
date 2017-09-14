@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -261,6 +262,9 @@ public class SightingDaoImplTest {
         Sighting sighting2 = CreateASecondSighting();
 
         assertEquals(2, sightingDao.getAllSightings().size());
+
+        assertTrue(sightingDao.getAllSightings().contains(sighting1));
+        assertTrue(sightingDao.getAllSightings().contains(sighting2));
     }
 
     //Reports
@@ -272,7 +276,11 @@ public class SightingDaoImplTest {
         List<Sighting> sightingList = sightingDao.getSightingsByLocation(sighting2.getLocationID());
 
         assertEquals(2, sightingDao.getAllSightings().size());
+        assertTrue(sightingDao.getAllSightings().contains(sighting1));
+        assertTrue(sightingDao.getAllSightings().contains(sighting2));
+
         assertEquals(1, sightingList.size());
+        assertTrue(sightingList.contains(sighting2));
     }
 
     @Test
@@ -283,7 +291,11 @@ public class SightingDaoImplTest {
         List<Sighting> sightingList = sightingDao.getSightingsByHero(sighting2.getHeroID());
 
         assertEquals(2, sightingDao.getAllSightings().size());
+        assertTrue(sightingDao.getAllSightings().contains(sighting1));
+        assertTrue(sightingDao.getAllSightings().contains(sighting2));
+
         assertEquals(1, sightingList.size());
+        assertTrue(sightingList.contains(sighting2));
     }
 
     @Test
@@ -294,6 +306,10 @@ public class SightingDaoImplTest {
         List<Sighting> sightingList = sightingDao.getSightingsByDate(sighting2.getDate());
 
         assertEquals(2, sightingDao.getAllSightings().size());
+        assertTrue(sightingDao.getAllSightings().contains(sighting1));
+        assertTrue(sightingDao.getAllSightings().contains(sighting2));
+
         assertEquals(1, sightingList.size());
+        assertTrue(sightingList.contains(sighting2));
     }
 }
