@@ -1,0 +1,86 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ http://www.springframework.org/schema/security
+ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <beans:bean id="webexpressionHandler"
+                class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/> 
+    
+    <beans:bean id="encoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> 
+                
+    <http pattern="/login" security="none" />
+    <http pattern="/error" security="none" />
+    <http pattern="/css/**" security="none" />
+    <http pattern="/js/**" security="none" />
+    <http pattern="/img/**" security="none" />
+    <http pattern="/blog_images/**" security="none" />
+
+    <http auto-config="true" use-expressions="false">
+        <form-login login-processing-url="/j_spring_security_check"
+                    login-page="/login"
+                    authentication-failure-url="/login?login_error=1"/>
+       
+        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        
+
+        <intercept-url pattern="/adminPage" access="ROLE_ADMIN, ROLE_USER" />
+        
+        <intercept-url pattern="/displayBlogsPage" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/displayEditBlogForm" access="ROLE_ADMIN, ROLE_USER" />
+        <intercept-url pattern="/editBlog" access="ROLE_ADMIN, ROLE_USER" />
+        <intercept-url pattern="/search" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/searchHashTag" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/displayAddBlogForm" access="ROLE_ADMIN, ROLE_USER" />
+        <intercept-url pattern="/addBlog" access="ROLE_ADMIN, ROLE_USER" />
+        <intercept-url pattern="/approveDeleteBlog" access="ROLE_ADMIN" />
+        <intercept-url pattern="/pendingDeleteBlog" access="ROLE_ADMIN, ROLE_USER" />
+        <intercept-url pattern="/rejectDeleteBlog" access="ROLE_ADMIN" />
+        <intercept-url pattern="/approveEditBlog" access="ROLE_ADMIN" />
+        <intercept-url pattern="/rejectEditBlog" access="ROLE_ADMIN" />
+        <intercept-url pattern="/addCategory" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayAddCategoryForm" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayFilteredCategory" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/addAuthor" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayAddAuthorForm" access="ROLE_ADMIN" />
+        <intercept-url pattern="/addPicture" access="ROLE_ADMIN, ROLE_USER" />
+        <intercept-url pattern="/staticPage" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+        <intercept-url pattern="/displayAddStaticPage" access="ROLE_ADMIN" />
+        <intercept-url pattern="/addStaticPage" access="ROLE_ADMIN" />
+        <intercept-url pattern="/addItem" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayAddItemForm" access="ROLE_ADMIN" />
+        <intercept-url pattern="/editCategory" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayEditCategoryForm" access="ROLE_ADMIN" />
+        <intercept-url pattern="/deleteCategory" access="ROLE_ADMIN" />    
+        <intercept-url pattern="/editItem" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayEditItemForm" access="ROLE_ADMIN" />
+        <intercept-url pattern="/deleteItem" access="ROLE_ADMIN" />
+            
+        <intercept-url pattern="/displayUserList" access="ROLE_ADMIN" />
+        <intercept-url pattern="/deleteUser" access="ROLE_ADMIN" />
+        <intercept-url pattern="/displayUserForm" access="ROLE_ADMIN" />
+        <intercept-url pattern="/addUser" access="ROLE_ADMIN" />
+        
+        
+        <intercept-url pattern="/blog/**" access="ROLE_ADMIN" />
+        <intercept-url pattern="/blogs" access="ROLE_ADMIN" />
+        <intercept-url pattern="/blog" access="ROLE_ADMIN" />
+
+    </http>
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder ref="encoder"/>
+            <jdbc-user-service id="userService"
+                               data-source-ref="dataSource"
+                               users-by-username-query=
+ "select username, password, enabled from users where username=?"
+                               authorities-by-username-query=
+ "select username, authority from authorities where username=?" />
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

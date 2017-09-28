@@ -96,18 +96,26 @@ public class HeroOrgDaoImpl implements HeroOrgDao {
 
     @Override
     public List<HeroOrgBridge> getAllHeroOrgs() {
-        return jdbcTemplate.query(SQL_SELECT_ALL_HERO_ORGS,
-                new HeroOrgMapper());
+        try {
+            return jdbcTemplate.query(SQL_SELECT_ALL_HERO_ORGS,
+                    new HeroOrgMapper());
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 
     //Reports
     @Override
     public List<HeroOrgBridge> getOrgMembers(int orgID) {
-        List<HeroOrgBridge> heroOrgList
-                = jdbcTemplate.query(SQL_SELECT_ORG_MEMBERS,
-                        new HeroOrgMapper(),
-                        orgID);
-        return heroOrgList;
+        try {
+            List<HeroOrgBridge> heroOrgList
+                    = jdbcTemplate.query(SQL_SELECT_ORG_MEMBERS,
+                            new HeroOrgMapper(),
+                            orgID);
+            return heroOrgList;
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 
     @Override

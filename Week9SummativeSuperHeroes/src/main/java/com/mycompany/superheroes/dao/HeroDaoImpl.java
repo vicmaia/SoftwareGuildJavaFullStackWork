@@ -98,7 +98,11 @@ public class HeroDaoImpl implements HeroDao {
 
     @Override
     public List<Hero> getAllHeroes() {
-        return jdbcTemplate.query(SQL_SELECT_ALL_HEROES,
-                new HeroMapper());
+        try {
+            return jdbcTemplate.query(SQL_SELECT_ALL_HEROES,
+                    new HeroMapper());
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 }

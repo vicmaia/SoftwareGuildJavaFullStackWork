@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author ward
  */
-@Controller
+
 public class AlbumController {
     
     public static final String pictureFolder = "images/";

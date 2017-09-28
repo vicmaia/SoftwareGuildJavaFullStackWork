@@ -115,11 +115,6 @@ public class OrgDaoImplTest {
             sightingDao.deleteSighting(currentSighting.getSightingID());
         }
 
-//        // delete all heros
-//        List<Hero> heroes = orgDao.getAllHeroes();
-//        for (Hero currentHero : heroes) {
-//            orgDao.deleteHero(currentHero.getHeroID());
-//        }
         //delete all orgs
         List<Org> orgs = orgDao.getAllOrgs();
         for (Org currentOrg : orgs) {
