@@ -1,0 +1,109 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 15, 2017, 7:22:44 AM
+    Author     : n0252282
+*/
+
+body {
+    background-color: #f2c1c3;
+}
+
+#icon {
+    float:left;
+    height: 150px;
+    width: 150px;
+}
+
+h1 {
+    font-family: 'Indie Flower', cursive, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size: 60px;
+    padding-top: 40px;
+    padding-left: 30px;
+    text-shadow: 0 0 3px #000;
+    float:left;
+    color: #8d2388;
+    text-align: center;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+}
+h2 {
+    font-family: 'Permanent Marker', cursive;
+    text-shadow: 0 0 6px #FFF;
+    color: #f48d90;
+}
+h3 {
+    color: #f16179;
+}
+col-md-4 {
+    text-align: center;
+    color: #f48d9f;
+}
+
+a {
+    color: #f48d9f;
+    font-size: 20px;
+}
+.navbar {
+    padding-top:140px;
+    border: 20px;
+}
+
+.nav-tabs{
+    background-color:#8d2388;
+}
+.tab-content{
+    background-color:#303136;
+    color:#fff;
+    padding:5px
+}
+.nav-tabs > li > a{
+    border: medium none;
+}
+.nav-tabs > li > a:hover{
+    background-color: #f48d9f;
+    border: medium none;
+    border-radius: 0;
+    color:#fff;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: #fff;
+    background-color: #f16179
+} 
+
+/* loaded: a bootstrap.min.css! */
+body {
+    background: url(https://previews.123rf.com/images/asimjp/asimjp1201/asimjp120100135/11991352-jewelry-and-butterfly-background-Stock-Vector-pink.jpg) no-repeat center center fixed;
+    /*background: url(http://www.zingerbug.com/Backgrounds/background_images/pink_purple_satin_love_bats.gif);*/
+    /*background-repeat: repeat*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.myBackground {
+    background-color: rgba(255,255,255, 0.5);
+    color: inherit;
+    padding: 30px;
+}
+
+.myAdminBackground {
+    background-color: rgba(255,255,255, 0.5);
+    color: inherit;
+    padding: 5px;
+}
+
+.myText {
+    color: #8d2388;
+}
+
+.editDeleteLink {
+    font-weight: bold;
+    color: #8d2388;
+}
+
