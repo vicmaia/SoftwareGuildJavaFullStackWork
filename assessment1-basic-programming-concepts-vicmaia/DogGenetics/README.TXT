@@ -1,1 +1,0 @@
-User inputs dog's name and the program will provide genetics information about the dog.

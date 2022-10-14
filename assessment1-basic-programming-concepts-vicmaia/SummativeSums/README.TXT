@@ -1,1 +1,0 @@
-Summative Sum: This program adds each item of the array together
